@@ -1,0 +1,2100 @@
+fileFormatVersion: 2
+guid: 4ec1274ce0335bb46b49a0760e6e81a9
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 9179582492564755246
+    second: RecRoom_KeyBoard_0
+  - first:
+      213: 9205048067541404794
+    second: RecRoom_KeyBoard_1
+  - first:
+      213: 1395652568844608538
+    second: RecRoom_KeyBoard_2
+  - first:
+      213: -4928071796999564051
+    second: RecRoom_KeyBoard_3
+  - first:
+      213: 5450674592029538272
+    second: RecRoom_KeyBoard_4
+  - first:
+      213: -1394144031595416302
+    second: RecRoom_KeyBoard_5
+  - first:
+      213: 7507322834556931731
+    second: RecRoom_KeyBoard_6
+  - first:
+      213: 1624418898976665580
+    second: RecRoom_KeyBoard_7
+  - first:
+      213: 7994166459820260648
+    second: RecRoom_KeyBoard_8
+  - first:
+      213: -4376992925672939371
+    second: RecRoom_KeyBoard_9
+  - first:
+      213: 5841196939658709537
+    second: RecRoom_KeyBoard_10
+  - first:
+      213: -4719533142801361454
+    second: RecRoom_KeyBoard_11
+  - first:
+      213: 4725765672245364494
+    second: RecRoom_KeyBoard_12
+  - first:
+      213: 3605978200114423394
+    second: RecRoom_KeyBoard_13
+  - first:
+      213: 2989975650704129831
+    second: RecRoom_KeyBoard_14
+  - first:
+      213: -6295293516994926012
+    second: RecRoom_KeyBoard_15
+  - first:
+      213: 407014958335308613
+    second: RecRoom_KeyBoard_16
+  - first:
+      213: 8164572131495816288
+    second: RecRoom_KeyBoard_17
+  - first:
+      213: -8109702373282553307
+    second: RecRoom_KeyBoard_18
+  - first:
+      213: -2676074761623608534
+    second: RecRoom_KeyBoard_19
+  - first:
+      213: 1535263364573825106
+    second: RecRoom_KeyBoard_20
+  - first:
+      213: 672608861502805773
+    second: RecRoom_KeyBoard_21
+  - first:
+      213: 7152382398965256474
+    second: RecRoom_KeyBoard_22
+  - first:
+      213: 9002446762492691266
+    second: RecRoom_KeyBoard_23
+  - first:
+      213: 5251552097841673142
+    second: RecRoom_KeyBoard_24
+  - first:
+      213: 3311062175101460397
+    second: RecRoom_KeyBoard_25
+  - first:
+      213: -8328221297715845912
+    second: RecRoom_KeyBoard_26
+  - first:
+      213: 4078638720236041470
+    second: RecRoom_KeyBoard_27
+  - first:
+      213: 6980467986013377483
+    second: RecRoom_KeyBoard_28
+  - first:
+      213: -2357748628139395880
+    second: RecRoom_KeyBoard_29
+  - first:
+      213: -929946631377243859
+    second: RecRoom_KeyBoard_30
+  - first:
+      213: 5479493022595925909
+    second: RecRoom_KeyBoard_31
+  - first:
+      213: -2734509613588864090
+    second: RecRoom_KeyBoard_32
+  - first:
+      213: -8869174881943451905
+    second: RecRoom_KeyBoard_33
+  - first:
+      213: -6750922468973742899
+    second: RecRoom_KeyBoard_34
+  - first:
+      213: -549309423707532282
+    second: RecRoom_KeyBoard_35
+  - first:
+      213: 4246362336890183950
+    second: RecRoom_KeyBoard_36
+  - first:
+      213: 3338534519896554298
+    second: RecRoom_KeyBoard_37
+  - first:
+      213: -3658158503887103193
+    second: RecRoom_KeyBoard_38
+  - first:
+      213: -5369202468973222544
+    second: RecRoom_KeyBoard_39
+  - first:
+      213: 8639384069721653320
+    second: RecRoom_KeyBoard_40
+  - first:
+      213: 5344511479128803232
+    second: RecRoom_KeyBoard_41
+  - first:
+      213: 5267825063191394548
+    second: RecRoom_KeyBoard_42
+  - first:
+      213: -7486679331993400467
+    second: RecRoom_KeyBoard_43
+  - first:
+      213: -8216015751191816162
+    second: RecRoom_KeyBoard_44
+  - first:
+      213: -7192957003789938106
+    second: RecRoom_KeyBoard_45
+  - first:
+      213: -6526466374863637261
+    second: RecRoom_KeyBoard_46
+  - first:
+      213: 8614428604483472529
+    second: RecRoom_KeyBoard_47
+  - first:
+      213: -7566676975578886777
+    second: RecRoom_KeyBoard_48
+  - first:
+      213: -2083678208893845943
+    second: RecRoom_KeyBoard_49
+  - first:
+      213: -4295356387923413974
+    second: RecRoom_KeyBoard_50
+  - first:
+      213: 90809217404590265
+    second: RecRoom_KeyBoard_51
+  - first:
+      213: 6848494384139933715
+    second: RecRoom_KeyBoard_52
+  - first:
+      213: 214616834780829896
+    second: RecRoom_KeyBoard_53
+  - first:
+      213: -5654498254168707789
+    second: RecRoom_KeyBoard_54
+  - first:
+      213: -7688595401786137345
+    second: RecRoom_KeyBoard_55
+  - first:
+      213: -8580110881268781263
+    second: RecRoom_KeyBoard_56
+  - first:
+      213: -5225842488021730595
+    second: RecRoom_KeyBoard_57
+  - first:
+      213: -2999025460178290754
+    second: RecRoom_KeyBoard_58
+  - first:
+      213: 9201882675917531909
+    second: RecRoom_KeyBoard_59
+  - first:
+      213: 975062138518459912
+    second: RecRoom_KeyBoard_60
+  - first:
+      213: 5124157114645428466
+    second: RecRoom_KeyBoard_61
+  - first:
+      213: -5252891256021373259
+    second: RecRoom_KeyBoard_62
+  - first:
+      213: -6109069705783177473
+    second: RecRoom_KeyBoard_63
+  - first:
+      213: -6812345953154970923
+    second: RecRoom_KeyBoard_64
+  - first:
+      213: 6700404556752469882
+    second: RecRoom_KeyBoard_65
+  - first:
+      213: -7310926166481710156
+    second: RecRoom_KeyBoard_66
+  - first:
+      213: 4300511630740006127
+    second: RecRoom_KeyBoard_67
+  - first:
+      213: -620145176786184641
+    second: RecRoom_KeyBoard_68
+  - first:
+      213: 8083042243673649895
+    second: RecRoom_KeyBoard_69
+  - first:
+      213: -279451834777516884
+    second: RecRoom_KeyBoard_70
+  - first:
+      213: 6111354554576102354
+    second: RecRoom_KeyBoard_71
+  - first:
+      213: 3628049632346347551
+    second: RecRoom_KeyBoard_72
+  - first:
+      213: -4960148317795014413
+    second: RecRoom_KeyBoard_73
+  - first:
+      213: -8639736449666694374
+    second: RecRoom_KeyBoard_74
+  - first:
+      213: -9174333515201044108
+    second: RecRoom_KeyBoard_75
+  - first:
+      213: 1226004989811864909
+    second: RecRoom_KeyBoard_76
+  - first:
+      213: -1233624048281048236
+    second: RecRoom_KeyBoard_77
+  - first:
+      213: 2140006702090482738
+    second: RecRoom_KeyBoard_78
+  - first:
+      213: -5548410075951002327
+    second: RecRoom_KeyBoard_79
+  - first:
+      213: 5085671185472241001
+    second: RecRoom_KeyBoard_80
+  - first:
+      213: 3585156553681024007
+    second: RecRoom_KeyBoard_81
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 0
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 922
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2397b734ad646f70800000000000000
+      internalID: 9179582492564755246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_1
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 922
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7c833e6276eebf70800000000000000
+      internalID: 9205048067541404794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_2
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 922
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1428dbed9a5e5310800000000000000
+      internalID: 1395652568844608538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_3
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 922
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de458388fc8fb9bb0800000000000000
+      internalID: -4928071796999564051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_4
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 922
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e7fa2c99afa4ab40800000000000000
+      internalID: 5450674592029538272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_5
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 922
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2153607c36107ace0800000000000000
+      internalID: -1394144031595416302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_6
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 922
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39ec1ffa75e5f2860800000000000000
+      internalID: 7507322834556931731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_7
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 922
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cef6fefc1681b8610800000000000000
+      internalID: 1624418898976665580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_8
+      rect:
+        serializedVersion: 2
+        x: 816
+        y: 922
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82dbde05a0cf0fe60800000000000000
+      internalID: 7994166459820260648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_9
+      rect:
+        serializedVersion: 2
+        x: 918
+        y: 922
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 590edd8df1cc143c0800000000000000
+      internalID: -4376992925672939371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 820
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12ac47b2ba9101150800000000000000
+      internalID: 5841196939658709537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_11
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 820
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d554ad9c99d08eb0800000000000000
+      internalID: -4719533142801361454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_12
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 820
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e078be937da459140800000000000000
+      internalID: 4725765672245364494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_13
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 820
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2666f9551120b0230800000000000000
+      internalID: 3605978200114423394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_14
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 820
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72f794343078e7920800000000000000
+      internalID: 2989975650704129831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_15
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 820
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44aa2b276ef92a8a0800000000000000
+      internalID: -6295293516994926012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_16
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 820
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 543b8d9b2f106a500800000000000000
+      internalID: 407014958335308613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_17
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 820
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06cacd888136e4170800000000000000
+      internalID: 8164572131495816288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_18
+      rect:
+        serializedVersion: 2
+        x: 816
+        y: 820
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 522e95698ac847f80800000000000000
+      internalID: -8109702373282553307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_19
+      rect:
+        serializedVersion: 2
+        x: 918
+        y: 820
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a236909ce2cacdad0800000000000000
+      internalID: -2676074761623608534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 718
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 258081a55e95e4510800000000000000
+      internalID: 1535263364573825106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_21
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 718
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0797a62236955900800000000000000
+      internalID: 672608861502805773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_22
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 718
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a11941c95ed524360800000000000000
+      internalID: 7152382398965256474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_23
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 718
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2430ebb22ad1fec70800000000000000
+      internalID: 9002446762492691266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_24
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 718
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b37f4f1fc241e840800000000000000
+      internalID: 5251552097841673142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_25
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 718
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: daf9728618143fd20800000000000000
+      internalID: 3311062175101460397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_26
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 718
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e4edc2cad63c6c80800000000000000
+      internalID: -8328221297715845912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_27
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 718
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef4b2d67e4c3a9830800000000000000
+      internalID: 4078638720236041470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_28
+      rect:
+        serializedVersion: 2
+        x: 816
+        y: 718
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc3505036aa9fd060800000000000000
+      internalID: 6980467986013377483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_29
+      rect:
+        serializedVersion: 2
+        x: 918
+        y: 718
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d436165d18974fd0800000000000000
+      internalID: -2357748628139395880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 616
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2130b0477a2813f0800000000000000
+      internalID: -929946631377243859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_31
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 616
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 597cf095fd11b0c40800000000000000
+      internalID: 5479493022595925909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_32
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 616
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a325279ef11d0ad0800000000000000
+      internalID: -2734509613588864090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_33
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 616
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff681fe8f6c5ae480800000000000000
+      internalID: -8869174881943451905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_34
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 616
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc4fd9a48c7ef42a0800000000000000
+      internalID: -6750922468973742899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_35
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 616
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60453205df57068f0800000000000000
+      internalID: -549309423707532282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_36
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 616
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e01efe51c0c1eea30800000000000000
+      internalID: 4246362336890183950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_37
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 616
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3b30d0257bd45e20800000000000000
+      internalID: 3338534519896554298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_38
+      rect:
+        serializedVersion: 2
+        x: 816
+        y: 616
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72b1cb3f83c9b3dc0800000000000000
+      internalID: -3658158503887103193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_39
+      rect:
+        serializedVersion: 2
+        x: 918
+        y: 616
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07563bd3dc2cc75b0800000000000000
+      internalID: -5369202468973222544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 514
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8408de9b90245e770800000000000000
+      internalID: 8639384069721653320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_41
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 514
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a74873bfd48b2a40800000000000000
+      internalID: 5344511479128803232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_42
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 514
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f83c6e1cf21b1940800000000000000
+      internalID: 5267825063191394548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_43
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 514
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6b464d40d8f91890800000000000000
+      internalID: -7486679331993400467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_44
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 514
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1892316439dafd80800000000000000
+      internalID: -8216015751191816162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_45
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 514
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 642517807bb7d2c90800000000000000
+      internalID: -7192957003789938106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_46
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 514
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f4b8b729655d65a0800000000000000
+      internalID: -6526466374863637261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_47
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 514
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19c8331bc299c8770800000000000000
+      internalID: 8614428604483472529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_48
+      rect:
+        serializedVersion: 2
+        x: 816
+        y: 514
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78d4e747163cdf690800000000000000
+      internalID: -7566676975578886777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_49
+      rect:
+        serializedVersion: 2
+        x: 918
+        y: 514
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94ef8a475b94513e0800000000000000
+      internalID: -2083678208893845943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_50
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 412
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a24be1a7f14d364c0800000000000000
+      internalID: -4295356387923413974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_51
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 412
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b85bb9808e924100800000000000000
+      internalID: 90809217404590265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_52
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 412
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3181be48b5dba0f50800000000000000
+      internalID: 6848494384139933715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_53
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 412
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c81ee7cfd87af200800000000000000
+      internalID: 214616834780829896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_54
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 412
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33d2531fbcf2781b0800000000000000
+      internalID: -5654498254168707789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_55
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 412
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff4e5dec73f9c4590800000000000000
+      internalID: -7688595401786137345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_56
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 412
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13fa284ec925de880800000000000000
+      internalID: -8580110881268781263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_57
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 412
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dda3251e1f31a77b0800000000000000
+      internalID: -5225842488021730595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_58
+      rect:
+        serializedVersion: 2
+        x: 816
+        y: 412
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb778b5cb325166d0800000000000000
+      internalID: -2999025460178290754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_59
+      rect:
+        serializedVersion: 2
+        x: 918
+        y: 412
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50ba2e24a87a3bf70800000000000000
+      internalID: 9201882675917531909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_60
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 310
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 806535059dd188d00800000000000000
+      internalID: 975062138518459912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_61
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 310
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f83bbf2fb9ac1740800000000000000
+      internalID: 5124157114645428466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_62
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 310
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5be2711db3bf917b0800000000000000
+      internalID: -5252891256021373259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_63
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 310
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffe81b64879383ba0800000000000000
+      internalID: -6109069705783177473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_64
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 310
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5dac02fe27fa571a0800000000000000
+      internalID: -6812345953154970923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_65
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 310
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7fb3a0b17e9cfc50800000000000000
+      internalID: 6700404556752469882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_66
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 310
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b3dfb3f26f5a8a90800000000000000
+      internalID: -7310926166481710156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_67
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 310
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe4a1b60b8c7eab30800000000000000
+      internalID: 4300511630740006127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_68
+      rect:
+        serializedVersion: 2
+        x: 816
+        y: 310
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f36dc745f3dc467f0800000000000000
+      internalID: -620145176786184641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_69
+      rect:
+        serializedVersion: 2
+        x: 918
+        y: 310
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e2f4a6481cbc2070800000000000000
+      internalID: 8083042243673649895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_70
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 208
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca4414079003f1cf0800000000000000
+      internalID: -279451834777516884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_71
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 208
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d369f98694efc450800000000000000
+      internalID: 6111354554576102354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_72
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 208
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f189d7b1beb695230800000000000000
+      internalID: 3628049632346347551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_73
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 208
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f8a39c82630a2bb0800000000000000
+      internalID: -4960148317795014413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_74
+      rect:
+        serializedVersion: 2
+        x: 408
+        y: 208
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a134f9c697d791880800000000000000
+      internalID: -8639736449666694374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_75
+      rect:
+        serializedVersion: 2
+        x: 510
+        y: 208
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4712b7f86483ea080800000000000000
+      internalID: -9174333515201044108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_76
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 208
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d45b796ea05a30110800000000000000
+      internalID: 1226004989811864909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_77
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 208
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45b24dfc67941eee0800000000000000
+      internalID: -1233624048281048236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_78
+      rect:
+        serializedVersion: 2
+        x: 816
+        y: 208
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 234fe0fd1c4d2bd10800000000000000
+      internalID: 2140006702090482738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_79
+      rect:
+        serializedVersion: 2
+        x: 918
+        y: 208
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92d0eb2ce661003b0800000000000000
+      internalID: -5548410075951002327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_80
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 106
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96d33868ffee39640800000000000000
+      internalID: 5085671185472241001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: RecRoom_KeyBoard_81
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 106
+        width: 102
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 704325ef3e801c130800000000000000
+      internalID: 3585156553681024007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: c8281b4ce58c66740b86c6501ae53008
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
