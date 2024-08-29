@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\3.Script\TitleManager.cs" />
     <Compile Include="Assets\3.Script\SelectSceneManager.cs" />
+    <Compile Include="Assets\3.Script\CharUIManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
