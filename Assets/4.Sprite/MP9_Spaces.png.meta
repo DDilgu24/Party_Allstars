@@ -4,7 +4,25 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: -469580610208329816
-    second: MP9_Spaces_0
+    second: MP9_Spaces_Normal
+  - first:
+      213: -1338059830038433051
+    second: MP9_Spaces_Item
+  - first:
+      213: 1735294191141523995
+    second: MP9_Spaces_Bowser
+  - first:
+      213: 6309806868750963451
+    second: MP9_Spaces_Bad
+  - first:
+      213: 5163128519658317975
+    second: MP9_Spaces_Good
+  - first:
+      213: -207257896356512736
+    second: MP9_Spaces_Blue
+  - first:
+      213: 7644130269326034996
+    second: MP9_Spaces_Question
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -118,10 +136,136 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MP9_Spaces_0
+      name: MP9_Spaces_Normal
       rect:
         serializedVersion: 2
         x: 2
+        y: 776
+        width: 126
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8af0f174ce6bb79f0800000000000000
+      internalID: -469580610208329816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MP9_Spaces_Item
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 776
+        width: 126
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e2f6568ca14e6de0800000000000000
+      internalID: -1338059830038433051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MP9_Spaces_Bowser
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 647
+        width: 126
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b121ac37fd0051810800000000000000
+      internalID: 1735294191141523995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MP9_Spaces_Bad
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 776
+        width: 126
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf298359aefe09750800000000000000
+      internalID: 6309806868750963451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MP9_Spaces_Good
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 776
+        width: 126
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7982cef780e17a740800000000000000
+      internalID: 5163128519658317975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MP9_Spaces_Blue
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 776
+        width: 126
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02c76c69a0caf1df0800000000000000
+      internalID: -207257896356512736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MP9_Spaces_Question
+      rect:
+        serializedVersion: 2
+        x: 646
         y: 776
         width: 126
         height: 126
@@ -132,8 +276,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8af0f174ce6bb79f0800000000000000
-      internalID: -469580610208329816
+      spriteID: 4384df7caf7651a60800000000000000
+      internalID: 7644130269326034996
       vertices: []
       indices: 
       edges: []
