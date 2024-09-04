@@ -57,11 +57,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\3.Script\TestScene.cs" />
+    <Compile Include="Assets\3.Script\BD1SoundManager.cs" />
     <Compile Include="Assets\3.Script\MenuManager.cs" />
-    <Compile Include="Assets\3.Script\TitleManager.cs" />
-    <Compile Include="Assets\3.Script\CharUIManager.cs" />
-    <Compile Include="Assets\3.Script\SelectSceneManager.cs" />
     <Compile Include="Assets\3.Script\Board1_Manager.cs" />
+    <Compile Include="Assets\3.Script\TitleManager.cs" />
+    <Compile Include="Assets\3.Script\CharInfo.cs" />
+    <Compile Include="Assets\3.Script\SelectSceneManager.cs" />
+    <Compile Include="Assets\3.Script\CharMarkTest.cs" />
+    <Compile Include="Assets\3.Script\GameManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\2.Model\BD1\Piranha\Credits.txt" />

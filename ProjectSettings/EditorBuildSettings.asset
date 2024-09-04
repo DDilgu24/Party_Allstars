@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/1.Scene/3. Board Ready.unity
     guid: 4379ede93cd51fe40979726b082acf7e
+  - enabled: 1
+    path: Assets/1.Scene/BD1. Mario Road.unity
+    guid: e9c701d85c9eac043b24d173d42bea55
   m_configObjects: {}
