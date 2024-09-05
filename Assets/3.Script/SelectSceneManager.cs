@@ -21,7 +21,7 @@ public class SelectSceneManager : MonoBehaviour
         "쏟아지는 물풍선을 피해 마지막까지 살아남으세요.\nHP가 0이 되면 보드에서 <color=#ff3333>탈락</color>합니다."};
     private string[] Character_name = new string[16]
     { "마리오", "루이지", "요시", "피치", "아미티", "라피나", "시그", "렘레스",
-        "팬텀", "메르세데스", "호영", "라라", "배찌", "다오", "디지니", "마리드" };
+        "팬텀", "메르세데스", "호영", "라라", "다오", "배찌", "디지니", "마리드" };
     [SerializeField] private GameObject MapSelectPanel;
     [SerializeField] private GameObject CharSelectPanel;
     [SerializeField] private GameObject[] cursor;
@@ -162,6 +162,7 @@ public class SelectSceneManager : MonoBehaviour
         {
             if (SelectTurn > 4)
             {
+                GameManager.instance.selectChar = selectChar;
                 SceneManager.LoadScene("BD1. Mario Road");
                 return;
             }
