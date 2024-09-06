@@ -18,7 +18,7 @@ public class CharInfo
     {
         playerNO = pNo;
         try { charIndex = GameManager.instance.selectChar[playerNO]; }
-        catch(Exception e) { charIndex = playerNO; }
+        catch (Exception) { charIndex = playerNO; }
 
         rank = 1;
         for (int i = 0; i < 3; i++) items[i] = 0;

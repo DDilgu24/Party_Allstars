@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class TestScene : MonoBehaviour
 {
@@ -9,12 +10,18 @@ public class TestScene : MonoBehaviour
     [SerializeField] private GameObject[] Dice6;
     [SerializeField] private Sprite[] DiceNum;
 
+    private void Start()
+    {
+        DOTween.Init();
+    }
+
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space) && DieisLooping)
         {
             DieisLooping = false;
-            CharSp[0].GetComponent<Animator>().SetTrigger("HasJump");
+            // CharSp[0].GetComponent<Animator>().SetTrigger("HasJump");
+            CharSp[0].transform.DOLocalMoveY(3, 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.OutQuad);
             HitDice(0);
         }
     }
@@ -36,8 +43,9 @@ public class TestScene : MonoBehaviour
 
     private IEnumerator ComHitDice(int p)
     {
-        yield return new WaitForSeconds(Random.Range(1.0f, 5.0f));
-        CharSp[p].GetComponent<Animator>().SetTrigger("HasJump");
+        yield return new WaitForSeconds(Random.Range(1.0f, 3.0f));
+        // CharSp[p].GetComponent<Animator>().SetTrigger("HasJump");
+        CharSp[p].transform.DOLocalMoveY(3, 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.OutQuad);
         HitDice(p);
     }
 }

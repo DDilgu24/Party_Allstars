@@ -32,6 +32,9 @@ TextureImporter:
   - first:
       213: -5214153586165992207
     second: MP9_DiceNumbers_10
+  - first:
+      213: 6836255734228622824
+    second: MP9_DiceNumbers_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -350,6 +353,27 @@ TextureImporter:
       bones: []
       spriteID: 1f43f3c60fa93a7b0800000000000000
       internalID: -5214153586165992207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MP9_DiceNumbers_0
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 402
+        width: 52
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ed9c68ce524fde50800000000000000
+      internalID: 6836255734228622824
       vertices: []
       indices: 
       edges: []
