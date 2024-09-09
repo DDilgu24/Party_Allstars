@@ -29352,7 +29352,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1040289468}
-  - component: {fileID: 1040289469}
+  - component: {fileID: 1040289470}
   m_Layer: 0
   m_Name: BoardManager
   m_TagString: Untagged
@@ -29374,7 +29374,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1040289469
+--- !u!114 &1040289470
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -29383,7 +29383,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1040289467}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42c10dbc990273947bc31cc92beb2859, type: 3}
+  m_Script: {fileID: 11500000, guid: 0be0921ba566247498899498ee0e0631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   virtualCamera: {fileID: 1325120771}
@@ -29392,7 +29392,6 @@ MonoBehaviour:
   - {fileID: 1172268627}
   - {fileID: 1096396290}
   - {fileID: 1669391361}
-  DieisLooping: 1
   CharUI:
   - {fileID: 5979484176677193071}
   - {fileID: 295391606}
@@ -29412,6 +29411,7 @@ MonoBehaviour:
   - {fileID: 1358031801547658844, guid: 12422a0c5716f1348b414f1090864152, type: 3}
   - {fileID: -5214153586165992207, guid: 12422a0c5716f1348b414f1090864152, type: 3}
   - {fileID: 1565604072997996095, guid: 12422a0c5716f1348b414f1090864152, type: 3}
+  gameContext: {fileID: 0}
 --- !u!1 &1058397996
 GameObject:
   m_ObjectHideFlags: 0
@@ -29873,7 +29873,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1040289469}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Board1_Manager, Assembly-CSharp
         m_MethodName: DebugAddScore
         m_Mode: 3
@@ -42292,7 +42292,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1040289469}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Board1_Manager, Assembly-CSharp
         m_MethodName: DebugAddScore
         m_Mode: 3
@@ -64420,7 +64420,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1040289469}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Board1_Manager, Assembly-CSharp
         m_MethodName: DebugAddScore
         m_Mode: 3
@@ -70017,7 +70017,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1040289469}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Board1_Manager, Assembly-CSharp
         m_MethodName: DebugAddScore
         m_Mode: 3

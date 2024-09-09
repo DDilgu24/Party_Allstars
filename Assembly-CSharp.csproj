@@ -60,12 +60,12 @@
     <Compile Include="Assets\3.Script\Board1\BD1SoundManager.cs" />
     <Compile Include="Assets\3.Script\MenuManager.cs" />
     <Compile Include="Assets\3.Script\GameManager.cs" />
-    <Compile Include="Assets\3.Script\Board1\Board1_Manager.cs" />
+    <Compile Include="Assets\3.Script\Board_Common\Board_Manager.cs" />
     <Compile Include="Assets\3.Script\TitleManager.cs" />
     <Compile Include="Assets\3.Script\Board1\CharInfoManager.cs" />
     <Compile Include="Assets\3.Script\SelectSceneManager.cs" />
-    <Compile Include="Assets\3.Script\Test_CharMark.cs" />
-    <Compile Include="Assets\3.Script\Board1\CharUIManager.cs" />
+    <Compile Include="Assets\3.Script\Board1\Board1_Manager.cs" />
+    <Compile Include="Assets\3.Script\Board_Common\StatePattern.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\2.Model\BD1\Piranha\Credits.txt" />
@@ -311,14 +311,14 @@
     <Reference Include="LitJson">
       <HintPath>Assets\Plugins\LitJson.dll</HintPath>
     </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
+    </Reference>
     <Reference Include="I18N">
       <HintPath>Assets\Plugins\I18N.dll</HintPath>
     </Reference>
     <Reference Include="I18N.Rare">
       <HintPath>Assets\Plugins\I18N.Rare.dll</HintPath>
-    </Reference>
-    <Reference Include="DOTween">
-      <HintPath>Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.36f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
