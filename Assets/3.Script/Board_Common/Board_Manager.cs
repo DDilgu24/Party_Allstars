@@ -8,22 +8,25 @@ using Cinemachine;
 
 public class Board_Data : MonoBehaviour
 {
-    [SerializeField] protected CinemachineVirtualCamera virtualCamera;
-    [SerializeField] protected Transform[] playerMarks; // 플레이어 말 오브젝트 배열
+    [SerializeField] public CinemachineVirtualCamera virtualCamera;
+    [SerializeField] public Transform[] playerMarks; // 플레이어 말 오브젝트 배열
 
-    [SerializeField] protected GameObject[] CharUI; // 캐릭터 상태 UI
-    [SerializeField] protected GameObject Intro, characterMark;
-    [SerializeField] protected Sprite[] DiceNum;
-    protected int[] orderDecideNum = new int[4] { 0, 0, 0, 0 }; // 순서를 정할 주사위 눈금
-    protected int[] order = new int[4] { 0, 0, 0, 0 }; // 순서. [3, 2, 1, 4] 이라면 3p > 2p > 1p > 4p 순서 임을 의미
+    [SerializeField] public GameObject[] CharUI; // 캐릭터 상태 UI
+    [SerializeField] public GameObject TurnAlert, Intro, characterMark;
+    [SerializeField] public Sprite[] DiceNum;
+    [SerializeField] public Sprite[] playerNum;
+    public int[] orderDecideNum = new int[4] { 0, 0, 0, 0 }; // 순서를 정할 주사위 눈금
+    public int[] order = new int[4] { 0, 0, 0, 0 }; // 순서. [3, 2, 1, 4] 이라면 3p > 2p > 1p > 4p 순서 임을 의미
 
-    public GameContext gameContext;
-    public static int orderPointer = 0; // 몇 번째 플레이어의 순서인가? (0~3 -> 1~4번째)
+    
+    public int orderPointer = 0; // 몇 번째 플레이어의 순서인가? (0~3 -> 1~4번째)
+    public Color[] playerColor = new Color[5] { Color.gray, Color.blue, Color.red, Color.green, Color.yellow }; // 플레이어 번호 별 컬러
 }
 
 public class Board_Manager : Board_Data
 {
     // 싱글톤 적용
+    public GameContext gameContext;
     public static Board_Manager instance = null;
     private void Awake()
     {
@@ -71,8 +74,10 @@ public class Board_Manager : Board_Data
             characterMark.transform.Find($"{i}P_Dice").gameObject.SetActive(false);
         }
         virtualCamera.Priority = 11;
-        SetCameraTarget(order[orderPointer] - 1);
-        // gameContext.SetState(new OrderAlertState());
+        // SetCameraTarget(order[orderPointer] - 1);
+        if (gameContext == null) gameContext = FindObjectOfType<GameContext>();
+        if (gameContext == null) print("뻐킹 널");
+        else gameContext.SetState(new OrderAlertState());
     }
 
 
