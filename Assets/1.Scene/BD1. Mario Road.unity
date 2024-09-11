@@ -28563,9 +28563,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
-  far clip plane: 5000
-  field of view: 80
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -28590,8 +28590,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 797628503}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 62.5, y: 5, z: 15}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: -140.5, y: 12, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -29691,7 +29691,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1040289468}
-  - component: {fileID: 1040289470}
+  - component: {fileID: 1040289469}
   m_Layer: 0
   m_Name: BoardManager
   m_TagString: Untagged
@@ -29714,7 +29714,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1040289470
+--- !u!114 &1040289469
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -29723,7 +29723,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1040289467}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0be0921ba566247498899498ee0e0631, type: 3}
+  m_Script: {fileID: 11500000, guid: 42c10dbc990273947bc31cc92beb2859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   virtualCamera: {fileID: 1325120771}
@@ -29758,7 +29758,14 @@ MonoBehaviour:
   - {fileID: 6627303253906015927, guid: e483493f26d5d9340a5150535905494c, type: 3}
   - {fileID: -6084973945014667543, guid: e483493f26d5d9340a5150535905494c, type: 3}
   - {fileID: 5696806660675544213, guid: e483493f26d5d9340a5150535905494c, type: 3}
-  gameContext: {fileID: 154682876}
+  orderDecideNum: 00000000000000000000000000000000
+  order: 00000000000000000000000000000000
+  playerColor:
+  - {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &1058397996
 GameObject:
   m_ObjectHideFlags: 0
@@ -30220,8 +30227,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Board1_Manager, Assembly-CSharp
+      - m_Target: {fileID: 1040289469}
+        m_TargetAssemblyTypeName: Board_Manager, Assembly-CSharp
         m_MethodName: DebugAddScore
         m_Mode: 3
         m_Arguments:
@@ -42818,8 +42825,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Board1_Manager, Assembly-CSharp
+      - m_Target: {fileID: 1040289469}
+        m_TargetAssemblyTypeName: Board_Manager, Assembly-CSharp
         m_MethodName: DebugAddScore
         m_Mode: 3
         m_Arguments:
@@ -65024,8 +65031,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Board1_Manager, Assembly-CSharp
+      - m_Target: {fileID: 1040289469}
+        m_TargetAssemblyTypeName: Board_Manager, Assembly-CSharp
         m_MethodName: DebugAddScore
         m_Mode: 3
         m_Arguments:
@@ -70658,8 +70665,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Board1_Manager, Assembly-CSharp
+      - m_Target: {fileID: 1040289469}
+        m_TargetAssemblyTypeName: Board_Manager, Assembly-CSharp
         m_MethodName: DebugAddScore
         m_Mode: 3
         m_Arguments:

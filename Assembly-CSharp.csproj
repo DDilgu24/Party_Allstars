@@ -60,13 +60,11 @@
     <Compile Include="Assets\3.Script\Board1\BD1SoundManager.cs" />
     <Compile Include="Assets\3.Script\MenuManager.cs" />
     <Compile Include="Assets\3.Script\GameManager.cs" />
-    <Compile Include="Assets\3.Script\Board_Common\GameContext.cs" />
-    <Compile Include="Assets\3.Script\Board1\Board1_Manager.cs" />
     <Compile Include="Assets\3.Script\Board_Common\Board_Manager.cs" />
+    <Compile Include="Assets\3.Script\Board_Common\GameContext.cs" />
     <Compile Include="Assets\3.Script\TitleManager.cs" />
     <Compile Include="Assets\3.Script\Board1\CharInfoManager.cs" />
     <Compile Include="Assets\3.Script\SelectSceneManager.cs" />
-    <Compile Include="Assets\3.Script\Board_Common\StatePattern.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\2.Model\BD1\Piranha\Credits.txt" />

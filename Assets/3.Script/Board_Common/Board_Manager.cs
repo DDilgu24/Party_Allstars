@@ -6,7 +6,8 @@ using UnityEngine.UI;
 using DG.Tweening;
 using Cinemachine;
 
-public class Board_Data : MonoBehaviour
+
+public class Board_Manager : MonoBehaviour
 {
     [SerializeField] public CinemachineVirtualCamera virtualCamera;
     [SerializeField] public Transform[] playerMarks; // 플레이어 말 오브젝트 배열
@@ -18,21 +19,12 @@ public class Board_Data : MonoBehaviour
     public int[] orderDecideNum = new int[4] { 0, 0, 0, 0 }; // 순서를 정할 주사위 눈금
     public int[] order = new int[4] { 0, 0, 0, 0 }; // 순서. [3, 2, 1, 4] 이라면 3p > 2p > 1p > 4p 순서 임을 의미
 
-    
-    public int orderPointer = 0; // 몇 번째 플레이어의 순서인가? (0~3 -> 1~4번째)
-    public Color[] playerColor = new Color[5] { Color.gray, Color.blue, Color.red, Color.green, Color.yellow }; // 플레이어 번호 별 컬러
-}
 
-public class Board_Manager : Board_Data
-{
-    // 싱글톤 적용
-    public GameContext gameContext;
-    public static Board_Manager instance = null;
-    private void Awake()
-    {
-        if (instance == null) { instance = this; }
-        else { Destroy(gameObject); }
-    }
+    public Color[] playerColor = new Color[5] { Color.gray, Color.blue, Color.red, Color.green, Color.yellow }; // 플레이어 번호 별 컬러
+
+    private int turns = 0; // 턴 수
+    private int phase; // 현재 차례(0: 턴 초기 / 1~4: n번째 플레이어 / 5: 턴 종료(미니게임) / 6: 미니게임 결과(현재 상황))
+    private bool co_in_update; // 업데이트 안의 코루틴이 동작 중인가?
 
     private IEnumerator Start()
     {
@@ -74,11 +66,74 @@ public class Board_Manager : Board_Data
             characterMark.transform.Find($"{i}P_Dice").gameObject.SetActive(false);
         }
         virtualCamera.Priority = 11;
-        // SetCameraTarget(order[orderPointer] - 1);
-        if (gameContext == null) gameContext = FindObjectOfType<GameContext>();
-        if (gameContext == null) print("뻐킹 널");
-        else gameContext.SetState(new OrderAlertState());
+        turns = 1;
+        phase = 1;
+        // co_in_update = false;
+        StartCoroutine(PlayerTurn_co());
     }
+    /*
+    private void Update()
+    {
+        if (turns < 1) return;
+        // 0 : 턴 초기
+        if(phase.Equals(0))
+        {
+            // 나중에 이벤트 추가(마지막 5턴 이벤트 같은 것...)하면 건드리기
+            // 지금은 일단 패스
+            phase++;
+        }
+        // 1~4 : 플레이어 턴
+        else if(phase <= 4)
+        {
+            if(!co_in_update)
+            {
+                co_in_update = true;
+                StartCoroutine(PlayerTurn_co());
+            }
+        }
+        // 5 : 미니게임
+        else if(phase.Equals(5))
+        {
+            // 지금은 일단 패스
+            phase++;
+        }
+        // 6 : 중간 결과
+        else
+        {
+            // 지금은 일단 패스 - 다음 턴으로
+            turns++;
+            phase = 0;
+        }
+    }
+    */
+    private IEnumerator PlayerTurn_co()
+    {
+        // co_in_update = false;
+        int playerNo = order[phase - 1];
+        // 1. 현재 차례인 캐릭터를 중심으로 카메라 이동
+        SetCameraTarget(playerNo);
+        // 2. 현재 차례가 누군지 알려주는 UI
+        Vector3 v = new Vector3(1375, -25, 0);
+        TurnAlert.GetComponent<RectTransform>().anchoredPosition = v;
+        TurnAlert.transform.Find("Center/Edge").GetComponent<Image>().color = playerColor[playerNo];
+        TurnAlert.transform.Find("Right").GetComponent<Image>().color = playerColor[playerNo];
+        TurnAlert.transform.Find("Right/PlayerNo").GetComponent<Image>().sprite = playerNum[playerNo];
+        TurnAlert.transform.Find("Center/Mask/Character").GetComponent<Image>().sprite = CharUI[playerNo - 1].transform.Find("Center/Mask/Character").GetComponent<Image>().sprite;
+        yield return null;
+        v = new Vector3(-125, -25, 0);
+        TurnAlert.GetComponent<RectTransform>().DOAnchorPos(v, 0.5f).SetEase(Ease.OutQuad);
+        // 3. 스페이스 바 누르면 알림 UI 사라짐
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        v = new Vector3(-1500, -25, 0);
+        TurnAlert.GetComponent<RectTransform>().DOAnchorPos(v, 0.5f).SetEase(Ease.OutQuad);
+        print("일단은 여기까지");
+        // 4. [일단 패스] 아이템 선택 받기
+        // 5. 주사위 두드리기
+        characterMark.transform.Find($"{playerNo}P_Dice").gameObject.SetActive(true);
+        // 6. 캐릭터 이동
+        // 7. [일단 패스] 멈춘 칸에 맞는 이벤트
+    }
+
 
 
     private void HitDice(int p = 1)
@@ -105,7 +160,7 @@ public class Board_Manager : Board_Data
 
     private IEnumerator ComHitDice(int p)
     {
-        yield return new WaitForSeconds(Random.Range(1.0f, 2.0f));
+        yield return new WaitForSeconds(Random.Range(1.0f, 1.5f));
         HitDice(p);
     }
 
@@ -132,9 +187,15 @@ public class Board_Manager : Board_Data
     public void SetCameraTarget(int playerIndex)
     {
         // 플레이어 말 오브젝트의 Transform을 카메라의 타겟으로 설정
-        Transform target = playerMarks[playerIndex];
+        Transform target = playerMarks[playerIndex - 1];
         virtualCamera.Follow = target;
         virtualCamera.LookAt = target;
     }
+
+    public void DebugAddScore(int pNo)
+    {
+        playerMarks[pNo].transform.DOMove(playerMarks[pNo].transform.position - Vector3.right * 7, 0.5f);
+    }
+
 
 }
