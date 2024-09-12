@@ -37,7 +37,15 @@ public class CharInfoManager : MonoBehaviour
     [SerializeField] private Sprite[] PNoSp; // 플레이어 번호 스프라이트
     [SerializeField] private Sprite[] ItemSp; // 아이템 스프라이트
     [SerializeField] private Sprite[] NumSp; // 점수 표기용 숫자 스프라이트
-    private CharInfo[] charinfo = new CharInfo[4];
+    public CharInfo[] charinfo = new CharInfo[4];
+
+    // 0. 싱글톤 적용
+    public static CharInfoManager instance = null;
+    private void Awake()
+    {
+        if (instance == null) { instance = this; }
+        else { Destroy(gameObject); }
+    }
 
     private void Start()
     {
@@ -49,16 +57,16 @@ public class CharInfoManager : MonoBehaviour
             CharUI[i].transform.Find("Upper_Right").GetComponent<Image>().sprite = PNoSp[charinfo[i].playerNO - 1]; // 플레이어 번호 이미지 설정
             CharUI[i].transform.Find("UserName").GetComponent<Text>().text = GameManager.instance.Character_name[charinfo[i].charIndex]; // 플레이어 이름 설정
             CharacterMark.transform.Find($"{i + 1}P").GetComponent<SpriteRenderer>().sprite = CharMarks[charinfo[i].charIndex];
-            ScoreSpriteSet(i, charinfo[i].score);
-            RankSpriteSet(i, charinfo[i].rank);
+            ScoreSpriteSet(i+1, charinfo[i].score);
+            RankSpriteSet(i+1, charinfo[i].rank);
         }
     }
 
 
-    private void ScoreChanged(int pNo, int score)
+    public void ScoreAdd(int pNo, int addscore = 1)
     {
-        charinfo[pNo].score = score;
-        ScoreSpriteSet(pNo, score);
+        charinfo[pNo-1].score += addscore;
+        ScoreSpriteSet(pNo, charinfo[pNo-1].score);
 
         // 순위 재계산 및 이미지 변경
         for (int i = 0; i < 4; i++)
@@ -69,7 +77,7 @@ public class CharInfoManager : MonoBehaviour
                 if (charinfo[j].score > charinfo[i].score) higherThanMe++;
             }
             charinfo[i].rank = higherThanMe + 1;
-            RankSpriteSet(i, higherThanMe + 1);
+            RankSpriteSet(i+1, higherThanMe + 1);
         }
     }
 
@@ -79,32 +87,32 @@ public class CharInfoManager : MonoBehaviour
         // 점수 십의 자리 설정
         if (score < 10)
         {
-            CharUI[pNo].transform.Find("Lower_Right/Score_10_Digit").GetComponent<Image>().sprite = NumSp[10];
+            CharUI[pNo-1].transform.Find("Lower_Right/Score_10_Digit").GetComponent<Image>().sprite = NumSp[10];
         }
         else
         {
-            CharUI[pNo].transform.Find("Lower_Right/Score_10_Digit").GetComponent<Image>().sprite = NumSp[score / 10];
+            CharUI[pNo-1].transform.Find("Lower_Right/Score_10_Digit").GetComponent<Image>().sprite = NumSp[score / 10];
         }
         // 점수 일의 자리 설정
-        CharUI[pNo].transform.Find("Lower_Right/Score_1_Digit").GetComponent<Image>().sprite = NumSp[score % 10];
+        CharUI[pNo-1].transform.Find("Lower_Right/Score_1_Digit").GetComponent<Image>().sprite = NumSp[score % 10];
     }
 
     private void RankSpriteSet(int pNo, int rank)
     {
         // 순위 이미지 재설정
-        CharUI[pNo].transform.Find("Upper_Left/Rank").GetComponent<Image>().sprite = RankSp[rank - 1];
+        CharUI[pNo-1].transform.Find("Upper_Left/Rank").GetComponent<Image>().sprite = RankSp[rank - 1];
         // 테두리, 그라데이션 색 재설정
         Color c = new Color(0.5f, 0.5f, 0.0f, 0.5f);
         if (rank.Equals(2)) c = new Color(0.7f, 0.7f, 0.7f, 0.5f);
         else if (rank.Equals(3)) c = new Color(0.5f, 0.0f, 0.0f, 0.5f);
         else if (rank.Equals(4)) c = new Color(0.5f, 0.0f, 0.5f, 0.5f);
-        CharUI[pNo].transform.Find("Upper_Left").GetComponent<Image>().color = c;
-        CharUI[pNo].transform.Find("Lower_Right").GetComponent<Image>().color = c;
-        CharUI[pNo].transform.Find("Center/Edge").GetComponent<Image>().color = c;
+        CharUI[pNo-1].transform.Find("Upper_Left").GetComponent<Image>().color = c;
+        CharUI[pNo-1].transform.Find("Lower_Right").GetComponent<Image>().color = c;
+        CharUI[pNo-1].transform.Find("Center/Edge").GetComponent<Image>().color = c;
     }
 
-    public void DebugAddScore(int pNo)
+    public void DebugAddScore(int n)
     {
-        ScoreChanged(pNo, charinfo[pNo].score + 1);
+        ScoreAdd(n+1);
     }
 }

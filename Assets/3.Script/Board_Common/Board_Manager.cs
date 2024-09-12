@@ -1,19 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using DG.Tweening;
 using Cinemachine;
-
 
 public class Board_Manager : MonoBehaviour
 {
     [SerializeField] public CinemachineVirtualCamera virtualCamera;
     [SerializeField] public Transform[] playerMarks; // 플레이어 말 오브젝트 배열
+    [SerializeField] public Transform[] Spaces; // 발판 위치 배열
 
     [SerializeField] public GameObject[] CharUI; // 캐릭터 상태 UI
-    [SerializeField] public GameObject TurnAlert, Intro, characterMark;
+    [SerializeField] public GameObject TurnAlert, Intro;
     [SerializeField] public Sprite[] DiceNum;
     [SerializeField] public Sprite[] playerNum;
     public int[] orderDecideNum = new int[4] { 0, 0, 0, 0 }; // 순서를 정할 주사위 눈금
@@ -21,13 +23,16 @@ public class Board_Manager : MonoBehaviour
 
 
     public Color[] playerColor = new Color[5] { Color.gray, Color.blue, Color.red, Color.green, Color.yellow }; // 플레이어 번호 별 컬러
+    private Vector3[] playerOffset = new Vector3[5] { Vector3.zero, new Vector3(0.5f, 0, 0), new Vector3(-0.5f, 0, 0), new Vector3(0, 0, 1f), new Vector3(-1f, 0, 1f) }; // 플레이어 번호 별 위치 오프셋
 
     private int turns = 0; // 턴 수
     private int phase; // 현재 차례(0: 턴 초기 / 1~4: n번째 플레이어 / 5: 턴 종료(미니게임) / 6: 미니게임 결과(현재 상황))
-    private bool co_in_update; // 업데이트 안의 코루틴이 동작 중인가?
+    private bool EndGame = false;
+    // public event Action<int> OnScoreChanged; // 점수가 바뀔 때 호출되는 이벤트
 
     private IEnumerator Start()
     {
+        // OnScoreChanged += CheckReachScore;
         // 1단계 : 인트로
         BD1SoundManager.instance.PlayBGM("Intro");
         Intro.transform.Find("BoardTitle").transform.DOScale(Vector3.one, 3f).SetEase(Ease.Linear);
@@ -44,7 +49,7 @@ public class Board_Manager : MonoBehaviour
         for (int i = 1; i <= 4; i++)
         {
             yield return new WaitForSeconds(0.2f);
-            characterMark.transform.Find($"{i}P_Dice").gameObject.SetActive(true);
+            playerMarks[i - 1].GetChild(0).gameObject.SetActive(true); // 주사위 활성화 
         }
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         HitDice(1);
@@ -63,7 +68,7 @@ public class Board_Manager : MonoBehaviour
         print("게임 시작");
         for (int i = 1; i <= 4; i++)
         {
-            characterMark.transform.Find($"{i}P_Dice").gameObject.SetActive(false);
+            playerMarks[i - 1].GetChild(0).gameObject.SetActive(false);
         }
         virtualCamera.Priority = 11;
         turns = 1;
@@ -108,7 +113,6 @@ public class Board_Manager : MonoBehaviour
     */
     private IEnumerator PlayerTurn_co()
     {
-        // co_in_update = false;
         int playerNo = order[phase - 1];
         // 1. 현재 차례인 캐릭터를 중심으로 카메라 이동
         SetCameraTarget(playerNo);
@@ -126,41 +130,105 @@ public class Board_Manager : MonoBehaviour
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         v = new Vector3(-1500, -25, 0);
         TurnAlert.GetComponent<RectTransform>().DOAnchorPos(v, 0.5f).SetEase(Ease.OutQuad);
-        print("일단은 여기까지");
         // 4. [일단 패스] 아이템 선택 받기
         // 5. 주사위 두드리기
-        characterMark.transform.Find($"{playerNo}P_Dice").gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.25f);
+        playerMarks[playerNo - 1].GetChild(0).gameObject.SetActive(true); // 주사위 활성화 
+        playerMarks[playerNo - 1].GetChild(0).gameObject.GetComponent<Animator>().enabled = true; // 주사위 애니도 활성화
+        playerMarks[playerNo - 1].GetChild(0).gameObject.GetComponent<Animator>().SetBool("DiceStop", false); // 주사위를 다시 돌아가게
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        int move = HitDice(playerNo);
         // 6. 캐릭터 이동
-        // 7. [일단 패스] 멈춘 칸에 맞는 이벤트
-    }
-
-
-
-    private void HitDice(int p = 1)
-    {
-        characterMark.transform.Find($"{p}P").transform.DOLocalMoveY(3.5f, 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.OutQuad);
-        Transform tf = characterMark.transform.Find($"{p}P_Dice");
-        tf.GetChild(0).GetComponent<ParticleSystem>().Play();
-        int r = Random.Range(1, 7);
-        while(orderDecideNum.Any(value => value.Equals(r))) // 순서 정하기 이므로 중복을 배제
+        playerMarks[playerNo - 1].GetChild(0).GetChild(2).gameObject.SetActive(false); // 주사위 테두리 비활성화. 숫자만 보이게
+        yield return new WaitForSeconds(0.5f);
+        while (move > 0)
         {
-            r = Random.Range(1, 7);
+            yield return new WaitForSeconds(0.25f);
+            CharInfoManager.instance.ScoreAdd(playerNo); // 점수를 1 더하기
+            Vector3 newpos = Spaces[CharInfoManager.instance.charinfo[playerNo - 1].score].position + playerOffset[playerNo]; // 다음 칸을 목적지로
+            Tween moveTween = playerMarks[playerNo - 1].transform.DOMove(newpos, 0.3f).SetEase(Ease.Linear); // 캐릭터 말 이동
+            yield return moveTween.WaitForCompletion(); // 말 이동이 끝날 때까지 대기
+            move--; // 남은 눈금 1 감소
+            playerMarks[playerNo - 1].GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().sprite = DiceNum[move]; // 남은 눈금으로 이미지 변경
+            if (CharInfoManager.instance.charinfo[playerNo - 1].score > 33) // 골대 도착하면
+            {
+                BD1SoundManager.instance.BGMPlayer.pitch = 1f;
+                move = 0;
+                EndGame = true;
+                newpos += Vector3.down * 9.5f - playerOffset[playerNo];
+                BD1SoundManager.instance.StopBGM();
+                BD1SoundManager.instance.PlaySFX("FlagDown");
+                moveTween = playerMarks[playerNo - 1].transform.DOMove(newpos, 1.5f).SetEase(Ease.Linear); // 깃대 아래로 이동
+                yield return moveTween.WaitForCompletion(); // 말 이동이 끝날 때까지 대기
+                playerMarks[playerNo - 1].transform.DOMove(Spaces[35].position + Vector3.forward * 2, 0.5f).SetEase(Ease.Linear);
+                BD1SoundManager.instance.PlaySFX("Victory");
+            }
+            else if (CharInfoManager.instance.charinfo[playerNo - 1].score >= 25) // 25점 도달하면
+                BD1SoundManager.instance.BGMPlayer.pitch = 1.1f;
         }
-        orderDecideNum[p - 1] = r;
-        tf.GetComponent<Animator>().SetTrigger("WasHit");
+        yield return new WaitForSeconds(0.25f);
+        playerMarks[playerNo - 1].GetChild(0).GetChild(2).gameObject.SetActive(true); // 주사위 테두리 다시 활성화하고
+        playerMarks[playerNo - 1].GetChild(0).gameObject.SetActive(false); // 주사위를 비활성화 
+        // 7. [일단 패스] 멈춘 칸에 맞는 이벤트
+        // 8. 다음 차례로
+        yield return new WaitForSeconds(0.5f);
+        if (EndGame) // 게임 끝났으면
+        {
+            print("게임 종료");
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
+            SceneManager.LoadScene("2. Main Menu");
+        }
+        else // 아니면
+        {
+            phase++;
+            if (phase > 4) phase = 1; // 이건 임시. 4번째 차례 끝나면 바로 1번째로
+            StartCoroutine(PlayerTurn_co()); // 다음 플레이어로
+        }
+    }
+    /*
+    private void CheckReachScore(int score) // 특정 점수에 최초로 도달했는지
+    {
+        // 25점 최초 도달시 BGM 속도 증가
+        if (score >= 25 && BD1SoundManager.instance.BGMPlayer.pitch < 1.1f)
+            BD1SoundManager.instance.BGMPlayer.pitch = 1.15f;
+        // 34점 최초 도달시 게임 종료
+        if (score >= 34)
+            ;
+    }
+    */
+    private int HitDice(int p)
+    {
+        Transform tf = playerMarks[p - 1].GetChild(0); // 주사위를 캐시
+        playerMarks[p - 1].transform.DOLocalMoveY(playerMarks[p - 1].transform.position.y + 1.8f, 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.OutQuad); // 캐릭터 점프 효과
+        tf.transform.DOLocalMoveY(3 - 1.2f, 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.OutQuad); // 주사위는 가만히 있도록 보이게
+        tf.GetChild(0).GetComponent<ParticleSystem>().Play(); // 파티클 재생
+        int r = UnityEngine.Random.Range(1, 7); // 주사위 범위: 1~6
+
+        // 순서 정하기 단계인 경우
+        if(turns.Equals(0))
+        {
+            while (orderDecideNum.Any(value => value.Equals(r))) // 순서 정하기 이므로 중복을 배제
+            {
+                r = UnityEngine.Random.Range(1, 7);
+            }
+            orderDecideNum[p - 1] = r;
+            if (p.Equals(1))
+            {
+                StartCoroutine(ComHitDice(2));
+                StartCoroutine(ComHitDice(3));
+                StartCoroutine(ComHitDice(4));
+            }
+        }
+
+        tf.GetComponent<Animator>().SetBool("DiceStop",true); // 주사위: 애니메이션을 정지하고 이미지를 결과값으로 변경 
         tf.GetComponent<Animator>().enabled = false;
         tf.GetChild(1).GetComponent<SpriteRenderer>().sprite = DiceNum[r];
-        if (p.Equals(1))
-        {
-            StartCoroutine(ComHitDice(2));
-            StartCoroutine(ComHitDice(3));
-            StartCoroutine(ComHitDice(4));
-        }
+        return r;
     }
 
     private IEnumerator ComHitDice(int p)
     {
-        yield return new WaitForSeconds(Random.Range(1.0f, 1.5f));
+        yield return new WaitForSeconds(UnityEngine.Random.Range(1.0f, 1.5f));
         HitDice(p);
     }
 
@@ -191,11 +259,5 @@ public class Board_Manager : MonoBehaviour
         virtualCamera.Follow = target;
         virtualCamera.LookAt = target;
     }
-
-    public void DebugAddScore(int pNo)
-    {
-        playerMarks[pNo].transform.DOMove(playerMarks[pNo].transform.position - Vector3.right * 7, 0.5f);
-    }
-
 
 }

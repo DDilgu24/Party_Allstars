@@ -174,11 +174,13 @@ public class SelectSceneManager : MonoBehaviour
             if (SelectTurn > 4)
             {
                 Debug.Log("선택 완료");
+                /*
                 Debug.Log($"맵: {Board_name[selectBoard]}");
                 for (int i = 1; i <= 4; i++)
                 {
                     Debug.Log($"{i}P : {Character_name[selectChar[i]]}");
                 }
+                */
             }
             else
             {
