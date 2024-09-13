@@ -23,16 +23,15 @@ public class Board_Manager : MonoBehaviour
 
 
     public Color[] playerColor = new Color[5] { Color.gray, Color.blue, Color.red, Color.green, Color.yellow }; // 플레이어 번호 별 컬러
-    private Vector3[] playerOffset = new Vector3[5] { Vector3.zero, new Vector3(0.5f, 0, 0), new Vector3(-0.5f, 0, 0), new Vector3(0, 0, 1f), new Vector3(-1f, 0, 1f) }; // 플레이어 번호 별 위치 오프셋
+    private Vector3[] playerOffset = new Vector3[5] { Vector3.zero, new Vector3(1f, 0, 0), new Vector3(-1f, 0, 0), new Vector3(0.5f, 0, 1f), new Vector3(-0.5f, 0, 1f) }; // 플레이어 번호 별 위치 오프셋
 
     private int turns = 0; // 턴 수
     private int phase; // 현재 차례(0: 턴 초기 / 1~4: n번째 플레이어 / 5: 턴 종료(미니게임) / 6: 미니게임 결과(현재 상황))
     private bool EndGame = false;
-    // public event Action<int> OnScoreChanged; // 점수가 바뀔 때 호출되는 이벤트
 
     private IEnumerator Start()
     {
-        // OnScoreChanged += CheckReachScore;
+        DOTween.Init();
         // 1단계 : 인트로
         BD1SoundManager.instance.PlayBGM("Intro");
         Intro.transform.Find("BoardTitle").transform.DOScale(Vector3.one, 3f).SetEase(Ease.Linear);
@@ -42,6 +41,7 @@ public class Board_Manager : MonoBehaviour
         // 2-1. 게임 시작을 알리는 문구
         BD1SoundManager.instance.PlayBGM("BGM1");
         Intro.transform.Find("BoardTitle").transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.Linear);
+        Intro.transform.Find("Toad/Says").GetComponent<Text>().text = "";
         Intro.transform.Find("Toad/Says").GetComponent<Text>().DOText("그럼 플레이할 순서를 정하겠습니다!", 0.5f);
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         // 2-2. 순서 정하기
@@ -59,9 +59,11 @@ public class Board_Manager : MonoBehaviour
         yield return new WaitForSeconds(1f);
         // 2-4. 진짜 게임 시작 전
         Intro.transform.Find("Toad").GetComponent<RectTransform>().DOAnchorPos(new Vector2(-900, -500), 0.5f).SetEase(Ease.Linear);
+        Intro.transform.Find("Toad/Says").GetComponent<Text>().text = "";
         Intro.transform.Find("Toad/Says").GetComponent<Text>().DOText("순서가 정해졌어요!", 0.5f);
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         yield return null;
+        Intro.transform.Find("Toad/Says").GetComponent<Text>().text = "";
         Intro.transform.Find("Toad/Says").GetComponent<Text>().DOText("그럼 렛츠 파티!", 0.5f);
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         Intro.SetActive(false);
@@ -76,46 +78,14 @@ public class Board_Manager : MonoBehaviour
         // co_in_update = false;
         StartCoroutine(PlayerTurn_co());
     }
-    /*
-    private void Update()
-    {
-        if (turns < 1) return;
-        // 0 : 턴 초기
-        if(phase.Equals(0))
-        {
-            // 나중에 이벤트 추가(마지막 5턴 이벤트 같은 것...)하면 건드리기
-            // 지금은 일단 패스
-            phase++;
-        }
-        // 1~4 : 플레이어 턴
-        else if(phase <= 4)
-        {
-            if(!co_in_update)
-            {
-                co_in_update = true;
-                StartCoroutine(PlayerTurn_co());
-            }
-        }
-        // 5 : 미니게임
-        else if(phase.Equals(5))
-        {
-            // 지금은 일단 패스
-            phase++;
-        }
-        // 6 : 중간 결과
-        else
-        {
-            // 지금은 일단 패스 - 다음 턴으로
-            turns++;
-            phase = 0;
-        }
-    }
-    */
+
     private IEnumerator PlayerTurn_co()
     {
+        Tween moveTween;
         int playerNo = order[phase - 1];
         // 1. 현재 차례인 캐릭터를 중심으로 카메라 이동
         SetCameraTarget(playerNo);
+        playerMarks[playerNo - 1].transform.position += (turns * 5 + phase) * 0.001f * Vector3.forward; // 현재 캐릭터를 앞으로 보이게?
         // 2. 현재 차례가 누군지 알려주는 UI
         Vector3 v = new Vector3(1375, -25, 0);
         TurnAlert.GetComponent<RectTransform>().anchoredPosition = v;
@@ -145,8 +115,8 @@ public class Board_Manager : MonoBehaviour
         {
             yield return new WaitForSeconds(0.25f);
             CharInfoManager.instance.ScoreAdd(playerNo); // 점수를 1 더하기
-            Vector3 newpos = Spaces[CharInfoManager.instance.charinfo[playerNo - 1].score].position + playerOffset[playerNo]; // 다음 칸을 목적지로
-            Tween moveTween = playerMarks[playerNo - 1].transform.DOMove(newpos, 0.3f).SetEase(Ease.Linear); // 캐릭터 말 이동
+            Vector3 newpos = Spaces[CharInfoManager.instance.charinfo[playerNo - 1].score].position; //  + playerOffset[playerNo]; // 다음 칸을 목적지로
+            moveTween = playerMarks[playerNo - 1].transform.DOMove(newpos, 0.3f).SetEase(Ease.Linear); // 캐릭터 말 이동
             yield return moveTween.WaitForCompletion(); // 말 이동이 끝날 때까지 대기
             move--; // 남은 눈금 1 감소
             playerMarks[playerNo - 1].GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().sprite = DiceNum[move]; // 남은 눈금으로 이미지 변경
@@ -158,6 +128,7 @@ public class Board_Manager : MonoBehaviour
                 newpos += Vector3.down * 9.5f - playerOffset[playerNo];
                 BD1SoundManager.instance.StopBGM();
                 BD1SoundManager.instance.PlaySFX("FlagDown");
+                CharUI[0].transform.parent.GetComponent<RectTransform>().DOMoveY(1000, 0.5f); // 순위표 UI 치우기
                 moveTween = playerMarks[playerNo - 1].transform.DOMove(newpos, 1.5f).SetEase(Ease.Linear); // 깃대 아래로 이동
                 yield return moveTween.WaitForCompletion(); // 말 이동이 끝날 때까지 대기
                 playerMarks[playerNo - 1].transform.DOMove(Spaces[35].position + Vector3.forward * 2, 0.5f).SetEase(Ease.Linear);
@@ -174,28 +145,17 @@ public class Board_Manager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         if (EndGame) // 게임 끝났으면
         {
-            print("게임 종료");
+            yield return StartCoroutine(CharInfoManager.instance.ResultUISetting());
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
             SceneManager.LoadScene("2. Main Menu");
         }
         else // 아니면
         {
             phase++;
-            if (phase > 4) phase = 1; // 이건 임시. 4번째 차례 끝나면 바로 1번째로
+            if (phase > 4) { turns++; phase = 1; } // 이건 임시. 4번째 차례 끝나면 바로 1번째로
             StartCoroutine(PlayerTurn_co()); // 다음 플레이어로
         }
     }
-    /*
-    private void CheckReachScore(int score) // 특정 점수에 최초로 도달했는지
-    {
-        // 25점 최초 도달시 BGM 속도 증가
-        if (score >= 25 && BD1SoundManager.instance.BGMPlayer.pitch < 1.1f)
-            BD1SoundManager.instance.BGMPlayer.pitch = 1.15f;
-        // 34점 최초 도달시 게임 종료
-        if (score >= 34)
-            ;
-    }
-    */
     private int HitDice(int p)
     {
         Transform tf = playerMarks[p - 1].GetChild(0); // 주사위를 캐시
