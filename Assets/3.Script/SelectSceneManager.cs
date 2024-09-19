@@ -133,7 +133,7 @@ public class SelectSceneManager : MonoBehaviour
         }
         else
         {
-            if (page.Equals(0)) SceneManager.LoadScene("2. Main Menu");
+            if (page.Equals(0)) MoveScene(0);
             else
             {
                 page--;
@@ -163,7 +163,7 @@ public class SelectSceneManager : MonoBehaviour
             if (SelectTurn > 4)
             {
                 GameManager.instance.selectChar = selectChar;
-                SceneManager.LoadScene("BD1. Mario Road");
+                MoveScene(1);
                 return;
             }
             isSelected[cursorIndex] = SelectTurn + 1; // 그 플레이어가 선택한 캐릭터는 선택 상태로
@@ -173,7 +173,7 @@ public class SelectSceneManager : MonoBehaviour
             SelectTurn++;  // 다음 플레이어로
             if (SelectTurn > 4)
             {
-                Debug.Log("선택 완료");
+                charNameText.text = "선택 완료! 준비 되었나요?";
                 /*
                 Debug.Log($"맵: {Board_name[selectBoard]}");
                 for (int i = 1; i <= 4; i++)
@@ -190,5 +190,24 @@ public class SelectSceneManager : MonoBehaviour
                 CursorChange();
             }
         }
+    }
+
+    public void MoveScene(int n)
+    {
+        GameManager.instance.FadeOut(() =>
+        {
+            string s;
+            switch(n)
+            {
+                case 1:
+                    s = "BD1. Mario Road";
+                    break;
+                default:
+                    s = "2. Main Menu";
+                    break;
+            }
+            SceneManager.LoadScene(s);
+            GameManager.instance.FadeIn();
+        });
     }
 }

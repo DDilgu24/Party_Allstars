@@ -114,9 +114,27 @@ public class Board_Manager : MonoBehaviour
         while (move > 0)
         {
             yield return new WaitForSeconds(0.25f);
+            /*
+            Vector3 oldpos = Spaces[CharInfoManager.instance.charinfo[playerNo - 1].score].position; // 현재 칸을 시작 좌표로
             CharInfoManager.instance.ScoreAdd(playerNo); // 점수를 1 더하기
-            Vector3 newpos = Spaces[CharInfoManager.instance.charinfo[playerNo - 1].score].position; //  + playerOffset[playerNo]; // 다음 칸을 목적지로
-            moveTween = playerMarks[playerNo - 1].transform.DOMove(newpos, 0.3f).SetEase(Ease.Linear); // 캐릭터 말 이동
+            Vector3 newpos = Spaces[CharInfoManager.instance.charinfo[playerNo - 1].score].position; // 다음 칸을 도착 좌표로
+            Vector3 midpos = (oldpos + newpos) * 0.5f; // 중간 좌표를 계산
+            midpos.y = Mathf.Max(oldpos.y, newpos.y) + 2; // 중간 좌표의 y값을 보정
+            Vector3[] movepath = new Vector3[] { oldpos, midpos, newpos };
+            moveTween = playerMarks[playerNo - 1].transform.DOPath(movepath, 0.3f, PathType.CatmullRom).SetEase(Ease.Linear); // 캐릭터 말을 포물선으로 이동
+            */
+
+            CharInfoManager.instance.ScoreAdd(playerNo); // 점수를 1 더하기
+            int newscore = CharInfoManager.instance.charinfo[playerNo - 1].score; // 바뀐 점수를 캐싱
+            Vector3 newpos = Spaces[newscore].position; // 다음 칸을 도착 좌표로
+
+            bool moveIsJump = false; // 다음 칸에 따라 캐릭터 이동 방식이 결정 (직선 OR 점프)
+            if (newscore >= 23 && newscore != 30) moveIsJump = true;
+            else if (4 <= newscore && newscore <= 11) moveIsJump = true; 
+
+            if (moveIsJump) moveTween = playerMarks[playerNo - 1].transform.DOLocalJump(newpos, 2f, 1, 0.3f); // 캐릭터 말 이동 - 점프
+            else moveTween = playerMarks[playerNo - 1].transform.DOMove(newpos, 0.3f).SetEase(Ease.Linear); // 캐릭터 말 이동 - 직선
+
             yield return moveTween.WaitForCompletion(); // 말 이동이 끝날 때까지 대기
             move--; // 남은 눈금 1 감소
             playerMarks[playerNo - 1].GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().sprite = DiceNum[move]; // 남은 눈금으로 이미지 변경
@@ -125,7 +143,7 @@ public class Board_Manager : MonoBehaviour
                 BD1SoundManager.instance.BGMPlayer.pitch = 1f;
                 move = 0;
                 EndGame = true;
-                newpos += Vector3.down * 9.5f - playerOffset[playerNo];
+                newpos += Vector3.down * 9.5f;
                 BD1SoundManager.instance.StopBGM();
                 BD1SoundManager.instance.PlaySFX("FlagDown");
                 CharUI[0].transform.parent.GetComponent<RectTransform>().DOMoveY(1000, 0.5f); // 순위표 UI 치우기
@@ -147,7 +165,11 @@ public class Board_Manager : MonoBehaviour
         {
             yield return StartCoroutine(CharInfoManager.instance.ResultUISetting());
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
-            SceneManager.LoadScene("2. Main Menu");
+            GameManager.instance.FadeOut(() =>
+            {
+                SceneManager.LoadScene("2. Main Menu");
+                GameManager.instance.FadeIn();
+            });
         }
         else // 아니면
         {

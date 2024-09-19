@@ -122,16 +122,18 @@ public class CharInfoManager : MonoBehaviour
     public IEnumerator ResultUISetting()
     {
         Tween moveTween = ResultUI.transform.Find("Superstar").DOScale(Vector3.one * 2, 1f).SetEase(Ease.OutBack); // 슈퍼스타 로고 뜨게
-        // yield return new WaitForSeconds(10f); // 임시: 승리 효과음 끝날때 까지 대기
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        yield return new WaitForSeconds(8f); // 임시: 승리 효과음 끝날때 까지 대기
+        ResultUI.transform.Find("Text").gameObject.SetActive(true); // 안내 문구 활성화
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space)); // 스페이스바 누르면
+        ResultUI.transform.Find("Text").gameObject.SetActive(false); // 안내 문구 비활성화
         ResultUI.transform.Find("Superstar").gameObject.SetActive(false); // 슈퍼스타 로고 비활성화
-        // ResultUI.transform.Find("Panel/WinnerChar").GetComponent<Image>().sprite = CharMarks[charinfo[i].charIndex].GetComponent<Image>().sprite; // 이긴 캐릭터의 마크 띄우기
-        bool[] RankSlotUsed = new bool[5] { false, false, false, false, false }; // 해당 순위에 캐릭터가 들어가 있는지? - 공동 순위때 사용
 
+        bool[] RankSlotUsed = new bool[5] { false, false, false, false, false }; // 해당 순위에 캐릭터가 들어가 있는지? - 공동 순위때 사용
         for (int i = 0; i < 4; i++) // 1P 부터 순위를 찾아 거기에 집어넣기
         {
             int rankslot = charinfo[i].rank; // 들어갈 슬롯을 지정할 순위 불러오기
             while (RankSlotUsed[rankslot]) rankslot++; // 이미 사용한 슬롯이라면(즉, 공동 순위) 다음 슬롯으로
+            RankSlotUsed[rankslot] = true;
             // 1. 플레이어 번호
             ResultUI.transform.Find($"Panel/Rank{rankslot}_info/Upper_Right").GetComponent<Image>().sprite = PNoSp[i];
             // 2. 캐릭터 이미지
@@ -148,7 +150,7 @@ public class CharInfoManager : MonoBehaviour
             }
             else
             {
-                ResultUI.transform.Find("Panel/WinnerChar").GetComponent<Image>().sprite = CharMarks[charinfo[i].charIndex];
+                // ResultUI.transform.Find("Panel/WinnerChar").GetComponent<Image>().sprite = CharMarks[charinfo[i].charIndex]; 일단 미사용
             }
             // 5. (공동 순위 인경우) 테두리 색, 그라데이션 2개 색, 순위 이미지
             // 2,3등만 공동순위 가능
@@ -159,9 +161,14 @@ public class CharInfoManager : MonoBehaviour
                 ResultUI.transform.Find($"Panel/Rank{rankslot}_info/Upper_Left").GetComponent<Image>().color = c;
                 ResultUI.transform.Find($"Panel/Rank{rankslot}_info/Lower_Right").GetComponent<Image>().color = c;
                 ResultUI.transform.Find($"Panel/Rank{rankslot}_info/Center/Edge").GetComponent<Image>().color = c;
-                ResultUI.transform.Find($"Panel/Rank{rankslot}_info/Upper_Right").GetComponent<Image>().sprite = RankSp[charinfo[i].rank - 1];
+                ResultUI.transform.Find($"Panel/Rank{rankslot}_info/Upper_Left/Rank").GetComponent<Image>().sprite = RankSp[charinfo[i].rank - 1];
             }
         }
-        ResultUI.transform.Find("Panel").GetComponent<RectTransform>().DOMoveY(540, 0.5f).SetEase(Ease.OutBounce); // 결과 패널 내려오게
+
+        BD1SoundManager.instance.PlayBGM("Result");
+        moveTween = ResultUI.transform.Find("Panel").GetComponent<RectTransform>().DOMoveY(540, 0.5f).SetEase(Ease.Linear); // 결과 패널 내려오게
+        yield return moveTween.WaitForCompletion();
+        yield return new WaitForSeconds(1.5f);
+        ResultUI.transform.Find("Panel/Text").gameObject.SetActive(true);
     }
 }

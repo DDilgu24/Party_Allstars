@@ -28,11 +28,18 @@ public class MenuManager : MonoBehaviour
 
     public void EnterMenu(int n)
     {
-        if (n.Equals(0)) SceneManager.LoadScene("3. Board Ready");
-        else if (n.Equals(1)) Debug.Log("멀티 플레이(미완따리)");
+        if (n.Equals(1)) Debug.Log("멀티 플레이(미완따리)");
         else if (n.Equals(2)) Debug.Log("뮤지엄(미완따리)");
         else if (n.Equals(3)) Debug.Log("설정(미완따리)");
-        else SceneManager.LoadScene("1. TitleScreen");
+        else
+        {
+            string s = (n.Equals(0))? "3. Board Ready" : "1. TitleScreen";
+            GameManager.instance.FadeOut(() =>
+            {
+                SceneManager.LoadScene(s);
+                GameManager.instance.FadeIn();
+            });
+        }
     }
 
 }

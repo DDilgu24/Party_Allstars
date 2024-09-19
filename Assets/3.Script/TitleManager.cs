@@ -1,39 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class TitleManager : MonoBehaviour
 {
-    public CanvasGroup canvasGroup; 
-    public float fadeDuration = 1f; // 페이드 시간
-    float elapsedTime = 0f; // 누적 지속시간
+    [SerializeField] private GameObject Title;
+    [SerializeField] private Text EnterToStart;
 
     private void Start()
     {
-        StartCoroutine(Fade(true));
-    }
-
-    private IEnumerator Fade(bool isFadeIn)
-    {
-        elapsedTime = 0f; // 누적 지속시간
-        fadeDuration = (isFadeIn) ? 2f : 1f; // 페이드 시간
-        while (elapsedTime < fadeDuration)
+        GameManager.instance.FadeIn();
+        /*
+        Sequence mySequence = DOTween.Sequence(); // 시퀀스 생성
+        // 1-1. 로고를 내리는 효과
+        mySequence.Append(Title.transform.DOMoveY(0, 1.5f));
+        // 1-2. 텍스트가 커졌다 작아졌다하는 효과 - 0.5초 대기 시간 적용
+        mySequence.Join(EnterToStart.transform.DOScale(1.25f, 1.5f).SetEase(Ease.Linear));
+        mySequence.AppendInterval(0.5f);
+        // 2. 로고가 왔다갔다하는 효과
+        mySequence.OnComplete(() =>
         {
-            elapsedTime += Time.deltaTime;
-            if(isFadeIn) canvasGroup.alpha = Mathf.Clamp01(elapsedTime / fadeDuration);
-            else canvasGroup.alpha = Mathf.Clamp01(1 - elapsedTime / fadeDuration);
-            yield return null;
-        }
-        canvasGroup.alpha = (isFadeIn)? 1f : 0f; // 최종적으로 완전히 불투명 또는 투명하게 설정
-        if (!isFadeIn) SceneManager.LoadScene("2. Main Menu");
+            // EnterToStart를 계속해서 커졌다 작아졌다 하는 애니메이션으로 설정
+            EnterToStart.transform.DOScale(1f, 1.5f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
+        });
+        mySequence.Append(Title.transform.DOMoveY(100, 1.5f).SetEase(Ease.Linear));
+        */
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return) && canvasGroup.alpha == 1f)
+        if(Input.GetKeyDown(KeyCode.Return) && !GameManager.instance.isFading)
         {
-            StartCoroutine(Fade(false));
+            GameManager.instance.FadeOut(() =>
+            {
+                SceneManager.LoadScene("2. Main Menu");
+                GameManager.instance.FadeIn();
+            }); // 페이드 아웃을 부름과 동시에, 완료되면 씬 전환 및 페이드 인이 자동으로 호출되는 콜백 함수
         }
     }
 }
