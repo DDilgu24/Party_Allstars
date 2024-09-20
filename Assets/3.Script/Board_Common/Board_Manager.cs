@@ -83,15 +83,16 @@ public class Board_Manager : MonoBehaviour
     {
         Tween moveTween;
         int playerNo = order[phase - 1];
+        int ifComThat0 = (playerNo > GameManager.instance.Player_Num)? 0 : 1;
         // 1. 현재 차례인 캐릭터를 중심으로 카메라 이동
         SetCameraTarget(playerNo);
-        playerMarks[playerNo - 1].transform.position += (turns * 5 + phase) * 0.001f * Vector3.forward; // 현재 캐릭터를 앞으로 보이게?
+        playerMarks[playerNo - 1].transform.position += 0.1f * Vector3.forward; // 현재 캐릭터를 앞으로 보이게?
         // 2. 현재 차례가 누군지 알려주는 UI
         Vector3 v = new Vector3(1375, -25, 0);
         TurnAlert.GetComponent<RectTransform>().anchoredPosition = v;
-        TurnAlert.transform.Find("Center/Edge").GetComponent<Image>().color = playerColor[playerNo];
-        TurnAlert.transform.Find("Right").GetComponent<Image>().color = playerColor[playerNo];
-        TurnAlert.transform.Find("Right/PlayerNo").GetComponent<Image>().sprite = playerNum[playerNo];
+        TurnAlert.transform.Find("Center/Edge").GetComponent<Image>().color = playerColor[playerNo * ifComThat0];
+        TurnAlert.transform.Find("Right").GetComponent<Image>().color = playerColor[playerNo * ifComThat0];
+        TurnAlert.transform.Find("Right/PlayerNo").GetComponent<Image>().sprite = playerNum[playerNo * ifComThat0];
         TurnAlert.transform.Find("Center/Mask/Character").GetComponent<Image>().sprite = CharUI[playerNo - 1].transform.Find("Center/Mask/Character").GetComponent<Image>().sprite;
         yield return null;
         v = new Vector3(-125, -25, 0);
@@ -126,7 +127,7 @@ public class Board_Manager : MonoBehaviour
 
             CharInfoManager.instance.ScoreAdd(playerNo); // 점수를 1 더하기
             int newscore = CharInfoManager.instance.charinfo[playerNo - 1].score; // 바뀐 점수를 캐싱
-            Vector3 newpos = Spaces[newscore].position; // 다음 칸을 도착 좌표로
+            Vector3 newpos = Spaces[newscore].position + Vector3.forward * 0.1f; // 다음 칸을 도착 좌표로
 
             bool moveIsJump = false; // 다음 칸에 따라 캐릭터 이동 방식이 결정 (직선 OR 점프)
             if (newscore >= 23 && newscore != 30) moveIsJump = true;

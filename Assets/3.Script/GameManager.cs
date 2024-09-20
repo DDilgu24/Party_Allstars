@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public int[] selectChar = new int[5] { -1, -1, -1, -1, -1 }; // 플레이어별 선택한 캐릭터의 인덱스(-1: 미선택)
+    public int Player_Num, COM_Num; // 플레이어 수, COM 수
     public string[] Character_name = new string[16]
     { "마리오", "루이지", "요시", "피치", "아미티", "라피나", "시그", "렘레스",
         "팬텀", "메르세데스", "호영", "라라", "다오", "배찌", "디지니", "마리드" };
@@ -48,6 +49,13 @@ public class GameManager : MonoBehaviour
         fadeImage.color = color; // 확실히 정해진 알파 값에 도달하게 보정
         isFading = false;
         onComplete?.Invoke(); // 동작 완료 후 전달 된 콜백 함수를 호출
+    }
+
+    public void SelectInfo(int P_num, int C_num, int boardNO, int[] Character)
+    {
+        Player_Num = P_num;
+        COM_Num = C_num;
+        selectChar = Character;
     }
 
     public void FadeIn(System.Action onComplete = null)

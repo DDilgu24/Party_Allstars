@@ -54,10 +54,12 @@ public class CharInfoManager : MonoBehaviour
         DOTween.Init();
         for (int i = 0; i < 4; i++)
         {
-            charinfo[i] = new CharInfo(i + 1);
+            int pno = i + 1;
+            int ifCOMthat0 = (pno > GameManager.instance.Player_Num)? 0 : 1;
+            charinfo[i] = new CharInfo(pno);
             CharUI[i].transform.Find("Center/Mask/Character").GetComponent<Image>().sprite = CharLogo[charinfo[i].charIndex]; // 캐릭터 로고 설정
             CharUI[i].transform.Find("Upper_Left/Rank").GetComponent<Image>().sprite = RankSp[charinfo[i].rank - 1]; // 순위 이미지 설정
-            CharUI[i].transform.Find("Upper_Right").GetComponent<Image>().sprite = PNoSp[charinfo[i].playerNO - 1]; // 플레이어 번호 이미지 설정
+            CharUI[i].transform.Find("Upper_Right").GetComponent<Image>().sprite = PNoSp[charinfo[i].playerNO * ifCOMthat0]; // 플레이어 번호 이미지 설정
             CharUI[i].transform.Find("UserName").GetComponent<Text>().text = GameManager.instance.Character_name[charinfo[i].charIndex]; // 플레이어 이름 설정
             CharacterMark.transform.Find($"{i + 1}P").GetComponent<SpriteRenderer>().sprite = CharMarks[charinfo[i].charIndex];
             ScoreSpriteSet(i+1, charinfo[i].score);
@@ -135,7 +137,8 @@ public class CharInfoManager : MonoBehaviour
             while (RankSlotUsed[rankslot]) rankslot++; // 이미 사용한 슬롯이라면(즉, 공동 순위) 다음 슬롯으로
             RankSlotUsed[rankslot] = true;
             // 1. 플레이어 번호
-            ResultUI.transform.Find($"Panel/Rank{rankslot}_info/Upper_Right").GetComponent<Image>().sprite = PNoSp[i];
+            int ifCOMthat0 = (i + 1 > GameManager.instance.Player_Num) ? 0 : 1;
+            ResultUI.transform.Find($"Panel/Rank{rankslot}_info/Upper_Right").GetComponent<Image>().sprite = PNoSp[charinfo[i].playerNO * ifCOMthat0];
             // 2. 캐릭터 이미지
             ResultUI.transform.Find($"Panel/Rank{rankslot}_info/Center/Mask/Character").GetComponent<Image>().sprite = CharLogo[charinfo[i].charIndex];
             // 3. 플레이어 이름

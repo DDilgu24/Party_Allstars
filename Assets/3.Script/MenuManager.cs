@@ -28,7 +28,7 @@ public class MenuManager : MonoBehaviour
 
     public void EnterMenu(int n)
     {
-        if (n.Equals(1)) Debug.Log("멀티 플레이(미완따리)");
+        if (n.Equals(1)) Debug.Log("네트워크(미완따리)");
         else if (n.Equals(2)) Debug.Log("뮤지엄(미완따리)");
         else if (n.Equals(3)) Debug.Log("설정(미완따리)");
         else

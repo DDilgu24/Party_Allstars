@@ -6,12 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class SelectSceneManager : MonoBehaviour
 {
-    private int page = 0; // 페이지(0: 보드 선택 / 1: 캐릭터 선택)
-    private int SelectTurn = 0; // 선택중인 플레이어의 번호(1~4)
+    private int page = 0; // 페이지 (0: 인원 수 선택 / 1: 보드 선택 / 2: 캐릭터 선택)
+    private int SelectTurn = 0; // [캐릭터 선택 한정] 선택중인 플레이어의 번호(1~4)
     private int cursorIndex = 0; // 현재 선택중인 플레이어의 커서
     private int[] isSelected = new int[16]; // 캐릭터가 선택되었는지 여부(0: 미선택 / n: n번 플레이어가 선택)
     public int[] selectChar = new int[5] { -1, -1, -1, -1, -1 }; // 플레이어별 선택한 캐릭터의 인덱스(-1: 미선택)
     private int selectBoard; // 선택한 보드맵의 번호
+    private int PlayerNum, COMNum; // 플레이어 수, COM 수
 
     private string[] Board_name = new string[4] { "마리오 로드", "뿌요 클리너", "단풍잎 축제", "팡랜드 서바이벌" };
     private string[] Board_explain = new string[4] { 
@@ -22,62 +23,59 @@ public class SelectSceneManager : MonoBehaviour
     private string[] Character_name = new string[16]
     { "마리오", "루이지", "요시", "피치", "아미티", "라피나", "시그", "렘레스",
         "팬텀", "메르세데스", "호영", "라라", "다오", "배찌", "디지니", "마리드" };
-    [SerializeField] private GameObject MapSelectPanel;
-    [SerializeField] private GameObject CharSelectPanel;
+    [SerializeField] private GameObject[] SelectPanel;
     [SerializeField] private GameObject[] cursor;
-    [SerializeField] private Text boardNameText, boardExplainText, charNameText;
+    [SerializeField] private Text PlayerNumText, boardNameText, boardExplainText, charNameText;
 
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            CursorIndexChange(0);
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            CursorIndexChange(1);
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            CursorIndexChange(2);
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            CursorIndexChange(3);
-        }
-        else if(Input.GetKeyDown(KeyCode.Return))
-        {
-            NextButton();
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            BackButton();
-        }
+        if (Input.GetKeyDown(KeyCode.UpArrow)) CursorIndexChange(0);
+        else if (Input.GetKeyDown(KeyCode.LeftArrow)) CursorIndexChange(1);
+        else if (Input.GetKeyDown(KeyCode.DownArrow)) CursorIndexChange(2);
+        else if (Input.GetKeyDown(KeyCode.RightArrow)) CursorIndexChange(3);
+        else if(Input.GetKeyDown(KeyCode.Return)) NextButton();
+        else if (Input.GetKeyDown(KeyCode.Escape)) BackButton();
     }
 
+    // 입력받은 방향키(정수로 표현됨)에 따라 커서의 인덱스를 바꾸는 메소드 
     private void CursorIndexChange(int n)
     {
-        if(page.Equals(0))
+        // 0페이지 : 플레이 인원수 선택
+        if (page.Equals(0))
         {
             switch (n)
             {
                 case 0:
+                    if (cursorIndex % 4 < 2) cursorIndex = (cursorIndex + 8) % 12;
+                    else if (cursorIndex % 4 == 2) cursorIndex = (cursorIndex + 4) % 8;
                     break;
                 case 1:
-                    cursorIndex = (cursorIndex + 3) % 4;
+                    if (cursorIndex % 4 > 0) cursorIndex--;
+                    else cursorIndex += (3 - cursorIndex / 4);
                     break;
                 case 2:
+                    if (cursorIndex % 4 < 2) cursorIndex = (cursorIndex + 4) % 12;
+                    else if (cursorIndex % 4 == 2) cursorIndex = (cursorIndex + 4) % 8;
                     break;
                 case 3:
-                    cursorIndex = (cursorIndex + 1) % 4;
+                    if (cursorIndex % 3 > 0 || cursorIndex.Equals(0)) cursorIndex++;
+                    else cursorIndex = cursorIndex * 4 / 3 - 4;
                     break;
             }
         }
+        // 1페이지 : 보드 선택
+        else if (page.Equals(1))
+        {
+            if (n.Equals(1)) cursorIndex += 3;
+            else if (n.Equals(3)) cursorIndex += 1;
+            cursorIndex %= 4;
+        }
+        // 2페이지 : 캐릭터 선택
         else
         {
             if (SelectTurn > 4) return; // 4 캐릭터 선택 완료 -> 최종 확인 : 방향키 무효화
-            while (true)
+            while (true) // 새로 가리킬 곳이 이미 선택된 캐릭터인 경우, 이동을 반복
             {
                 switch (n)
                 {
@@ -98,28 +96,36 @@ public class SelectSceneManager : MonoBehaviour
                         if ((cursorIndex % 8).Equals(0)) cursorIndex -= 8;
                         break;
                 }
-                if (isSelected[cursorIndex].Equals(0)) break;
+                if (isSelected[cursorIndex].Equals(0)) break; // 선택 안 된 캐릭터 도달 시, 반복 종료
             }
         }
-        CursorChange();
+        CursorChange(); // 커서 이미지를 인덱스에 맞게 이동
     }
+
+    // 인덱스에 따라 커서 이미지를 바꾸는 메소드
     private void CursorChange()
     {
         if (page.Equals(0))
         {
-            cursor[0].GetComponent<RectTransform>().anchoredPosition = new Vector3((cursorIndex % 4) * 450 - 750, 300, 0);
+            cursor[0].GetComponent<RectTransform>().anchoredPosition = new Vector3((cursorIndex % 4) * 450 + (cursorIndex / 4) * 50 - 750, 350 - 400 * (cursorIndex / 4), 0);
+            PlayerNumText.text = $"플레이어 수: {cursorIndex % 4 + 1}\nCOM의 수: {3 - (cursorIndex % 4) - (cursorIndex / 4)}";
+        }
+        else if (page.Equals(1))
+        {
+            cursor[1].GetComponent<RectTransform>().anchoredPosition = new Vector3(cursorIndex * 450 - 750, 300, 0);
             boardNameText.text = Board_name[cursorIndex];
             boardExplainText.text = Board_explain[cursorIndex];
         }
         else
         {
-            cursor[SelectTurn].GetComponent<RectTransform>().anchoredPosition = new Vector3((cursorIndex % 8) * 300 - 1050, 300 - (cursorIndex / 8) * 400 - (cursorIndex % 2) * 100, 0);
+            cursor[SelectTurn+1].GetComponent<RectTransform>().anchoredPosition = new Vector3((cursorIndex % 8) * 300 - 1050, 300 - (cursorIndex / 8) * 400 - (cursorIndex % 2) * 100, 0);
             charNameText.text = Character_name[cursorIndex];
         }
     }
 
     public void BackButton()
     {
+        // 캐릭터 선택 페이지에서, 선택한 캐릭터가 1 이상
         if(SelectTurn > 1)
         {
             if(SelectTurn < 5) cursor[SelectTurn].SetActive(false); // 현재 플레이어의 커서 비활성화
@@ -133,14 +139,22 @@ public class SelectSceneManager : MonoBehaviour
         }
         else
         {
+            // 0페이지 였으면, 메인 메뉴로
             if (page.Equals(0)) MoveScene(0);
             else
             {
+                if (page.Equals(1))
+                {
+                    cursorIndex = 16 - (PlayerNum + COMNum) * 4 + PlayerNum - 1;
+                }
+                else
+                {
+                    SelectTurn = 0;
+                    cursorIndex = selectBoard;
+                }
                 page--;
-                SelectTurn = 0;
-                cursorIndex = selectBoard;
-                MapSelectPanel.SetActive(true);
-                CharSelectPanel.SetActive(false);
+                SelectPanel[page].SetActive(true);
+                SelectPanel[page + 1].SetActive(false);
                 CursorChange();
             }
         }
@@ -148,29 +162,43 @@ public class SelectSceneManager : MonoBehaviour
 
     public void NextButton()
     {
-        if (page.Equals(0))
+        // 인원 수 선택 또는 보드 선택에서 Next
+        if (page < 2)
         {
+            if (page.Equals(0))
+            {
+                PlayerNum = cursorIndex % 4 + 1;
+                COMNum = 3 - cursorIndex % 4 - cursorIndex / 4;
+            }
+            else
+            {
+                selectBoard = cursorIndex;
+                SelectTurn++;
+            }
             page++;
-            SelectTurn++;
-            selectBoard = cursorIndex;
             cursorIndex = 0;
-            MapSelectPanel.SetActive(false);
-            CharSelectPanel.SetActive(true);
+            SelectPanel[page - 1].SetActive(false);
+            SelectPanel[page].SetActive(true);
             CursorChange();
         }
+        // 캐릭터 선택에서 Next
         else
         {
+            // 최종 선택 완료한 경우
             if (SelectTurn > 4)
             {
-                GameManager.instance.selectChar = selectChar;
+                GameManager.instance.SelectInfo(PlayerNum, COMNum, selectBoard, selectChar);
                 MoveScene(1);
                 return;
             }
+
             isSelected[cursorIndex] = SelectTurn + 1; // 그 플레이어가 선택한 캐릭터는 선택 상태로
             selectChar[SelectTurn] = cursorIndex; // 그 플레이어의 캐릭터를 지정
-            cursor[SelectTurn].GetComponent<Animator>().SetTrigger("SelectOK"); // 애니매이션 종료
-            cursor[SelectTurn].transform.Find("SelectOK").gameObject.SetActive(true); // OK 표시 활성화
+            cursor[SelectTurn + 1].GetComponent<Animator>().SetTrigger("SelectOK"); // 애니매이션 종료
+            cursor[SelectTurn + 1].transform.Find("SelectOK").gameObject.SetActive(true); // OK 표시 활성화
             SelectTurn++;  // 다음 플레이어로
+
+            // 4캐릭터 선택 완료된 경우
             if (SelectTurn > 4)
             {
                 charNameText.text = "선택 완료! 준비 되었나요?";
@@ -182,9 +210,11 @@ public class SelectSceneManager : MonoBehaviour
                 }
                 */
             }
+
+            // 1~3 캐릭터만 선택 완료된 경우
             else
             {
-                cursor[SelectTurn].SetActive(true); // 다음 플레이어의 커서 활성화
+                cursor[SelectTurn + 1].SetActive(true); // 다음 플레이어의 커서 활성화
                 cursorIndex = 0;
                 while (isSelected[cursorIndex] > 0) cursorIndex++; // 기본 커서 위치 설정
                 CursorChange();
