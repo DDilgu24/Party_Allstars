@@ -56,18 +56,18 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Epic Toon FX\Scripts\ETFXPitchRandomizer.cs" />
     <Compile Include="Assets\3.Script\TestScene.cs" />
+    <Compile Include="Assets\Epic Toon FX\Scripts\ETFXLightFade.cs" />
     <Compile Include="Assets\3.Script\Board1\BD1SoundManager.cs" />
     <Compile Include="Assets\3.Script\MenuManager.cs" />
+    <Compile Include="Assets\Epic Toon FX\Scripts\ETFXRotation.cs" />
     <Compile Include="Assets\3.Script\GameManager.cs" />
     <Compile Include="Assets\3.Script\Board_Common\Board_Manager.cs" />
     <Compile Include="Assets\3.Script\Board_Common\GameContext.cs" />
     <Compile Include="Assets\3.Script\TitleManager.cs" />
     <Compile Include="Assets\3.Script\Board1\CharInfoManager.cs" />
     <Compile Include="Assets\3.Script\SelectSceneManager.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\2.Model\BD1\Piranha\Credits.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

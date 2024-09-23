@@ -30,8 +30,9 @@ public class GameManager : MonoBehaviour
     public float fadeDuration; // 페이드 시간
     public bool isFading = true; // 페이드가 진행중인가?
 
-    private IEnumerator Fade(bool isIn, System.Action onComplete, float fadeDuration = 0.5f)
+    private IEnumerator Fade(bool isIn, System.Action onComplete, float fadeDuration = 0.8f)
     {
+        fadeImage.gameObject.SetActive(true);
         isFading = true;
         float elapsedTime = 0f; // 페이드가 진행된 시간 
         Color color = fadeImage.color; // 페이드 이미지의 색상 캐싱
@@ -48,6 +49,7 @@ public class GameManager : MonoBehaviour
         color.a = endAlpha;
         fadeImage.color = color; // 확실히 정해진 알파 값에 도달하게 보정
         isFading = false;
+        fadeImage.gameObject.SetActive(false);
         onComplete?.Invoke(); // 동작 완료 후 전달 된 콜백 함수를 호출
     }
 

@@ -112,13 +112,13 @@ public class SelectSceneManager : MonoBehaviour
         }
         else if (page.Equals(1))
         {
-            cursor[1].GetComponent<RectTransform>().anchoredPosition = new Vector3(cursorIndex * 450 - 750, 300, 0);
+            cursor[5].GetComponent<RectTransform>().anchoredPosition = new Vector3(cursorIndex * 450 - 750, 300, 0);
             boardNameText.text = Board_name[cursorIndex];
             boardExplainText.text = Board_explain[cursorIndex];
         }
         else
         {
-            cursor[SelectTurn+1].GetComponent<RectTransform>().anchoredPosition = new Vector3((cursorIndex % 8) * 300 - 1050, 300 - (cursorIndex / 8) * 400 - (cursorIndex % 2) * 100, 0);
+            cursor[SelectTurn].GetComponent<RectTransform>().anchoredPosition = new Vector3((cursorIndex % 8) * 300 - 1050, 300 - (cursorIndex / 8) * 400 - (cursorIndex % 2) * 100, 0);
             charNameText.text = Character_name[cursorIndex];
         }
     }
@@ -194,8 +194,8 @@ public class SelectSceneManager : MonoBehaviour
 
             isSelected[cursorIndex] = SelectTurn + 1; // 그 플레이어가 선택한 캐릭터는 선택 상태로
             selectChar[SelectTurn] = cursorIndex; // 그 플레이어의 캐릭터를 지정
-            cursor[SelectTurn + 1].GetComponent<Animator>().SetTrigger("SelectOK"); // 애니매이션 종료
-            cursor[SelectTurn + 1].transform.Find("SelectOK").gameObject.SetActive(true); // OK 표시 활성화
+            cursor[SelectTurn].GetComponent<Animator>().SetTrigger("SelectOK"); // 애니매이션 종료
+            cursor[SelectTurn].transform.Find("SelectOK").gameObject.SetActive(true); // OK 표시 활성화
             SelectTurn++;  // 다음 플레이어로
 
             // 4캐릭터 선택 완료된 경우
@@ -214,7 +214,7 @@ public class SelectSceneManager : MonoBehaviour
             // 1~3 캐릭터만 선택 완료된 경우
             else
             {
-                cursor[SelectTurn + 1].SetActive(true); // 다음 플레이어의 커서 활성화
+                cursor[SelectTurn].SetActive(true); // 다음 플레이어의 커서 활성화
                 cursorIndex = 0;
                 while (isSelected[cursorIndex] > 0) cursorIndex++; // 기본 커서 위치 설정
                 CursorChange();

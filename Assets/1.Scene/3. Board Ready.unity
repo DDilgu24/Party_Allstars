@@ -4312,11 +4312,11 @@ MonoBehaviour:
   - {fileID: 1999751103}
   cursor:
   - {fileID: 329958061}
-  - {fileID: 1806053403}
   - {fileID: 503108048764230049}
   - {fileID: 518138605}
   - {fileID: 1488012277}
   - {fileID: 280336353}
+  - {fileID: 1806053403}
   PlayerNumText: {fileID: 804761816}
   boardNameText: {fileID: 882179659}
   boardExplainText: {fileID: 305979501}
