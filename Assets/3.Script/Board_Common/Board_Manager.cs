@@ -34,7 +34,7 @@ public class Board_Manager : MonoBehaviour
         DOTween.Init();
         // 1단계 : 인트로
         BD1SoundManager.instance.PlayBGM("Intro");
-        Intro.transform.Find("BoardTitle").transform.DOScale(Vector3.one, 3f).SetEase(Ease.Linear);
+        Intro.transform.Find("BoardTitle").GetComponent<RectTransform>().DOSizeDelta(new Vector2(1192, 464), 3.0f).SetEase(Ease.InQuad);
         Intro.transform.Find("Toad").GetComponent<RectTransform>().DOAnchorPos(new Vector2(-900, -500), 2f).SetEase(Ease.Linear);
         yield return new WaitForSeconds(8.5f);
         // 2단계 : 게임 준비

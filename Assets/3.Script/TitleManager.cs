@@ -9,6 +9,9 @@ public class TitleManager : MonoBehaviour
 {
     [SerializeField] private GameObject Title;
     [SerializeField] private Text EnterToStart;
+    [SerializeField] private Transform CharUISpawner; // 캐릭터 로고 스폰 위치용
+    // public PoolingManager poolingMng;
+
 
     private void Start()
     {
@@ -41,4 +44,14 @@ public class TitleManager : MonoBehaviour
             }); // 페이드 아웃을 부름과 동시에, 완료되면 씬 전환 및 페이드 인이 자동으로 호출되는 콜백 함수
         }
     }
+    /*
+    private IEnumerator CharUIAppear()
+    {
+        GameObject charUI = poolingMng.GetObjectFromPool();
+        charUI.transform.position = CharUISpawner.position + Vector3.right * Random.Range(-600, 600); // 스폰될 좌표를 설정
+        charUI.transform.SetParent(this.transform);
+        charUI.transform.DOLocalMoveY(700, 3.0f);
+        yield return null;
+    }
+    */
 }

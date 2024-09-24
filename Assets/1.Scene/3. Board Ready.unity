@@ -4306,6 +4306,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectChar: ffffffffffffffffffffffffffffffffffffffff
+  playerColor:
+  - {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   SelectPanel:
   - {fileID: 1617586018}
   - {fileID: 58076712}
@@ -4317,6 +4323,12 @@ MonoBehaviour:
   - {fileID: 1488012277}
   - {fileID: 280336353}
   - {fileID: 1806053403}
+  PNoSp:
+  - {fileID: 8430139558880917293, guid: e483493f26d5d9340a5150535905494c, type: 3}
+  - {fileID: 8158577371891804938, guid: e483493f26d5d9340a5150535905494c, type: 3}
+  - {fileID: 6627303253906015927, guid: e483493f26d5d9340a5150535905494c, type: 3}
+  - {fileID: -6084973945014667543, guid: e483493f26d5d9340a5150535905494c, type: 3}
+  - {fileID: 5696806660675544213, guid: e483493f26d5d9340a5150535905494c, type: 3}
   PlayerNumText: {fileID: 804761816}
   boardNameText: {fileID: 882179659}
   boardExplainText: {fileID: 305979501}

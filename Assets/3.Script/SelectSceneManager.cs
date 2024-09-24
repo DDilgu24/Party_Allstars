@@ -23,8 +23,11 @@ public class SelectSceneManager : MonoBehaviour
     private string[] Character_name = new string[16]
     { "마리오", "루이지", "요시", "피치", "아미티", "라피나", "시그", "렘레스",
         "팬텀", "메르세데스", "호영", "라라", "다오", "배찌", "디지니", "마리드" };
+    public Color[] playerColor = new Color[5] { Color.gray, Color.blue, Color.red, Color.green, Color.yellow }; // 플레이어 번호 별 컬러
+
     [SerializeField] private GameObject[] SelectPanel;
-    [SerializeField] private GameObject[] cursor;
+    [SerializeField] private GameObject[] cursor; // 0. 인원수 선택(0페이지) / 1~4. 캐릭터 선택(2페이지) / 5. 보드 선택(1페이지)
+    [SerializeField] private Sprite[] PNoSp; // 플레이어 번호 스프라이트
     [SerializeField] private Text PlayerNumText, boardNameText, boardExplainText, charNameText;
 
 
@@ -174,6 +177,14 @@ public class SelectSceneManager : MonoBehaviour
             {
                 selectBoard = cursorIndex;
                 SelectTurn++;
+                for (int i = 1; i <= 4; i++) 
+                {
+                    // 캐릭터 선택 시 커서를 P0 또는 COM으로
+                    int isPlayer = (i + COMNum < 5) ? i : 0;
+                    cursor[i].transform.Find("PlayerNo").gameObject.GetComponent<Image>().sprite = PNoSp[isPlayer];
+                    // 커서 테두리 색깔도 변경
+                    cursor[i].transform.Find("Center/Edge").gameObject.GetComponent<Image>().color = playerColor[isPlayer];
+                }
             }
             page++;
             cursorIndex = 0;

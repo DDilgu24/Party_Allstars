@@ -68,6 +68,7 @@
     <Compile Include="Assets\3.Script\TitleManager.cs" />
     <Compile Include="Assets\3.Script\Board1\CharInfoManager.cs" />
     <Compile Include="Assets\3.Script\SelectSceneManager.cs" />
+    <Compile Include="Assets\3.Script\PoolingManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
