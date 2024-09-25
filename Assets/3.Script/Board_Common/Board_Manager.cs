@@ -28,10 +28,17 @@ public class Board_Manager : MonoBehaviour
     private int turns = 0; // 턴 수
     private int phase; // 현재 차례(0: 턴 초기 / 1~4: n번째 플레이어 / 5: 턴 종료(미니게임) / 6: 미니게임 결과(현재 상황))
     private bool EndGame = false;
+    int N = GameManager.instance.Total_Num;
 
     private IEnumerator Start()
     {
         DOTween.Init();
+        for (int i = N; i < 4; i++)
+        {
+            // 인원 수를 초과하는 캐릭터 마크 비활성화
+            CharUI[i].SetActive(false);
+            playerMarks[i].gameObject.SetActive(false);
+        }
         // 1단계 : 인트로
         BD1SoundManager.instance.PlayBGM("Intro");
         Intro.transform.Find("BoardTitle").GetComponent<RectTransform>().DOSizeDelta(new Vector2(1192, 464), 3.0f).SetEase(Ease.InQuad);
@@ -46,14 +53,20 @@ public class Board_Manager : MonoBehaviour
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         // 2-2. 순서 정하기
         Intro.transform.Find("Toad").GetComponent<RectTransform>().DOAnchorPos(new Vector2(-900, -1500), 0.5f).SetEase(Ease.Linear);
-        for (int i = 1; i <= 4; i++)
+        for (int i = 0; i < 4; i++)
         {
+            if (i >= N)
+            {
+                // 인원 수 이상의 인덱스의 순서 주사위는 -1로 처리
+                orderDecideNum[i] = -1;
+                continue;
+            }
             yield return new WaitForSeconds(0.2f);
-            playerMarks[i - 1].GetChild(0).gameObject.SetActive(true); // 주사위 활성화 
+            playerMarks[i].Find($"{i + 1}P_Dice").gameObject.SetActive(true); // 주사위 활성화 
         }
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         HitDice(1);
-        yield return new WaitUntil(() => !orderDecideNum.Any(value => value.Equals(0))); // 4명이 주사위 다 굴릴때까지 대기
+        yield return new WaitUntil(() => !orderDecideNum.Any(value => value.Equals(0))); // 모든 인원 주사위 결과 나올 때까지 대기
         // 2-3. 순서 결정 및 UI 재배치
         DecisionOrder();
         yield return new WaitForSeconds(1f);
@@ -68,14 +81,14 @@ public class Board_Manager : MonoBehaviour
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         Intro.SetActive(false);
         print("게임 시작");
-        for (int i = 1; i <= 4; i++)
+        for (int i = 0; i < N ; i++)
         {
-            playerMarks[i - 1].GetChild(0).gameObject.SetActive(false);
+            // 모든 주사위 비활성화
+            playerMarks[i].Find($"{i + 1}P_Dice").gameObject.SetActive(false);
         }
         virtualCamera.Priority = 11;
         turns = 1;
         phase = 1;
-        // co_in_update = false;
         StartCoroutine(PlayerTurn_co());
     }
 
@@ -86,7 +99,7 @@ public class Board_Manager : MonoBehaviour
         int ifComThat0 = (playerNo > GameManager.instance.Player_Num)? 0 : 1;
         // 1. 현재 차례인 캐릭터를 중심으로 카메라 이동
         SetCameraTarget(playerNo);
-        playerMarks[playerNo - 1].transform.position += 0.1f * Vector3.forward; // 현재 캐릭터를 앞으로 보이게?
+        playerMarks[playerNo - 1].transform.position += 0.1f * Vector3.forward; // 현재 캐릭터를 앞으로 보이게
         // 2. 현재 차례가 누군지 알려주는 UI
         Vector3 v = new Vector3(1375, -25, 0);
         TurnAlert.GetComponent<RectTransform>().anchoredPosition = v;
@@ -96,9 +109,13 @@ public class Board_Manager : MonoBehaviour
         TurnAlert.transform.Find("Center/Mask/Character").GetComponent<Image>().sprite = CharUI[playerNo - 1].transform.Find("Center/Mask/Character").GetComponent<Image>().sprite;
         yield return null;
         v = new Vector3(-125, -25, 0);
-        TurnAlert.GetComponent<RectTransform>().DOAnchorPos(v, 0.5f).SetEase(Ease.OutQuad);
-        // 3. 스페이스 바 누르면 알림 UI 사라짐
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        moveTween = TurnAlert.GetComponent<RectTransform>().DOAnchorPos(v, 0.5f).SetEase(Ease.OutQuad);
+        yield return moveTween.WaitForCompletion();
+        // 3. 스페이스 바 누르면 계속 진행(COM 차례에는 0.5초)
+        if(playerNo > GameManager.instance.Player_Num)
+            yield return new WaitForSeconds(0.5f);
+        else 
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         v = new Vector3(-1500, -25, 0);
         TurnAlert.GetComponent<RectTransform>().DOAnchorPos(v, 0.5f).SetEase(Ease.OutQuad);
         // 스턴 상태가 아니어야 4~7 진행
@@ -107,13 +124,16 @@ public class Board_Manager : MonoBehaviour
             // 4. [일단 패스] 아이템 선택 받기
             // 5. 주사위 두드리기
             yield return new WaitForSeconds(0.25f);
-            playerMarks[playerNo - 1].GetChild(0).gameObject.SetActive(true); // 주사위 활성화 
-            playerMarks[playerNo - 1].GetChild(0).gameObject.GetComponent<Animator>().enabled = true; // 주사위 애니도 활성화
-            playerMarks[playerNo - 1].GetChild(0).gameObject.GetComponent<Animator>().SetBool("DiceStop", false); // 주사위를 다시 돌아가게
-            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.SetActive(true); // 주사위 활성화 
+            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.GetComponent<Animator>().enabled = true; // 주사위 애니도 활성화
+            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.GetComponent<Animator>().SetBool("DiceStop", false); // 주사위를 다시 돌아가게
+            if (playerNo > GameManager.instance.Player_Num)
+                yield return new WaitForSeconds(1.0f);
+            else
+                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
             int move = HitDice(playerNo);
             // 6. 캐릭터 이동
-            playerMarks[playerNo - 1].GetChild(0).GetChild(2).gameObject.SetActive(false); // 주사위 테두리 비활성화. 숫자만 보이게
+            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").GetChild(1).gameObject.SetActive(false); // 주사위 테두리 비활성화. 숫자만 보이게
             yield return new WaitForSeconds(0.5f);
             while (move > 0)
             {
@@ -141,8 +161,8 @@ public class Board_Manager : MonoBehaviour
 
                 yield return moveTween.WaitForCompletion(); // 말 이동이 끝날 때까지 대기
                 move--; // 남은 눈금 1 감소
-                playerMarks[playerNo - 1].GetChild(0).GetChild(1).GetComponent<SpriteRenderer>().sprite = DiceNum[move]; // 남은 눈금으로 이미지 변경
-                if (CharInfoManager.instance.charinfo[playerNo - 1].score > 33) // 골대 도착하면
+                playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").GetChild(0).GetComponent<SpriteRenderer>().sprite = DiceNum[move]; // 남은 눈금으로 이미지 변경
+                if (CharInfoManager.instance.charinfo[playerNo - 1].score > 6) // 골대 도착하면
                 {
                     BD1SoundManager.instance.BGMPlayer.pitch = 1f;
                     move = 0;
@@ -160,8 +180,8 @@ public class Board_Manager : MonoBehaviour
                     BD1SoundManager.instance.BGMPlayer.pitch = 1.1f;
             }
             yield return new WaitForSeconds(0.1f);
-            playerMarks[playerNo - 1].GetChild(0).GetChild(2).gameObject.SetActive(true); // 주사위 테두리 다시 활성화하고
-            playerMarks[playerNo - 1].GetChild(0).gameObject.SetActive(false); // 주사위를 비활성화 
+            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").GetChild(1).gameObject.SetActive(true); // 주사위 테두리 다시 활성화하고
+            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.SetActive(false); // 주사위를 비활성화 
             // 7. 멈춘 칸에 맞는 이벤트 - 메소드로 처리
             yield return StartCoroutine(SpaceEvent_co(playerNo, CharInfoManager.instance.charinfo[playerNo - 1].score));
         }
@@ -169,7 +189,7 @@ public class Board_Manager : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
             isStun[playerNo] = false; // 스턴 상태 해제
-            playerMarks[playerNo - 1].GetChild(1).gameObject.SetActive(false); // 파티클도 해제
+            playerMarks[playerNo - 1].Find("Stun").gameObject.SetActive(false); // 파티클도 해제
             CharUI[playerNo - 1].transform.Find("Stun").gameObject.SetActive(false);
         }
 
@@ -188,7 +208,7 @@ public class Board_Manager : MonoBehaviour
         else // 아니면
         {
             phase++;
-            if (phase > 4) { turns++; phase = 1; } // 이건 임시. 4번째 차례 끝나면 바로 1번째로
+            if (phase > GameManager.instance.Total_Num) { turns++; phase = 1; } // 모든 차례 끝나면 바로 1번째로. 미니게임 페이즈는 일단 없는 걸로
             StartCoroutine(PlayerTurn_co()); // 다음 플레이어로
         }
     }
@@ -196,37 +216,36 @@ public class Board_Manager : MonoBehaviour
     // 준비 2-2(순서 정하기) + 턴 진행 5(주사위 두드리기) 관련 메소드
     private int HitDice(int p)
     {
-        Transform tf = playerMarks[p - 1].GetChild(0); // 주사위를 캐시
+        Transform tf = playerMarks[p - 1].Find($"{p}P_Dice"); // 주사위를 캐시
         playerMarks[p - 1].transform.DOLocalMoveY(playerMarks[p - 1].transform.position.y + 1.8f, 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.OutQuad); // 캐릭터 점프 효과
         tf.transform.DOLocalMoveY(3 - 1.2f, 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.OutQuad); // 주사위는 가만히 있도록 보이게
-        tf.GetChild(0).GetComponent<ParticleSystem>().Play(); // 파티클 재생
+        tf.GetChild(2).GetComponent<ParticleSystem>().Play(); // 파티클 재생
         int r = UnityEngine.Random.Range(1, 7); // 주사위 범위: 1~6
 
         // 순서 정하기 단계인 경우
         if(turns.Equals(0))
         {
             while (orderDecideNum.Any(value => value.Equals(r))) // 순서 정하기 이므로 중복을 배제
-            {
                 r = UnityEngine.Random.Range(1, 7);
-            }
             orderDecideNum[p - 1] = r;
             if (p.Equals(1))
             {
-                StartCoroutine(ComHitDice(2));
-                StartCoroutine(ComHitDice(3));
-                StartCoroutine(ComHitDice(4));
+                for (int i = 2; i <= N; i++) StartCoroutine(HitDice_co(i));
             }
         }
 
         tf.GetComponent<Animator>().SetBool("DiceStop",true); // 주사위: 애니메이션을 정지하고 이미지를 결과값으로 변경 
         tf.GetComponent<Animator>().enabled = false;
-        tf.GetChild(1).GetComponent<SpriteRenderer>().sprite = DiceNum[r];
+        tf.GetChild(0).GetComponent<SpriteRenderer>().sprite = DiceNum[r];
         return r;
     }
 
-    private IEnumerator ComHitDice(int p)
+    private IEnumerator HitDice_co(int p)
     {
-        yield return new WaitForSeconds(UnityEngine.Random.Range(1.0f, 1.5f));
+        float delayTime = 0.01f;
+        if (p > GameManager.instance.Player_Num) 
+            delayTime = UnityEngine.Random.Range(0.75f, 1.00f);
+        yield return new WaitForSeconds(delayTime);
         HitDice(p);
     }
 
@@ -235,7 +254,7 @@ public class Board_Manager : MonoBehaviour
         int index = 0;
         for (int i = 6; i > 0; i--)
         {
-            for (int j = 0; j < 4; j++)
+            for (int j = 0; j < N; j++)
             {
                 if (orderDecideNum[j].Equals(i)) 
                 { 
@@ -246,7 +265,7 @@ public class Board_Manager : MonoBehaviour
                     break; 
                 }
             }
-            if (index > 3) break;
+            if (N < index) break;
         }
     }
 
@@ -276,7 +295,7 @@ public class Board_Manager : MonoBehaviour
                 t = Spaces[n].GetChild(0).transform.DOLocalMoveZ(-1f, 0.3f).SetEase(Ease.OutQuad);
                 yield return t.WaitForCompletion();
                 // 2. 캐릭터 위에 스턴 파티클 
-                playerMarks[playerNo - 1].GetChild(1).gameObject.SetActive(true);
+                playerMarks[playerNo - 1].Find("Stun").gameObject.SetActive(true);
                 CharUI[playerNo - 1].transform.Find("Stun").gameObject.SetActive(true);
                 // 3. 굼바 원위치
                 t = Spaces[n].GetChild(0).transform.DOLocalMoveZ(-3, 0.75f);
@@ -317,8 +336,8 @@ public class Board_Manager : MonoBehaviour
                 yield return new WaitForSeconds(0.5f);
                 // 2. 캐릭터와 함께 아래로 내려감
                 Sequence seq = DOTween.Sequence().SetAutoKill(false)
-                .Append(Spaces[31].GetChild(0).transform.DOLocalMoveY(-3f, 0.5f))
-                .Join(playerMarks[playerNo - 1].transform.DOMoveY(2f, 0.5f))
+                .Append(Spaces[31].GetChild(0).transform.DOLocalMoveY(-5f, 0.5f))
+                .Join(playerMarks[playerNo - 1].transform.DOMoveY(0, 0.5f))
                 .SetDelay(0.25f);
                 yield return seq.WaitForCompletion();
                 // 3. 뻐끔과 캐릭터를 28번 칸 아래로 이동
@@ -332,7 +351,7 @@ public class Board_Manager : MonoBehaviour
                 .SetDelay(0.25f);
                 yield return seq.WaitForCompletion();
                 // 5. 캐릭터에 스턴 효과 부여
-                playerMarks[playerNo - 1].GetChild(1).gameObject.SetActive(true);
+                playerMarks[playerNo - 1].Find("Stun").gameObject.SetActive(true);
                 CharUI[playerNo - 1].transform.Find("Stun").gameObject.SetActive(true);
                 isStun[playerNo] = true;
                 yield return new WaitForSeconds(0.5f);
@@ -340,7 +359,7 @@ public class Board_Manager : MonoBehaviour
                 t = Spaces[31].GetChild(0).transform.DOMoveY(0.5f, 0.5f);
                 yield return t.WaitForCompletion();
                 yield return new WaitForSeconds(0.5f);
-                Spaces[31].GetChild(0).transform.position = Spaces[31].position + Vector3.up * -3.5f; // 뻐끔을 31번 칸 아래로 이동
+                Spaces[31].GetChild(0).transform.position = Spaces[31].position + Vector3.up * -3.5f + Vector3.forward * 0.15f; // 뻐끔을 31번 칸 아래로 이동
                 break;
         }
     }

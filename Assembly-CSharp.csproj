@@ -63,12 +63,12 @@
     <Compile Include="Assets\3.Script\MenuManager.cs" />
     <Compile Include="Assets\Epic Toon FX\Scripts\ETFXRotation.cs" />
     <Compile Include="Assets\3.Script\GameManager.cs" />
+    <Compile Include="Assets\3.Script\PoolingManager.cs" />
     <Compile Include="Assets\3.Script\Board_Common\Board_Manager.cs" />
     <Compile Include="Assets\3.Script\Board_Common\GameContext.cs" />
     <Compile Include="Assets\3.Script\TitleManager.cs" />
     <Compile Include="Assets\3.Script\Board1\CharInfoManager.cs" />
     <Compile Include="Assets\3.Script\SelectSceneManager.cs" />
-    <Compile Include="Assets\3.Script\PoolingManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

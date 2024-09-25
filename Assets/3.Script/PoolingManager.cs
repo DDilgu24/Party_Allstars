@@ -18,6 +18,7 @@ public class PoolingManager : MonoBehaviour
         {
             // 1-4-1. 오브젝트 생성
             GameObject note_obj = Instantiate(ObjectPrefab);
+            note_obj.transform.SetParent(this.transform);
             // 1-4-2. 시작할 땐 비활성화
             note_obj.SetActive(false);
             // 1-4.3. 큐에 추가

@@ -77,7 +77,7 @@ public class SelectSceneManager : MonoBehaviour
         // 2페이지 : 캐릭터 선택
         else
         {
-            if (SelectTurn > 4) return; // 4 캐릭터 선택 완료 -> 최종 확인 : 방향키 무효화
+            if (SelectTurn > PlayerNum + COMNum) return; // 모든 캐릭터 선택 완료 -> 최종 확인 : 방향키 무효화
             while (true) // 새로 가리킬 곳이 이미 선택된 캐릭터인 경우, 이동을 반복
             {
                 switch (n)
@@ -131,7 +131,7 @@ public class SelectSceneManager : MonoBehaviour
         // 캐릭터 선택 페이지에서, 선택한 캐릭터가 1 이상
         if(SelectTurn > 1)
         {
-            if(SelectTurn < 5) cursor[SelectTurn].SetActive(false); // 현재 플레이어의 커서 비활성화
+            if(SelectTurn < PlayerNum + COMNum + 1) cursor[SelectTurn].SetActive(false); // 최종 결정여부 아니라면 -> 현재 플레이어의 커서 비활성화
             SelectTurn--;  // 이전 플레이어로 돌아감
             cursorIndex = selectChar[SelectTurn]; // 커서의 위치는 기존 선택한 캐릭터
             isSelected[selectChar[SelectTurn]] = 0; // 그 플레이어가 선택한 캐릭터는 미선택 상태로
@@ -180,7 +180,7 @@ public class SelectSceneManager : MonoBehaviour
                 for (int i = 1; i <= 4; i++) 
                 {
                     // 캐릭터 선택 시 커서를 P0 또는 COM으로
-                    int isPlayer = (i + COMNum < 5) ? i : 0;
+                    int isPlayer = (i <= PlayerNum) ? i : 0;
                     cursor[i].transform.Find("PlayerNo").gameObject.GetComponent<Image>().sprite = PNoSp[isPlayer];
                     // 커서 테두리 색깔도 변경
                     cursor[i].transform.Find("Center/Edge").gameObject.GetComponent<Image>().color = playerColor[isPlayer];
@@ -195,8 +195,8 @@ public class SelectSceneManager : MonoBehaviour
         // 캐릭터 선택에서 Next
         else
         {
-            // 최종 선택 완료한 경우
-            if (SelectTurn > 4)
+            // 최종 결정 여부에서 다음 누른 경우
+            if (SelectTurn > PlayerNum + COMNum)
             {
                 GameManager.instance.SelectInfo(PlayerNum, COMNum, selectBoard, selectChar);
                 MoveScene(1);
@@ -209,8 +209,8 @@ public class SelectSceneManager : MonoBehaviour
             cursor[SelectTurn].transform.Find("SelectOK").gameObject.SetActive(true); // OK 표시 활성화
             SelectTurn++;  // 다음 플레이어로
 
-            // 4캐릭터 선택 완료된 경우
-            if (SelectTurn > 4)
+            // 총 인원수 만큼 캐릭터 선택 완료된 경우
+            if (SelectTurn > PlayerNum + COMNum)
             {
                 charNameText.text = "선택 완료! 준비 되었나요?";
                 /*
@@ -222,7 +222,7 @@ public class SelectSceneManager : MonoBehaviour
                 */
             }
 
-            // 1~3 캐릭터만 선택 완료된 경우
+            // 그 이하로 선택 완료된 경우
             else
             {
                 cursor[SelectTurn].SetActive(true); // 다음 플레이어의 커서 활성화
