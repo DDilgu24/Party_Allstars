@@ -67,10 +67,11 @@ public class TitleManager : MonoBehaviour
     private IEnumerator CharUIAppear()
     {
         GameObject charUI = poolingMng.GetObjectFromPool();
-        charUI.transform.Find("Mask/Character").GetComponent<Image>().sprite = CharLogos[charIndexOrder[appearCount]];
-        charUI.transform.Find("Edge").GetComponent<Image>().color = new Color(Random.value, Random.value, Random.value);
+        charUI.transform.localScale = Vector3.one * Random.Range(0.70f, 1.00f); // 크기 0.7 ~ 1
+        charUI.transform.Find("Mask/Character").GetComponent<Image>().sprite = CharLogos[charIndexOrder[appearCount]]; // 캐릭터 로고는 셔플된 인덱스대로
+        charUI.transform.Find("Edge").GetComponent<Image>().color = new Color(Random.value, Random.value, Random.value); // 테두리 컬러는 올 랜덤
         charUI.transform.position = CharUISpawner.position + Vector3.right * (Random.Range(-800, 0) + (appearCount % 2) * 800); // 스폰될 좌표를 설정
-        charUI.transform.DOLocalMoveY(1400, Random.Range(4f, 5f)).OnComplete(() => poolingMng.ReturnObjectToPool(charUI));
+        charUI.transform.DOLocalMoveY(1400, Random.Range(4f, 5f)).OnComplete(() => poolingMng.ReturnObjectToPool(charUI)); // 위로 올라가면 풀링 반환
         yield return new WaitForSeconds(Random.Range(0.8f, 1.0f)); // 딜레이
         if (++appearCount > 15) IndexOrderShuffle(); // 16 캐릭터 모두 등장했으면 셔플
         StartCoroutine(CharUIAppear());

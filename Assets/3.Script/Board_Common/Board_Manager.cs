@@ -28,11 +28,12 @@ public class Board_Manager : MonoBehaviour
     private int turns = 0; // 턴 수
     private int phase; // 현재 차례(0: 턴 초기 / 1~4: n번째 플레이어 / 5: 턴 종료(미니게임) / 6: 미니게임 결과(현재 상황))
     private bool EndGame = false;
-    int N = GameManager.instance.Total_Num;
+    int N;
 
     private IEnumerator Start()
     {
         DOTween.Init();
+        N = GameManager.instance.Total_Num;
         for (int i = N; i < 4; i++)
         {
             // 인원 수를 초과하는 캐릭터 마크 비활성화
@@ -162,7 +163,7 @@ public class Board_Manager : MonoBehaviour
                 yield return moveTween.WaitForCompletion(); // 말 이동이 끝날 때까지 대기
                 move--; // 남은 눈금 1 감소
                 playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").GetChild(0).GetComponent<SpriteRenderer>().sprite = DiceNum[move]; // 남은 눈금으로 이미지 변경
-                if (CharInfoManager.instance.charinfo[playerNo - 1].score > 6) // 골대 도착하면
+                if (CharInfoManager.instance.charinfo[playerNo - 1].score > 33) // 골대 도착하면
                 {
                     BD1SoundManager.instance.BGMPlayer.pitch = 1f;
                     move = 0;
@@ -282,6 +283,7 @@ public class Board_Manager : MonoBehaviour
     private IEnumerator SpaceEvent_co(int playerNo, int n)
     {
         Tween t;
+        Sequence seq;
         yield return new WaitForSeconds(0.5f);
         switch (n)
         {
@@ -308,7 +310,50 @@ public class Board_Manager : MonoBehaviour
             case 18:
             case 19:
                 // 아이템 효과
-                // Debug.Log("아이템 획득인데 아직 안 만들었음");
+                // 0. 3개 꽉 찼으면 받을 수 없게
+                if(CharInfoManager.instance.charinfo[playerNo - 1].itemCount.Equals(3))
+                {
+                    break;
+                }
+                // 1. 랜덤으로 주사위 선정
+                int r = UnityEngine.Random.Range(0, 100);
+                int itemNo = 5;
+                int h = Mathf.Max(CharInfoManager.instance.Score1st() - n, 15); // 가중치
+                int[] itemRange = new int[4] {h + 5, 2*h + 10, 3*h + 20, 4*h + 30}; // 아이템 확률표
+                for (int i = 0; i < 4; i++)
+                {
+                    if(r < itemRange[i])
+                    {
+                        itemNo = i;
+                        break;
+                    }
+                }
+                if (itemNo.Equals(5)) itemNo -= (r % 2); // 꽝에 해당하는 경우 4,5 번중 하나
+                // 2. 점프하는 애니매이션
+                playerMarks[playerNo - 1].transform
+                    .DOLocalMoveY(playerMarks[playerNo - 1].transform.position.y + 1.8f, 0.2f)
+                    .SetLoops(2, LoopType.Yoyo).SetEase(Ease.OutQuad);
+                yield return new WaitForSeconds(0.2f);
+                // 3. 아이템이 나오는 효과
+                seq = DOTween.Sequence().SetAutoKill(false)
+                 .Append(Spaces[n].GetChild(0).transform.DOLocalMoveY(4.7f, 0.75f)) // 위로 올라오면서
+                 .Join(Spaces[n].GetChild(0).transform.DOScale(new Vector3(-3f, 3f, 3f), 0.75f)); // 동시에 크기도 조금 커지게
+                yield return seq.WaitForCompletion();
+                // 4. 나온 아이템이 사라지면서, UI에 등장하는 효과;
+                // 4-1. 상단 UI의 아이템 들어갈 곳을 캐싱, scale을 0으로
+                Transform itemUItf = CharUI[playerNo - 1].transform.Find($"Lower_Left/Item ({ CharInfoManager.instance.charinfo[playerNo - 1].itemCount + 1 })");
+                itemUItf.localScale = Vector3.zero;
+                // 4-2. 아이템 들어갈 곳에 얻은 아이템 이미지를 저장
+                // itemUItf.GetComponent<Image>().sprite = ;
+                // 4-2. 나온 아이템은 작아지면서, 동시에 크기는 커지게
+                seq = DOTween.Sequence().SetAutoKill(false)
+                 .Append(Spaces[n].GetChild(0).transform.DOScale(0, 0.75f))
+                 .Join(itemUItf.DOScale(2.5f, 0.75f));
+                // 4-3. 시퀀스 끝날때까지 대기
+                yield return seq.WaitForCompletion();
+                // 5. 아이템을 캐릭터 정보에 직접 반영
+                CharInfoManager.instance.charinfo[playerNo - 1].GetItem(itemNo);
+                // 6. 아이템 
                 break;
             case 12:
             case 15:
@@ -335,7 +380,7 @@ public class Board_Manager : MonoBehaviour
                 yield return t.WaitForCompletion();
                 yield return new WaitForSeconds(0.5f);
                 // 2. 캐릭터와 함께 아래로 내려감
-                Sequence seq = DOTween.Sequence().SetAutoKill(false)
+                seq = DOTween.Sequence().SetAutoKill(false)
                 .Append(Spaces[31].GetChild(0).transform.DOLocalMoveY(-5f, 0.5f))
                 .Join(playerMarks[playerNo - 1].transform.DOMoveY(0, 0.5f))
                 .SetDelay(0.25f);

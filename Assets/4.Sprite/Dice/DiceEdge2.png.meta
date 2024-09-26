@@ -4,22 +4,22 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: -6039048566031045911
-    second: DiceEdge2_0
+    second: DiceEdge2_456
   - first:
       213: 2809737541452975539
-    second: DiceEdge2_1
+    second: DiceEdge2_Normal
   - first:
       213: -6851866828511014040
-    second: DiceEdge2_2
+    second: DiceEdge2_246
   - first:
       213: -5304080558670226658
-    second: DiceEdge2_3
+    second: DiceEdge2_135
   - first:
       213: -6217311998487982715
-    second: DiceEdge2_4
+    second: DiceEdge2_To10
   - first:
       213: -8022782007955991668
-    second: DiceEdge2_5
+    second: DiceEdge2_Slow
   - first:
       213: -4707446752372559665
     second: DiceEdge2_6
@@ -142,7 +142,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DiceEdge2_0
+      name: DiceEdge2_456
       rect:
         serializedVersion: 2
         x: 74
@@ -163,7 +163,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DiceEdge2_1
+      name: DiceEdge2_Normal
       rect:
         serializedVersion: 2
         x: 670
@@ -184,10 +184,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DiceEdge2_2
+      name: DiceEdge2_246
       rect:
         serializedVersion: 2
-        x: 1266
+        x: 1268
         y: 1266
         width: 460
         height: 460
@@ -205,7 +205,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DiceEdge2_3
+      name: DiceEdge2_135
       rect:
         serializedVersion: 2
         x: 68
@@ -226,7 +226,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DiceEdge2_4
+      name: DiceEdge2_To10
       rect:
         serializedVersion: 2
         x: 674
@@ -247,7 +247,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DiceEdge2_5
+      name: DiceEdge2_Slow
       rect:
         serializedVersion: 2
         x: 1265

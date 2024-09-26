@@ -13,6 +13,7 @@ public class CharInfo
 
     public int rank; // 현재 순위 (1~4)
     public int[] items = new int[3]; // 보유한 아이템 
+    public int itemCount = 0;
     public int score; // 점수 [보드 4의 경우 HP]
 
     public CharInfo(int pNo)
@@ -22,8 +23,25 @@ public class CharInfo
         catch (Exception) { charIndex = playerNO; }
 
         rank = 1;
-        for (int i = 0; i < 3; i++) items[i] = 0;
+        for (int i = 0; i < 3; i++) items[i] = -1;
         score = 0;
+    }
+
+    public void GetItem(int itemNo)
+    {
+        if (itemCount < 3) items[itemCount++] = itemNo;
+    }
+    public bool UseItem(int itemindex)
+    {
+        if (items[itemindex] < 0) return false;
+        items[itemindex] = -1;
+        for (int i = itemindex; i < itemCount - 1; i++)
+        {
+            items[i] = items[i + 1];
+            items[i + 1] = -1;
+        }
+        itemCount--;
+        return true;
     }
 
 }
@@ -37,10 +55,11 @@ public class CharInfoManager : MonoBehaviour
     [SerializeField] private Sprite[] RankSp; // 순위 스프라이트
     [SerializeField] private Sprite[] PNoSp; // 플레이어 번호 스프라이트
     [SerializeField] private Sprite[] ItemSp; // 아이템 스프라이트
+    [SerializeField] private Sprite[] DiceEdgeSp; // 주사위 배경 스프라이트
     [SerializeField] private Sprite[] NumSp; // 점수 표기용 숫자 스프라이트
     public CharInfo[] charinfo = new CharInfo[4];
     [SerializeField] public GameObject ResultUI; // 결과 UI
-    public int N = GameManager.instance.Total_Num;
+    public int N;
 
     // 0. 싱글톤 적용
     public static CharInfoManager instance = null;
@@ -53,6 +72,7 @@ public class CharInfoManager : MonoBehaviour
     private void Start()
     {
         DOTween.Init();
+        N = GameManager.instance.Total_Num;
         for (int i = 0; i < 4; i++)
         {
             if (i < N)
@@ -188,5 +208,13 @@ public class CharInfoManager : MonoBehaviour
         yield return moveTween.WaitForCompletion();
         yield return new WaitForSeconds(1.5f);
         ResultUI.transform.Find("Panel/Text").gameObject.SetActive(true);
+    }
+
+    // 현재 1등의 점수를 찾는 메소드
+    public int Score1st()
+    {
+        int max = 0;
+        for (int i = 0; i < 4; i++) max = Mathf.Max(max, charinfo[i].score);
+        return max;
     }
 }
