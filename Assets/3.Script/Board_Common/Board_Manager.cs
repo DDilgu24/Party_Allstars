@@ -15,6 +15,8 @@ public class Board_Manager : MonoBehaviour
     [SerializeField] public Transform[] Spaces; // 발판 위치 배열
 
     [SerializeField] public GameObject[] CharUI; // 캐릭터 상태 UI
+    [SerializeField] public Transform KeyExplain; // 누를 키를 알려주는 UI 오브젝트
+    [SerializeField] public Transform ViewModeCamera; // 누를 키를 알려주는 UI 오브젝트
     [SerializeField] public GameObject TurnAlert, Intro;
     [SerializeField] public Sprite[] DiceNum;
     [SerializeField] public Sprite[] playerNum;
@@ -96,12 +98,14 @@ public class Board_Manager : MonoBehaviour
     private IEnumerator PlayerTurn_co()
     {
         Tween moveTween;
+        Sequence seq;
         int playerNo = order[phase - 1];
         int ifComThat0 = (playerNo > GameManager.instance.Player_Num)? 0 : 1;
         // 1. 현재 차례인 캐릭터를 중심으로 카메라 이동
         SetCameraTarget(playerNo);
         playerMarks[playerNo - 1].transform.position += 0.1f * Vector3.forward; // 현재 캐릭터를 앞으로 보이게
         // 2. 현재 차례가 누군지 알려주는 UI
+        // 2-1. 가운데에 누구 차례인지 띄우는 오브젝트 세팅
         Vector3 v = new Vector3(1375, -25, 0);
         TurnAlert.GetComponent<RectTransform>().anchoredPosition = v;
         TurnAlert.transform.Find("Center/Edge").GetComponent<Image>().color = playerColor[playerNo * ifComThat0];
@@ -109,45 +113,31 @@ public class Board_Manager : MonoBehaviour
         TurnAlert.transform.Find("Right/PlayerNo").GetComponent<Image>().sprite = playerNum[playerNo * ifComThat0];
         TurnAlert.transform.Find("Center/Mask/Character").GetComponent<Image>().sprite = CharUI[playerNo - 1].transform.Find("Center/Mask/Character").GetComponent<Image>().sprite;
         yield return null;
+        // 2-2. 차례 알림과 키 설정 화면 안으로
         v = new Vector3(-125, -25, 0);
         moveTween = TurnAlert.GetComponent<RectTransform>().DOAnchorPos(v, 0.5f).SetEase(Ease.OutQuad);
         yield return moveTween.WaitForCompletion();
-        // 3. 스페이스 바 누르면 계속 진행(COM 차례에는 0.5초)
+
+        // 2-3. 스페이스 바 입력(Player) 또는 0.5초 딜레이 후(COM) 넘어감
         if(playerNo > GameManager.instance.Player_Num)
             yield return new WaitForSeconds(0.5f);
         else 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        
         v = new Vector3(-1500, -25, 0);
         TurnAlert.GetComponent<RectTransform>().DOAnchorPos(v, 0.5f).SetEase(Ease.OutQuad);
-        // 스턴 상태가 아니어야 4~7 진행
+        // 스턴 상태가 아니어야 3~5 진행
         if (!isStun[playerNo]) 
         {
-            // 4. [일단 패스] 아이템 선택 받기
-            // 5. 주사위 두드리기
-            yield return new WaitForSeconds(0.25f);
-            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.SetActive(true); // 주사위 활성화 
-            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.GetComponent<Animator>().enabled = true; // 주사위 애니도 활성화
-            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.GetComponent<Animator>().SetBool("DiceStop", false); // 주사위를 다시 돌아가게
-            if (playerNo > GameManager.instance.Player_Num)
-                yield return new WaitForSeconds(1.0f);
-            else
-                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+            // 3. 선택 페이즈 전반을 하나의 코루틴에서 처리
+            yield return StartCoroutine(SelectAction(playerNo));
             int move = HitDice(playerNo);
-            // 6. 캐릭터 이동
+            // 4. 캐릭터 이동
             playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").GetChild(1).gameObject.SetActive(false); // 주사위 테두리 비활성화. 숫자만 보이게
             yield return new WaitForSeconds(0.5f);
             while (move > 0)
             {
                 yield return new WaitForSeconds(0.25f);
-                /*
-                Vector3 oldpos = Spaces[CharInfoManager.instance.charinfo[playerNo - 1].score].position; // 현재 칸을 시작 좌표로
-                CharInfoManager.instance.ScoreAdd(playerNo); // 점수를 1 더하기
-                Vector3 newpos = Spaces[CharInfoManager.instance.charinfo[playerNo - 1].score].position; // 다음 칸을 도착 좌표로
-                Vector3 midpos = (oldpos + newpos) * 0.5f; // 중간 좌표를 계산
-                midpos.y = Mathf.Max(oldpos.y, newpos.y) + 2; // 중간 좌표의 y값을 보정
-                Vector3[] movepath = new Vector3[] { oldpos, midpos, newpos };
-                moveTween = playerMarks[playerNo - 1].transform.DOPath(movepath, 0.3f, PathType.CatmullRom).SetEase(Ease.Linear); // 캐릭터 말을 포물선으로 이동
-                */
 
                 CharInfoManager.instance.ScoreAdd(playerNo); // 점수를 1 더하기
                 int newscore = CharInfoManager.instance.charinfo[playerNo - 1].score; // 바뀐 점수를 캐싱
@@ -166,6 +156,7 @@ public class Board_Manager : MonoBehaviour
                 if (CharInfoManager.instance.charinfo[playerNo - 1].score > 33) // 골대 도착하면
                 {
                     BD1SoundManager.instance.BGMPlayer.pitch = 1f;
+                    playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.SetActive(false); // 주사위를 비활성화 
                     move = 0;
                     EndGame = true;
                     newpos += Vector3.down * 9.5f;
@@ -183,7 +174,7 @@ public class Board_Manager : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").GetChild(1).gameObject.SetActive(true); // 주사위 테두리 다시 활성화하고
             playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.SetActive(false); // 주사위를 비활성화 
-            // 7. 멈춘 칸에 맞는 이벤트 - 메소드로 처리
+            // 5. 멈춘 칸에 맞는 이벤트 - 코루틴으로 처리
             yield return StartCoroutine(SpaceEvent_co(playerNo, CharInfoManager.instance.charinfo[playerNo - 1].score));
         }
         else // 스턴 상태 였다면
@@ -194,9 +185,9 @@ public class Board_Manager : MonoBehaviour
             CharUI[playerNo - 1].transform.Find("Stun").gameObject.SetActive(false);
         }
 
-        // 8. 다음 차례로
+        // 6. 턴 종료 시
         yield return new WaitForSeconds(0.5f);
-        if (EndGame) // 게임 끝났으면
+        if (EndGame) // 게임 끝났으면 엔딩
         {
             yield return StartCoroutine(CharInfoManager.instance.ResultUISetting());
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
@@ -206,7 +197,7 @@ public class Board_Manager : MonoBehaviour
                 GameManager.instance.FadeIn();
             });
         }
-        else // 아니면
+        else // 아니면 다음 차례로
         {
             phase++;
             if (phase > GameManager.instance.Total_Num) { turns++; phase = 1; } // 모든 차례 끝나면 바로 1번째로. 미니게임 페이즈는 일단 없는 걸로
@@ -279,6 +270,110 @@ public class Board_Manager : MonoBehaviour
         virtualCamera.LookAt = target;
     }
 
+    // 턴 진행 3(행동을 선택하는 이벤트)
+    private IEnumerator SelectAction(int playerNo)
+    {
+        bool thisCoAgain = true;
+        // 코루틴 전체를 while로 감싸 해당 코루틴이 특정 상황에 다시 돌아가도록 함
+        while (thisCoAgain)
+        {
+            // 1. 일단 주사위가 돌아가게
+            yield return new WaitForSeconds(0.25f);
+            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.SetActive(true); // 주사위 활성화 
+            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.GetComponent<Animator>().enabled = true; // 주사위 애니도 활성화
+            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.GetComponent<Animator>().SetBool("DiceStop", false); // 주사위를 다시 돌아가게
+            int keyInput = -1;
+            KeyExplain.Find("SelectMode").gameObject.SetActive(true);
+            // 2. 유효한 키(Ctrl, Shift, Spacebar)가 입력되면 다음 작업
+            // COM은 1초 후 자동으로 Spacebar 입력한 걸로 처리 - COM의 아이템 사용은 기회가 되면...
+            if (playerNo > GameManager.instance.Player_Num)
+            {
+                yield return new WaitForSeconds(1.0f);
+                keyInput = 3;
+            }
+            else
+            {
+                yield return new WaitUntil(() => VaildKeyinput() > 0);
+                keyInput = VaildKeyinput();
+            }
+            KeyExplain.Find("SelectMode").gameObject.SetActive(false);
+            // 3. 입력한 키에 따라 작업 개시
+            // 3-1. 둘러보기 모드
+            if (keyInput.Equals(1))
+            {
+                KeyExplain.Find("ViewMode").gameObject.SetActive(true);
+                ViewModeCamera.position = virtualCamera.Follow.position; // 뷰 모드용 transform을 지금 카메라 위치로
+                virtualCamera.Follow = ViewModeCamera; // 가상 카메라를 뷰 모드용 transform 보게
+                virtualCamera.LookAt = ViewModeCamera;
+
+                while (true)
+                {
+                    // Esc : 3-1의 루프 종료, 결과적으로 SelectAction이 다시 돌아감
+                    if (Input.GetKeyDown(KeyCode.Escape))
+                    {
+                        virtualCamera.Follow = playerMarks[playerNo - 1]; // 가상 카메라를 다시 캐릭터 보게
+                        virtualCamera.LookAt = playerMarks[playerNo - 1];
+                        break;
+                    }
+                    // LeftArrow : 누르는 동안 지속적으로 카메라가 왼쪽으로
+                    else if (Input.GetKey(KeyCode.LeftArrow))
+                    {
+                        ViewModeCamera.position += Vector3.right * 0.1f;
+                        if (ViewModeCamera.position.x > 63.5f)
+                            ViewModeCamera.position = new Vector3(63.5f, 2f, 4f);
+                    }
+                    // RightArrow 
+                    else if (Input.GetKey(KeyCode.RightArrow))
+                    {
+                        ViewModeCamera.position += Vector3.left * 0.1f;
+                        if (ViewModeCamera.position.x < -146.5f)
+                            ViewModeCamera.position = new Vector3(-146.5f, 2f, 4f);
+                    }
+                    yield return null; // 이 줄에서 대기 후 다음 프레임으로 넘어감
+                }
+
+                KeyExplain.Find("ViewMode").gameObject.SetActive(false);
+            }
+            // 3-2. 아이템 선택 모드
+            else if (keyInput.Equals(2))
+            {
+                KeyExplain.Find("ItemMode").gameObject.SetActive(true);
+                // ★★★아이템 보유 현황에 맞게 UI에 적용하기
+                while (true)
+                {
+                    if (Input.GetKeyDown(KeyCode.Escape))
+                    {
+                        break;
+                    }
+
+                    else if (Input.GetKey(KeyCode.LeftArrow))
+                    {
+                        // ★★★커서 이동, 투명도 조절, 텍스트 변경 구현할 것
+                    }
+
+                    else if (Input.GetKey(KeyCode.RightArrow))
+                    {
+                        // ★★★LeftArrow 비슷하게 구현할 것
+                    }
+
+                    else if (Input.GetKey(KeyCode.Space))
+                    {
+                        // ★★★아이템이 선택되게
+                        break;
+                    }
+
+                    yield return null; // 이 줄에서 대기 후 다음 프레임으로 넘어감
+                }
+                KeyExplain.Find("ItemMode").gameObject.SetActive(false);
+            }
+            // 3-3. 선택 코루틴 종료(주사위 치기)
+            else
+            {
+                thisCoAgain = false;
+            }
+        }
+    }
+
     // 턴 진행 7(도착한 칸에 대한 이벤트)
     private IEnumerator SpaceEvent_co(int playerNo, int n)
     {
@@ -329,6 +424,7 @@ public class Board_Manager : MonoBehaviour
                     }
                 }
                 if (itemNo.Equals(5)) itemNo -= (r % 2); // 꽝에 해당하는 경우 4,5 번중 하나
+                Spaces[n].GetChild(0).GetComponent<SpriteRenderer>().sprite = CharInfoManager.instance.ItemSp[itemNo]; // 나올 아이템 sprite를 미리 변경
                 // 2. 점프하는 애니매이션
                 playerMarks[playerNo - 1].transform
                     .DOLocalMoveY(playerMarks[playerNo - 1].transform.position.y + 1.8f, 0.2f)
@@ -339,21 +435,27 @@ public class Board_Manager : MonoBehaviour
                  .Append(Spaces[n].GetChild(0).transform.DOLocalMoveY(4.7f, 0.75f)) // 위로 올라오면서
                  .Join(Spaces[n].GetChild(0).transform.DOScale(new Vector3(-3f, 3f, 3f), 0.75f)); // 동시에 크기도 조금 커지게
                 yield return seq.WaitForCompletion();
-                // 4. 나온 아이템이 사라지면서, UI에 등장하는 효과;
+                // 4. 나온 아이템이 사라지면서, UI에 등장하는 효과
                 // 4-1. 상단 UI의 아이템 들어갈 곳을 캐싱, scale을 0으로
                 Transform itemUItf = CharUI[playerNo - 1].transform.Find($"Lower_Left/Item ({ CharInfoManager.instance.charinfo[playerNo - 1].itemCount + 1 })");
                 itemUItf.localScale = Vector3.zero;
                 // 4-2. 아이템 들어갈 곳에 얻은 아이템 이미지를 저장
-                // itemUItf.GetComponent<Image>().sprite = ;
-                // 4-2. 나온 아이템은 작아지면서, 동시에 크기는 커지게
+                itemUItf.GetComponent<Image>().sprite = CharInfoManager.instance.ItemSp[itemNo];
+                // 4-3. 나온 아이템은 작아지면서, 동시에 UI 아이템의 크기는 커지게
                 seq = DOTween.Sequence().SetAutoKill(false)
-                 .Append(Spaces[n].GetChild(0).transform.DOScale(0, 0.75f))
-                 .Join(itemUItf.DOScale(2.5f, 0.75f));
-                // 4-3. 시퀀스 끝날때까지 대기
+                 .Append(Spaces[n].GetChild(0).transform.DOScale(0, 0.5f))
+                 .Join(itemUItf.DOScale(3f, 0.5f))
+                 .Append(itemUItf.DOScale(2.5f, 0.25f));
+                // 4-4. 시퀀스 끝날때까지 대기
                 yield return seq.WaitForCompletion();
                 // 5. 아이템을 캐릭터 정보에 직접 반영
                 CharInfoManager.instance.charinfo[playerNo - 1].GetItem(itemNo);
-                // 6. 아이템 
+                // 6. 화면 상 아이템 position, scale을 원위치
+                Spaces[n].GetChild(0).transform.position = Vector3.up * 3.5f;
+                Vector3 v = new Vector3(-2, 2, 2);
+                if(n.Equals(11)) 
+                    v = Vector3.zero;
+                Spaces[n].GetChild(0).transform.localScale = v;
                 break;
             case 12:
             case 15:
@@ -407,5 +509,15 @@ public class Board_Manager : MonoBehaviour
                 Spaces[31].GetChild(0).transform.position = Spaces[31].position + Vector3.up * -3.5f + Vector3.forward * 0.15f; // 뻐끔을 31번 칸 아래로 이동
                 break;
         }
+    }
+
+
+
+    private int VaildKeyinput()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) return 1;
+        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) return 2;
+        if (Input.GetKeyDown(KeyCode.Space)) return 3;
+        return 0;
     }
 }

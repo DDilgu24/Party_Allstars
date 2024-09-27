@@ -14,6 +14,15 @@ TextureImporter:
   - first:
       213: 4152640157710676323
     second: MPIT_Buttons_Next_Odff
+  - first:
+      213: -8682791187821883312
+    second: MPIT_Buttons_Blue
+  - first:
+      213: -6675938078057436894
+    second: MPIT_Buttons_Orange
+  - first:
+      213: 1379840859119395297
+    second: MPIT_Buttons_Gray
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -135,7 +144,7 @@ TextureImporter:
         width: 117
         height: 29
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -156,7 +165,7 @@ TextureImporter:
         width: 117
         height: 29
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -177,7 +186,7 @@ TextureImporter:
         width: 117
         height: 29
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -198,7 +207,7 @@ TextureImporter:
         width: 117
         height: 29
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -206,6 +215,69 @@ TextureImporter:
       bones: []
       spriteID: 361fd58c83421a930800000000000000
       internalID: 4152640157710676323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MPIT_Buttons_Blue
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 100
+        width: 50
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0501cf60b67808780800000000000000
+      internalID: -8682791187821883312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MPIT_Buttons_Orange
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 100
+        width: 50
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 229e1ea40bd4a53a0800000000000000
+      internalID: -6675938078057436894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MPIT_Buttons_Gray
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 68
+        width: 50
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e1a16e53fd262310800000000000000
+      internalID: 1379840859119395297
       vertices: []
       indices: 
       edges: []

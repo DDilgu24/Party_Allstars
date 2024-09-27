@@ -54,7 +54,7 @@ public class CharInfoManager : MonoBehaviour
     [SerializeField] private Sprite[] CharMarks; // 캐릭터 위치 표시 스프라이트
     [SerializeField] private Sprite[] RankSp; // 순위 스프라이트
     [SerializeField] private Sprite[] PNoSp; // 플레이어 번호 스프라이트
-    [SerializeField] private Sprite[] ItemSp; // 아이템 스프라이트
+    [SerializeField] public Sprite[] ItemSp; // 아이템 스프라이트
     [SerializeField] private Sprite[] DiceEdgeSp; // 주사위 배경 스프라이트
     [SerializeField] private Sprite[] NumSp; // 점수 표기용 숫자 스프라이트
     public CharInfo[] charinfo = new CharInfo[4];
@@ -214,7 +214,8 @@ public class CharInfoManager : MonoBehaviour
     public int Score1st()
     {
         int max = 0;
-        for (int i = 0; i < 4; i++) max = Mathf.Max(max, charinfo[i].score);
+        for (int i = 0; i < N; i++) max = Mathf.Max(max, charinfo[i].score);
         return max;
     }
+    
 }
