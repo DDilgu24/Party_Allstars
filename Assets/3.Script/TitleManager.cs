@@ -67,7 +67,7 @@ public class TitleManager : MonoBehaviour
     private IEnumerator CharUIAppear()
     {
         GameObject charUI = poolingMng.GetObjectFromPool();
-        charUI.transform.localScale = Vector3.one * Random.Range(0.70f, 1.00f); // 크기 0.7 ~ 1
+        charUI.transform.localScale = Vector3.one * Random.Range(0.60f, 1.00f); // 크기 0.6 ~ 1
         charUI.transform.Find("Mask/Character").GetComponent<Image>().sprite = CharLogos[charIndexOrder[appearCount]]; // 캐릭터 로고는 셔플된 인덱스대로
         charUI.transform.Find("Edge").GetComponent<Image>().color = new Color(Random.value, Random.value, Random.value); // 테두리 컬러는 올 랜덤
         charUI.transform.position = CharUISpawner.position + Vector3.right * (Random.Range(-800, 0) + (appearCount % 2) * 800); // 스폰될 좌표를 설정

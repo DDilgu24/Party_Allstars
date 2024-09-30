@@ -12,7 +12,7 @@ public class CharInfo
     public int charIndex; // 캐릭터의 인덱스 (0~15) 
 
     public int rank; // 현재 순위 (1~4)
-    public int[] items = new int[3]; // 보유한 아이템 
+    public int[] items = new int[3]; // 보유한 아이템 (-1: 비어있음을 의미)
     public int itemCount = 0;
     public int score; // 점수 [보드 4의 경우 HP]
 
@@ -31,9 +31,9 @@ public class CharInfo
     {
         if (itemCount < 3) items[itemCount++] = itemNo;
     }
-    public bool UseItem(int itemindex)
+    public int UseItem(int itemindex)
     {
-        if (items[itemindex] < 0) return false;
+        int r = items[itemindex];
         items[itemindex] = -1;
         for (int i = itemindex; i < itemCount - 1; i++)
         {
@@ -41,7 +41,7 @@ public class CharInfo
             items[i + 1] = -1;
         }
         itemCount--;
-        return true;
+        return r;
     }
 
 }
