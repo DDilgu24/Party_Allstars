@@ -3080,8 +3080,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectChar: ffffffffffffffffffffffffffffffffffffffff
-  Player_Num: 0
-  COM_Num: 0
   Character_name:
   - "\uB9C8\uB9AC\uC624"
   - "\uB8E8\uC774\uC9C0"
@@ -3099,9 +3097,8 @@ MonoBehaviour:
   - "\uBC30\uCC0C"
   - "\uB514\uC9C0\uB2C8"
   - "\uB9C8\uB9AC\uB4DC"
-  fadeImage: {fileID: 0}
-  fadeDuration: 0
-  isFading: 1
+  fadeImage: {fileID: 737256025}
+  fadeDuration: 0.8
 --- !u!4 &877395772
 Transform:
   m_ObjectHideFlags: 0
@@ -6982,8 +6979,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: {fileID: 1450027843}
   EnterToStart: {fileID: 734324987}
-  CharUISpawner: {fileID: 1260710678}
-  CharLogos:
+  charUISpawner: {fileID: 1260710678}
+  charLogos:
   - {fileID: 21300000, guid: 9c7cfb0bcdc51e444bf298ea8f590aad, type: 3}
   - {fileID: 21300000, guid: b19dc7f15bbb52b42a65ce88b40d25b4, type: 3}
   - {fileID: 21300000, guid: 76adcf427c24fc24382ee354eedcceb5, type: 3}
@@ -7000,9 +6997,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 845be3237c9a6f9439af710614a5cf3c, type: 3}
   - {fileID: 21300000, guid: 3e1f76719b953334582cfc6da5bb7444, type: 3}
   - {fileID: 21300000, guid: 295685d599883a64da0164fecd308e40, type: 3}
-  poolingMng: {fileID: 1260710679}
-  charIndexOrder: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  appearCount: 0
+  poolingManager: {fileID: 1260710679}
 --- !u!4 &1973998706
 Transform:
   m_ObjectHideFlags: 0

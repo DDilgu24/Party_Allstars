@@ -40,7 +40,7 @@ public class Board_Manager : MonoBehaviour
     private IEnumerator Start()
     {
         DOTween.Init();
-        N = GameManager.instance.Total_Num;
+        N = GameManager.instance.TotalNum;
         Tween t;
         for (int i = N; i < 4; i++)
         {
@@ -114,7 +114,7 @@ public class Board_Manager : MonoBehaviour
         Tween moveTween;
         Sequence seq;
         int playerNo = order[phase - 1];
-        int ifComThat0 = (playerNo > GameManager.instance.Player_Num)? 0 : 1;
+        int ifComThat0 = (playerNo > GameManager.instance.PlayerNum)? 0 : 1;
         // 1. 현재 차례인 캐릭터를 중심으로 카메라 이동
         SetCameraTarget(playerNo);
         playerMarks[playerNo - 1].transform.position += 0.1f * Vector3.forward; // 현재 캐릭터를 앞으로 보이게
@@ -132,10 +132,10 @@ public class Board_Manager : MonoBehaviour
         v = new Vector3(-125, -25, 0);
         moveTween = TurnAlert.GetComponent<RectTransform>().DOAnchorPos(v, 0.5f).SetEase(Ease.OutQuad);
         yield return moveTween.WaitForCompletion();
-        TurnAlert.transform.Find("Space").gameObject.SetActive(playerNo <= GameManager.instance.Player_Num); // 플레이어 턴일때만 Space 이미지 활성화
+        TurnAlert.transform.Find("Space").gameObject.SetActive(playerNo <= GameManager.instance.PlayerNum); // 플레이어 턴일때만 Space 이미지 활성화
 
         // 2-3. 스페이스 바 입력(Player) 또는 0.5초 딜레이 후(COM) 넘어감
-        if (playerNo > GameManager.instance.Player_Num)
+        if (playerNo > GameManager.instance.PlayerNum)
             yield return new WaitForSeconds(0.5f);
         else 
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
@@ -223,7 +223,7 @@ public class Board_Manager : MonoBehaviour
         else // 아니면 다음 차례로
         {
             phase++;
-            if (phase > GameManager.instance.Total_Num) { turns++; phase = 1; } // 모든 차례 끝나면 바로 1번째로. 미니게임 페이즈는 일단 없는 걸로
+            if (phase > GameManager.instance.TotalNum) { turns++; phase = 1; } // 모든 차례 끝나면 바로 1번째로. 미니게임 페이즈는 일단 없는 걸로
             StartCoroutine(PlayerTurn_co()); // 다음 플레이어로
         }
     }
@@ -273,7 +273,7 @@ public class Board_Manager : MonoBehaviour
     private IEnumerator HitDice_co(int p)
     {
         float delayTime = 0.01f;
-        if (p > GameManager.instance.Player_Num) 
+        if (p > GameManager.instance.PlayerNum) 
             delayTime = UnityEngine.Random.Range(0.75f, 1.00f);
         yield return new WaitForSeconds(delayTime);
         HitDice(p);
@@ -326,7 +326,7 @@ public class Board_Manager : MonoBehaviour
             int keyInput = -1;
             // 2. 유효한 키(Ctrl, Shift, Spacebar)가 입력되면 다음 작업
             // COM은 아이템이 있으면 자동으로 1번째 것 사용 및 자동으로 Spacebar 입력한 걸로 처리 
-            if (playerNo > GameManager.instance.Player_Num)
+            if (playerNo > GameManager.instance.PlayerNum)
             {
                 yield return new WaitForSeconds(0.5f);
                 if (itemCount > 0)
@@ -337,7 +337,7 @@ public class Board_Manager : MonoBehaviour
                 }
                 yield return new WaitForSeconds(0.5f);
                 keyInput = 13;
-                if (CharInfoManager.instance.charinfo[playerNo - 1].score < 1) keyInput = 2;
+                // if (CharInfoManager.instance.charinfo[playerNo - 1].score < 1) keyInput = 2;
             }
             // 플레이어는 선택지가 뜨게 하면서, 유효한 키를 입력받기
             else

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -11,35 +10,71 @@ public class MenuManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow)) CursorChanged((cursor + 2) % 4);
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow)) CursorChanged(cursor + 1 - (cursor % 2) * 2);
-        if (Input.GetKeyDown(KeyCode.Return)) EnterMenu(cursor);
-        if (Input.GetKeyDown(KeyCode.Escape)) EnterMenu(4);
+        InputHandler();
     }
 
-    public void CursorChanged(int newcursor)
+    private void InputHandler()
     {
-        cursor = newcursor;
-        if (newcursor.Equals(0)) CursorPanel.anchoredPosition = new Vector3(-400, 200, 0);
-        else if (newcursor.Equals(1)) CursorPanel.anchoredPosition = new Vector3(300, 200, 0);
-        else if (newcursor.Equals(2)) CursorPanel.anchoredPosition = new Vector3(-300, -200, 0);
-        else if (newcursor.Equals(3)) CursorPanel.anchoredPosition = new Vector3(400, -200, 0);
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+            CursorChanged((cursor + 2) % 4);
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+            CursorChanged(cursor + 2 % 4);
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            CursorChanged(cursor - 1 < 0 ? 3 : cursor - 1);
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+            CursorChanged((cursor + 1) % 4);
+
+        else if (Input.GetKeyDown(KeyCode.Return))
+            EnterMenu(cursor);
+        else if (Input.GetKeyDown(KeyCode.Escape))
+            EnterMenu(4);
     }
 
-    public void EnterMenu(int n)
+    public void CursorChanged(int newCursor)
     {
-        if (n.Equals(1)) Debug.Log("네트워크(미완따리)");
-        else if (n.Equals(2)) Debug.Log("뮤지엄(미완따리)");
-        else if (n.Equals(3)) Debug.Log("설정(미완따리)");
-        else
+        cursor = newCursor;
+        UpdateCursorPosition();
+    }
+
+    private void UpdateCursorPosition()
+    {
+        Vector3 newPosition = cursor switch
         {
-            string s = (n.Equals(0))? "3. Board Ready" : "1. TitleScreen";
-            GameManager.instance.FadeOut(() =>
-            {
-                SceneManager.LoadScene(s);
-                GameManager.instance.FadeIn();
-            });
+            0 => new Vector3(-400, 200, 0),
+            1 => new Vector3(300, 200, 0),
+            2 => new Vector3(-300, -200, 0),
+            3 => new Vector3(400, -200, 0),
+            _ => CursorPanel.anchoredPosition // 기본값
+        };
+        CursorPanel.anchoredPosition = newPosition;
+    }
+
+    public void EnterMenu(int menuIndex)
+    {
+        switch (menuIndex)
+        {
+            case 1:
+                Debug.Log("네트워크(미완따리)");
+                break;
+            case 2:
+                Debug.Log("뮤지엄(미완따리)");
+                break;
+            case 3:
+                Debug.Log("설정(미완따리)");
+                break;
+            default:
+                LoadScene(menuIndex);
+                break;
         }
     }
 
+    private void LoadScene(int menuIndex)
+    {
+        string sceneName = (menuIndex == 0) ? "3. Board Ready" : "1. TitleScreen";
+        GameManager.instance.FadeOut(() =>
+        {
+            SceneManager.LoadScene(sceneName);
+            GameManager.instance.FadeIn();
+        });
+    }
 }

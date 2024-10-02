@@ -72,13 +72,13 @@ public class CharInfoManager : MonoBehaviour
     private void Start()
     {
         DOTween.Init();
-        N = GameManager.instance.Total_Num;
+        N = GameManager.instance.TotalNum;
         for (int i = 0; i < 4; i++)
         {
             if (i < N)
             {
                 int pno = i + 1;
-                int ifCOMthat0 = (pno > GameManager.instance.Player_Num) ? 0 : 1;
+                int ifCOMthat0 = (pno > GameManager.instance.PlayerNum) ? 0 : 1;
                 charinfo[i] = new CharInfo(pno);
                 CharUI[i].transform.Find("Center/Mask/Character").GetComponent<Image>().sprite = CharLogo[charinfo[i].charIndex]; // 캐릭터 로고 설정
                 CharUI[i].transform.Find("Upper_Left/Rank").GetComponent<Image>().sprite = RankSp[charinfo[i].rank - 1]; // 순위 이미지 설정
@@ -172,7 +172,7 @@ public class CharInfoManager : MonoBehaviour
             while (RankSlotUsed[rankslot]) rankslot++; // 이미 사용한 슬롯이라면(즉, 공동 순위) 다음 슬롯으로
             RankSlotUsed[rankslot] = true;
             // 1. 플레이어 번호
-            int ifCOMthat0 = (i + 1 > GameManager.instance.Player_Num) ? 0 : 1;
+            int ifCOMthat0 = (i + 1 > GameManager.instance.PlayerNum) ? 0 : 1;
             ResultUI.transform.Find($"Panel/Rank{rankslot}_info/Upper_Right").GetComponent<Image>().sprite = PNoSp[charinfo[i].playerNO * ifCOMthat0];
             // 2. 캐릭터 이미지
             ResultUI.transform.Find($"Panel/Rank{rankslot}_info/Center/Mask/Character").GetComponent<Image>().sprite = CharLogo[charinfo[i].charIndex];
