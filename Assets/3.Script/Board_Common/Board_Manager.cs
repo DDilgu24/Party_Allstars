@@ -122,8 +122,8 @@ public class Board_Manager : MonoBehaviour
         int playerNo = order[phase - 1];
         int ifComThat0 = (playerNo > GameManager.instance.PlayerNum)? 0 : 1;
         // 1. 현재 차례인 캐릭터를 중심으로 카메라 이동
-        SetCameraTarget(playerNo);
         playerMarks[playerNo - 1].transform.position += 0.1f * Vector3.forward; // 현재 캐릭터를 앞으로 보이게
+        SetCameraTarget(playerNo);
         // 2. 현재 차례가 누군지 알려주는 UI
         // 2-1. 가운데에 누구 차례인지 띄우는 오브젝트 세팅
         Vector3 v = new Vector3(1375, -25, 0);
@@ -230,6 +230,7 @@ public class Board_Manager : MonoBehaviour
         }
         else // 아니면 다음 차례로
         {
+            playerMarks[playerNo - 1].transform.position -= 0.1f * Vector3.forward; // 차례 끝난 캐릭터의 z축 보정 해제
             phase++;
             if (phase > GameManager.instance.TotalNum) { turns++; phase = 1; } // 모든 차례 끝나면 바로 1번째로. 미니게임 페이즈는 일단 없는 걸로
             StartCoroutine(PlayerTurn_co()); // 다음 플레이어로
@@ -360,7 +361,10 @@ public class Board_Manager : MonoBehaviour
             if (keyInput.Equals(11))
             {
                 KeyExplain.Find("ViewMode").gameObject.SetActive(true);
-                ViewModeCamera.position = virtualCamera.Follow.position + Vector3.forward * 1.9f; // 뷰 모드용 transform을 지금 카메라 위치로
+                ViewModeCamera.position = new Vector3(
+                    virtualCamera.Follow.position.x,
+                    2,
+                    virtualCamera.Follow.position.z + 1.9f); // 뷰 모드용 transform을 지금 카메라 위치로
                 virtualCamera.Follow = ViewModeCamera; // 가상 카메라를 뷰 모드용 transform 보게
                 virtualCamera.LookAt = ViewModeCamera;
 
@@ -373,17 +377,17 @@ public class Board_Manager : MonoBehaviour
                         virtualCamera.LookAt = playerMarks[playerNo - 1];
                         break;
                     }
-                    // LeftArrow : 누르는 동안 지속적으로 카메라가 왼쪽으로
+                    // LeftArrow : 누르는 동안 지속적으로 카메라가 왼쪽으로(방향키와 좌표 이동은 반대)
                     else if (Input.GetKey(KeyCode.LeftArrow))
                     {
-                        ViewModeCamera.position += Vector3.right * 0.1f;
+                        ViewModeCamera.position += 50f * Time.deltaTime * Vector3.right;
                         if (ViewModeCamera.position.x > 63.5f)
                             ViewModeCamera.position = new Vector3(63.5f, 2f, 6f);
                     }
                     // RightArrow 
                     else if (Input.GetKey(KeyCode.RightArrow))
                     {
-                        ViewModeCamera.position += Vector3.left * 0.1f;
+                        ViewModeCamera.position += 50f * Time.deltaTime * Vector3.left;
                         if (ViewModeCamera.position.x < -146.5f)
                             ViewModeCamera.position = new Vector3(-146.5f, 2f, 6f);
                     }
