@@ -144,11 +144,6 @@ public class CharInfoManager : MonoBehaviour
         CharUI[pNo-1].transform.Find("Center/Edge").GetComponent<Image>().color = c;
     }
 
-    public void DebugAddScore(int n)
-    {
-        ScoreAdd(n+1);
-    }
-
     public IEnumerator ResultUISetting()
     {
         Tween moveTween = ResultUI.transform.Find("Superstar").DOScale(Vector3.one * 2, 1f).SetEase(Ease.OutBack); // 슈퍼스타 로고 뜨게
@@ -164,7 +159,6 @@ public class CharInfoManager : MonoBehaviour
             if(i >= N)
             {
                 // 인원 수보다 큰 수의 순위 슬롯은 안 보이는 곳으로 보내버리기
-                // ResultUI.transform.Find($"Panel/Rank{i + 1}_info").transform.position = new Vector3(0, 2160, 0);
                 ResultUI.transform.Find($"Panel/Rank{i + 1}_info").gameObject.SetActive(false);
                 continue;
             }
@@ -178,17 +172,13 @@ public class CharInfoManager : MonoBehaviour
             ResultUI.transform.Find($"Panel/Rank{rankslot}_info/Center/Mask/Character").GetComponent<Image>().sprite = CharLogo[charinfo[i].charIndex];
             // 3. 플레이어 이름
             ResultUI.transform.Find($"Panel/Rank{rankslot}_info/UserName").GetComponent<Text>().text = GameManager.instance.Character_name[charinfo[i].charIndex];
-            // 4. (1등) 승자 이미지 / (2~4등) 최종 점수
+            // 4. (2~4등) 최종 점수 표시
             if(charinfo[i].rank > 1)
             {
                 int score = charinfo[i].score;
                 if (score < 10) score += 100; // 10의 자리 빈 칸 표시를 위한 땜방 조치
                 ResultUI.transform.Find($"Panel/Rank{rankslot}_info/Lower_Right/Score_10_Digit").GetComponent<Image>().sprite = NumSp[score / 10];
                 ResultUI.transform.Find($"Panel/Rank{rankslot}_info/Lower_Right/Score_1_Digit").GetComponent<Image>().sprite = NumSp[score % 10];
-            }
-            else
-            {
-                // ResultUI.transform.Find("Panel/WinnerChar").GetComponent<Image>().sprite = CharMarks[charinfo[i].charIndex]; 일단 미사용
             }
             // 5. (공동 순위 인경우) 테두리 색, 그라데이션 2개 색, 순위 이미지
             // 2,3등만 공동순위 가능

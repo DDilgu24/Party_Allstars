@@ -42,9 +42,12 @@ public class Board_Manager : MonoBehaviour
         DOTween.Init();
         N = GameManager.instance.TotalNum;
         Tween t;
+        RectTransform toad = Intro.transform.Find("Toad").GetComponent<RectTransform>();
+        GameObject toadSpace = Intro.transform.Find("Toad/Space").GetComponent<RectTransform>().gameObject;
+        Text toadSays = Intro.transform.Find("Toad/Says").GetComponent<Text>();
+        // 인원 수를 초과하는 만큼의 캐릭터 마크 비활성화
         for (int i = N; i < 4; i++)
         {
-            // 인원 수를 초과하는 캐릭터 마크 비활성화
             CharUI[i].SetActive(false);
             playerMarks[i].gameObject.SetActive(false);
         }
@@ -57,13 +60,15 @@ public class Board_Manager : MonoBehaviour
         // 2-1. 게임 시작을 알리는 문구
         BD1SoundManager.instance.PlayBGM("BGM1");
         Intro.transform.Find("BoardTitle").transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.Linear);
-        Intro.transform.Find("Toad/Says").GetComponent<Text>().text = "";
-        t = Intro.transform.Find("Toad/Says").GetComponent<Text>().DOText("그럼 플레이할 순서를 정하겠습니다!", 0.5f);
+
+        toadSays.text = "";
+        t = toadSays.DOText("그럼 플레이할 순서를 정하겠습니다!", 0.5f);
         yield return t.WaitForCompletion();
-        Intro.transform.Find("Toad/Space").gameObject.SetActive(true);
+
+        toadSpace.SetActive(true);
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         // 2-2. 순서 정하기
-        Intro.transform.Find("Toad").GetComponent<RectTransform>().DOAnchorPos(new Vector2(-900, -1500), 0.5f).SetEase(Ease.Linear);
+        toad.DOAnchorPos(new Vector2(-900, -1500), 0.5f).SetEase(Ease.Linear);
         for (int i = 0; i < 4; i++)
         {
             if (i >= N)
@@ -82,22 +87,24 @@ public class Board_Manager : MonoBehaviour
         DecisionOrder();
         yield return new WaitForSeconds(1f);
         // 2-4. 진짜 게임 시작 전
-        Intro.transform.Find("Toad").GetComponent<RectTransform>().DOAnchorPos(new Vector2(-900, -500), 0.5f).SetEase(Ease.Linear);
-        Intro.transform.Find("Toad/Space").gameObject.SetActive(false);
-        Intro.transform.Find("Toad/Says").GetComponent<Text>().text = "";
-        t = Intro.transform.Find("Toad/Says").GetComponent<Text>().DOText("순서가 정해졌어요!", 0.5f);
+        toad.DOAnchorPos(new Vector2(-900, -500), 0.5f).SetEase(Ease.Linear);
+        toadSpace.SetActive(false);
+        toadSays.text = "";
+        t = toadSays.DOText("순서가 정해졌어요!", 0.5f);
         yield return t.WaitForCompletion();
-        Intro.transform.Find("Toad/Space").gameObject.SetActive(true);
+
+        toadSpace.SetActive(true);
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         yield return null;
-        Intro.transform.Find("Toad/Space").gameObject.SetActive(false);
-        Intro.transform.Find("Toad/Says").GetComponent<Text>().text = "";
-        t = Intro.transform.Find("Toad/Says").GetComponent<Text>().DOText("그럼 렛츠 파티!", 0.5f);
+
+        toadSpace.SetActive(false);
+        toadSays.text = "";
+        t = toadSays.DOText("그럼 렛츠 파티!", 0.5f);
         yield return t.WaitForCompletion();
-        Intro.transform.Find("Toad/Space").gameObject.SetActive(true);
+
+        toadSpace.SetActive(true);
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         Intro.SetActive(false);
-        print("게임 시작");
         for (int i = 0; i < N ; i++)
         {
             // 모든 주사위 비활성화
@@ -112,7 +119,6 @@ public class Board_Manager : MonoBehaviour
     private IEnumerator PlayerTurn_co()
     {
         Tween moveTween;
-        Sequence seq;
         int playerNo = order[phase - 1];
         int ifComThat0 = (playerNo > GameManager.instance.PlayerNum)? 0 : 1;
         // 1. 현재 차례인 캐릭터를 중심으로 카메라 이동
@@ -151,7 +157,7 @@ public class Board_Manager : MonoBehaviour
             int move = HitDice(playerNo);
             if (applyItemNo.Equals(0))
             {
-                move *= 2; // ★임시 : 더블 주사위는 결과 값 2배
+                move *= 2; // 더블 주사위는 결과 값 2배
                 yield return new WaitForSeconds(0.5f);
                 playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").GetChild(0).GetComponent<SpriteRenderer>().sprite = DiceNum[move]; // 남은 눈금으로 이미지 변경
             }
@@ -162,21 +168,22 @@ public class Board_Manager : MonoBehaviour
             {
                 yield return new WaitForSeconds(0.25f);
 
-                CharInfoManager.instance.ScoreAdd(playerNo); // 점수를 1 더하기
+                CharInfoManager.instance.ScoreAdd(playerNo); // 점수를 더하기
                 int newscore = CharInfoManager.instance.charinfo[playerNo - 1].score; // 바뀐 점수를 캐싱
                 Vector3 newpos = Spaces[newscore].position + Vector3.forward * 0.1f; // 다음 칸을 도착 좌표로
 
-                bool moveIsJump = false; // 다음 칸에 따라 캐릭터 이동 방식이 결정 (직선 OR 점프)
-                if (newscore >= 23 && newscore != 30) moveIsJump = true;
-                else if (4 <= newscore && newscore <= 11) moveIsJump = true;
+                bool moveIsJump = (newscore >= 23 && newscore != 30) || (4 <= newscore && newscore <= 11);
 
-                if (moveIsJump) moveTween = playerMarks[playerNo - 1].transform.DOLocalJump(newpos, 2f, 1, 0.3f); // 캐릭터 말 이동 - 점프
-                else moveTween = playerMarks[playerNo - 1].transform.DOMove(newpos, 0.3f).SetEase(Ease.Linear); // 캐릭터 말 이동 - 직선
-
+                if (moveIsJump)
+                    moveTween = playerMarks[playerNo - 1].transform.DOLocalJump(newpos, 2f, 1, 0.3f); // 캐릭터 말 이동 - 점프
+                else 
+                    moveTween = playerMarks[playerNo - 1].transform.DOMove(newpos, 0.3f).SetEase(Ease.Linear); // 캐릭터 말 이동 - 직선
                 yield return moveTween.WaitForCompletion(); // 말 이동이 끝날 때까지 대기
+
                 move--; // 남은 눈금 1 감소
                 playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").GetChild(0).GetComponent<SpriteRenderer>().sprite = DiceNum[move]; // 남은 눈금으로 이미지 변경
-                if (CharInfoManager.instance.charinfo[playerNo - 1].score > 33) // 골대 도착하면
+                // 골대 도착했다면
+                if (CharInfoManager.instance.charinfo[playerNo - 1].score > 33) 
                 {
                     BD1SoundManager.instance.BGMPlayer.pitch = 1f;
                     playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.SetActive(false); // 주사위를 비활성화 
@@ -210,7 +217,8 @@ public class Board_Manager : MonoBehaviour
 
         // 6. 턴 종료 시
         yield return new WaitForSeconds(0.5f);
-        if (EndGame) // 게임 끝났으면 엔딩
+        // 게임 끝났으면 엔딩 효과
+        if (EndGame) 
         {
             yield return StartCoroutine(CharInfoManager.instance.ResultUISetting());
             yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Return));
@@ -312,17 +320,18 @@ public class Board_Manager : MonoBehaviour
     private IEnumerator SelectAction(int playerNo)
     {
         bool thisCoAgain = true;
-        int itemCount = CharInfoManager.instance.charinfo[playerNo - 1].itemCount;
         // 코루틴 전체를 while로 감싸 해당 코루틴이 특정 상황에 다시 돌아가도록 함
         while (thisCoAgain)
         {
+            int itemCount = CharInfoManager.instance.charinfo[playerNo - 1].itemCount;
             // 0. 적용된 주사위에 맞게 테두리 변경
             playerMarks[playerNo - 1].Find($"{playerNo}P_Dice/SMP_DiceEdge").GetComponent<SpriteRenderer>().sprite = DiceEdge[applyItemNo % 6];
             // 1. 일단 주사위가 돌아가게
             yield return new WaitForSeconds(0.25f);
-            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.SetActive(true); // 주사위 활성화 
-            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.GetComponent<Animator>().enabled = true; // 주사위 애니도 활성화
-            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.GetComponent<Animator>().SetBool("DiceStop", false); // 주사위를 다시 돌아가게
+            GameObject player_Dice = playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject;
+            player_Dice.SetActive(true); // 주사위 활성화 
+            player_Dice.GetComponent<Animator>().enabled = true; // 주사위 애니도 활성화
+            player_Dice.GetComponent<Animator>().SetBool("DiceStop", false); // 주사위를 다시 돌아가게
             int keyInput = -1;
             // 2. 유효한 키(Ctrl, Shift, Spacebar)가 입력되면 다음 작업
             // COM은 아이템이 있으면 자동으로 1번째 것 사용 및 자동으로 Spacebar 입력한 걸로 처리 
@@ -337,7 +346,6 @@ public class Board_Manager : MonoBehaviour
                 }
                 yield return new WaitForSeconds(0.5f);
                 keyInput = 13;
-                // if (CharInfoManager.instance.charinfo[playerNo - 1].score < 1) keyInput = 2;
             }
             // 플레이어는 선택지가 뜨게 하면서, 유효한 키를 입력받기
             else
@@ -601,7 +609,7 @@ public class Board_Manager : MonoBehaviour
                 // 3. 뻐끔과 캐릭터를 28번 칸 아래로 이동
                 CharInfoManager.instance.ScoreAdd(playerNo, 28 - CharInfoManager.instance.charinfo[playerNo - 1].score); // 점수를 28로 감소
                 Spaces[31].GetChild(0).transform.position = Spaces[28].position + Vector3.up * -3.5f + Vector3.forward * 0.15f; // 뻐끔을 28번 칸의 3.5 아래로 이동 + 앞에 보이게 z 조절
-                playerMarks[playerNo - 1].transform.position = Spaces[28].position + Vector3.up * -3.5f + Vector3.forward * 0.1f; // 캐릭터 마크를 28번 칸의 3.5 아래로 이동
+                playerMarks[playerNo - 1].transform.position = Spaces[28].position + Vector3.up * -3.5f + Vector3.forward * 0.05f; // 캐릭터 마크를 28번 칸의 3.5 아래로 이동
                 // 4. 28번 칸 파이프 위로 올라오는 효과
                 seq = DOTween.Sequence()
                 .Append(Spaces[31].GetChild(0).transform.DOMoveY(4f, 0.5f))

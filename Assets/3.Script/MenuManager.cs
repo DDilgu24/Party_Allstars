@@ -24,9 +24,9 @@ public class MenuManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.RightArrow))
             CursorChanged((cursor + 1) % 4);
 
-        else if (Input.GetKeyDown(KeyCode.Return))
+        else if (Input.GetKeyDown(KeyCode.Return) && !GameManager.instance.IsFading)
             EnterMenu(cursor);
-        else if (Input.GetKeyDown(KeyCode.Escape))
+        else if (Input.GetKeyDown(KeyCode.Escape) && !GameManager.instance.IsFading)
             EnterMenu(4);
     }
 
