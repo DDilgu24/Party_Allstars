@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,12 +9,12 @@ public class TitleManager : MonoBehaviour
 {
     [SerializeField] private GameObject Title;
     [SerializeField] private Text EnterToStart;
-    [SerializeField] private Transform charUISpawner; // Ä³¸¯ÅÍ ·Î°í ½ºÆù À§Ä¡¿ë
+    [SerializeField] private Transform charUISpawner; // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½
     [SerializeField] private Sprite[] charLogos;
     public PoolingManager poolingManager;
 
-    private int[] charIndexOrder = new int[16]; // Ä³¸¯ÅÍ ·Î°í°¡ ³ª¿Ã ¼ø¼­¸¦ ´ãÀ» ¹è¿­
-    private int appearCount = 0; // ·Î°í°¡ ³ª¿Â È½¼ö. ÇÑ¹ø¾¿ ´Ù ³ª¿À¸é(16¹ø) ´Ù½Ã ¼ÅÇÃ
+    private int[] charIndexOrder = new int[16]; // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Î°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­
+    private int appearCount = 0; // ï¿½Î°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È½ï¿½ï¿½. ï¿½Ñ¹ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(16ï¿½ï¿½) ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     private void Start()
     {
@@ -41,7 +41,7 @@ public class TitleManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return) && !GameManager.instance.IsFading)
         {
-            // ÆäÀÌµå ¾Æ¿ôÀ» ºÎ¸§°ú µ¿½Ã¿¡, ¿Ï·áµÇ¸é ¾À ÀüÈ¯ ¹× ÆäÀÌµå ÀÎÀÌ ÀÚµ¿À¸·Î È£ÃâµÇ´Â ÄÝ¹é ÇÔ¼ö
+            // ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Æ¿ï¿½ï¿½ï¿½ ï¿½Î¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¿ï¿½, ï¿½Ï·ï¿½Ç¸ï¿½ ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½Ç´ï¿½ ï¿½Ý¹ï¿½ ï¿½Ô¼ï¿½
             GameManager.instance.FadeOut(() =>
             {
                 DOTween.KillAll();
@@ -72,19 +72,19 @@ public class TitleManager : MonoBehaviour
     {
         GameObject charUI = poolingManager.GetObjectFromPool();
         SetCharUIProperties(charUI);
-        charUI.transform.DOLocalMoveY(1400, Random.Range(4f, 5f)) // ¿ÀºêÁ§Æ®¸¦ À§·Î ¿Ã¸®°í
-            .OnComplete(() => poolingManager.ReturnObjectToPool(charUI)); // ´Ù ¿Ã¶ó°¬À¸¸é Ç®¸µ ¹ÝÈ¯
-        yield return new WaitForSeconds(Random.Range(0.8f, 1.0f)); // 0.8~ 1.0ÃÊ µô·¹ÀÌ
+        charUI.transform.DOLocalMoveY(1400, Random.Range(4f, 5f)) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ï¿½ï¿½
+            .OnComplete(() => poolingManager.ReturnObjectToPool(charUI)); // ï¿½ï¿½ ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ Ç®ï¿½ï¿½ ï¿½ï¿½È¯
+        yield return new WaitForSeconds(Random.Range(0.8f, 1.0f)); // 0.8~ 1.0ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-        if (++appearCount > 15) ShuffleIndexOrder(); // 16 Ä³¸¯ÅÍ ¸ðµÎ µîÀåÇßÀ¸¸é ¼ÅÇÃ
-        StartCoroutine(CharUIAppear()); // Àç±Í È£Ãâ
+        if (++appearCount > 15) ShuffleIndexOrder(); // 16 Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        StartCoroutine(CharUIAppear()); // ï¿½ï¿½ï¿½ È£ï¿½ï¿½
     }
 
     private void SetCharUIProperties(GameObject charUI)
     {
-        charUI.transform.localScale = Vector3.one * Random.Range(0.6f, 1.0f); // Å©±â ·£´ýÇÏ°Ô
-        charUI.transform.Find("Mask/Character").GetComponent<Image>().sprite = charLogos[charIndexOrder[appearCount]]; // Ä³¸¯ÅÍ ·Î°í´Â ¼ÅÇÃµÈ ÀÎµ¦½º´ë·Î
-        charUI.transform.Find("Edge").GetComponent<Image>().color = new Color(Random.value, Random.value, Random.value); // Å×µÎ¸® ÄÃ·¯´Â ¿Ã ·£´ý
-        charUI.transform.position = charUISpawner.position + Vector3.right * (Random.Range(-800, 0) + (appearCount % 2) * 800); // ½ºÆùµÉ ÁÂÇ¥¸¦ ¼³Á¤
+        charUI.transform.localScale = Vector3.one * Random.Range(0.6f, 1.0f); // Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½
+        charUI.transform.Find("Mask/Character").GetComponent<Image>().sprite = charLogos[charIndexOrder[appearCount]]; // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Î°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        charUI.transform.Find("Edge").GetComponent<Image>().color = new Color(Random.value, Random.value, Random.value); // ï¿½×µÎ¸ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        charUI.transform.position = charUISpawner.position + Vector3.right * (Random.Range(-800, 0) + (appearCount % 2) * 800); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     }
 }

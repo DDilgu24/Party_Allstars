@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,41 +7,41 @@ using DG.Tweening;
 
 public class SelectSceneManager : MonoBehaviour
 {
-    private int page = 0; // ÆäÀÌÁö (0: ÀÎ¿ø ¼ö ¼±ÅÃ / 1: º¸µå ¼±ÅÃ / 2: Ä³¸¯ÅÍ ¼±ÅÃ)
-    private int SelectTurn = 0; // [Ä³¸¯ÅÍ ¼±ÅÃ ÇÑÁ¤] ¼±ÅÃÁßÀÎ ÇÃ·¹ÀÌ¾îÀÇ ¹øÈ£(1~4)
-    private int cursorIndex = 0; // ÇöÀç ¼±ÅÃÁßÀÎ ÇÃ·¹ÀÌ¾îÀÇ Ä¿¼­
-    private int[] isSelected = new int[16]; // Ä³¸¯ÅÍ°¡ ¼±ÅÃµÇ¾ú´ÂÁö ¿©ºÎ(0: ¹Ì¼±ÅÃ / n: n¹ø ÇÃ·¹ÀÌ¾î°¡ ¼±ÅÃ)
-    public int[] selectChar = new int[5] { -1, -1, -1, -1, -1 }; // ÇÃ·¹ÀÌ¾îº° ¼±ÅÃÇÑ Ä³¸¯ÅÍÀÇ ÀÎµ¦½º(-1: ¹Ì¼±ÅÃ)
-    private int selectBoard; // ¼±ÅÃÇÑ º¸µå¸ÊÀÇ ¹øÈ£
+    private int page = 0; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (0: ï¿½Î¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ / 1: ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ / 2: Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+    private int SelectTurn = 0; // [Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½È£(1~4)
+    private int cursorIndex = 0; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ Ä¿ï¿½ï¿½
+    private int[] isSelected = new int[16]; // Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ÃµÇ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(0: ï¿½Ì¼ï¿½ï¿½ï¿½ / n: nï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½)
+    public int[] selectChar = new int[5] { -1, -1, -1, -1, -1 }; // ï¿½Ã·ï¿½ï¿½Ì¾îº° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½(-1: ï¿½Ì¼ï¿½ï¿½ï¿½)
+    private int selectBoard; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£
     private int PlayerNum, COMNum;
-    private int TotalNum => PlayerNum + COMNum; // ÇÃ·¹ÀÌ¾î ¼ö, COM ¼ö
+    private int TotalNum => PlayerNum + COMNum; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½, COM ï¿½ï¿½
 
     private readonly string[] boardNames = 
     { 
-        "¸¶¸®¿À ·Îµå", "»Ñ¿ä Å¬¸®³Ê", "´ÜÇ³ÀÙ ÃàÁ¦", "ÆÎ·£µå ¼­¹ÙÀÌ¹ú" 
+        "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½", "ï¿½Ñ¿ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½Ç³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½", "ï¿½Î·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹ï¿½" 
     };
     private readonly string[] boardExplain = 
     { 
-        "½´ÆÛ ¸¶¸®¿ÀÀÇ ÄÚ½º À§¿¡¼­ ÁøÇàÇÏ´Â º¸µåÀÔ´Ï´Ù.\n°¡Àå ¸ÕÀú ±ê´ë¸¦ Àâ´Â ÇÃ·¹ÀÌ¾î°¡ <color=#999900>¿ì½Â</color>ÇÕ´Ï´Ù.",
-        "°°Àº »ö »Ñ¿ä 4°³¸¦ ¸ð¾Æ Á¡¼ö¸¦ È¹µæÇÏ¼¼¿ä.\n10ÅÏ µ¿¾È ¾òÀº Á¡¼ö°¡ °¡Àå ³ôÀº ÇÃ·¹ÀÌ¾î°¡ <color=#999900>¿ì½Â</color>ÇÕ´Ï´Ù.",
-        "´ÜÇ³ÀÙÀ» ¸ð¾Æ NPC¿¡°Ô È²±Ý´ÜÇ³ÀÙÀ¸·Î ±³È¯ÇÏ¼¼¿ä.\n10ÅÏ µ¿¾È È²±Ý´ÜÇ³ÀÙÀ» °¡Àå ¸¹ÀÌ ¸ðÀº ÇÃ·¹ÀÌ¾î°¡ <color=#999900>¿ì½Â</color>ÇÕ´Ï´Ù.",
-        "½ñ¾ÆÁö´Â ¹°Ç³¼±À» ÇÇÇØ ¸¶Áö¸·±îÁö »ì¾Æ³²À¸¼¼¿ä.\nHP°¡ 0ÀÌ µÇ¸é º¸µå¿¡¼­ <color=#ff3333>Å»¶ô</color>ÇÕ´Ï´Ù."
+        "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.\nï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ë¸¦ ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ <color=#999900>ï¿½ï¿½ï¿½</color>ï¿½Õ´Ï´ï¿½.",
+        "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ñ¿ï¿½ 4ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¹ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.\n10ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ <color=#999900>ï¿½ï¿½ï¿½</color>ï¿½Õ´Ï´ï¿½.",
+        "ï¿½ï¿½Ç³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ NPCï¿½ï¿½ï¿½ï¿½ È²ï¿½Ý´ï¿½Ç³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ï¼ï¿½ï¿½ï¿½.\n10ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È²ï¿½Ý´ï¿½Ç³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ <color=#999900>ï¿½ï¿½ï¿½</color>ï¿½Õ´Ï´ï¿½.",
+        "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.\nHPï¿½ï¿½ 0ï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½å¿¡ï¿½ï¿½ <color=#ff3333>Å»ï¿½ï¿½</color>ï¿½Õ´Ï´ï¿½."
     };
     private readonly string[] Character_name = 
     {
-        "¸¶¸®¿À", "·çÀÌÁö", "¿ä½Ã", "ÇÇÄ¡", "¾Æ¹ÌÆ¼", "¶óÇÇ³ª", "½Ã±×", "·½·¹½º",
-        "ÆÒÅÒ", "¸Þ¸£¼¼µ¥½º", "È£¿µ", "¶ó¶ó", "´Ù¿À", "¹èÂî", "µðÁö´Ï", "¸¶¸®µå"
+        "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½", "ï¿½ï¿½Ä¡", "ï¿½Æ¹ï¿½Æ¼", "ï¿½ï¿½ï¿½Ç³ï¿½", "ï¿½Ã±ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",
+        "ï¿½ï¿½ï¿½ï¿½", "ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "È£ï¿½ï¿½", "ï¿½ï¿½ï¿½", "ï¿½Ù¿ï¿½", "ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
     };
-    public Color[] playerColor = // ÇÃ·¹ÀÌ¾î ¹øÈ£ º° ÄÃ·¯
+    public Color[] playerColor = // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ ï¿½Ã·ï¿½
     { 
         Color.gray, Color.blue, Color.red, Color.green, Color.yellow 
     }; 
 
     [SerializeField] private GameObject[] SelectPanel;
-    [SerializeField] private GameObject[] cursor; // 0. ÀÎ¿ø¼ö ¼±ÅÃ(0ÆäÀÌÁö) / 1~4. Ä³¸¯ÅÍ ¼±ÅÃ(2ÆäÀÌÁö) / 5. º¸µå ¼±ÅÃ(1ÆäÀÌÁö)
-    [SerializeField] private Sprite[] PNoSp; // ÇÃ·¹ÀÌ¾î ¹øÈ£ ½ºÇÁ¶óÀÌÆ®
+    [SerializeField] private GameObject[] cursor; // 0. ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½) / 1~4. Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½) / 5. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+    [SerializeField] private Sprite[] PNoSp; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     [SerializeField] private Text PlayerNumText, boardNameText, boardExplainText, charNameText;
-    private bool inputBlocked = false; // ¹ö±× ¹æÁö¿ë ÀÔ·Â ¹æÁö
+    private bool inputBlocked = false; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     private void Update()
     {
@@ -54,10 +54,10 @@ public class SelectSceneManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Escape) && !GameManager.instance.IsFading) BackButton();
     }
 
-    // ÀÔ·Â¹ÞÀº ¹æÇâÅ°(Á¤¼ö·Î Ç¥ÇöµÊ)¿¡ µû¶ó Ä¿¼­ÀÇ ÀÎµ¦½º¸¦ ¹Ù²Ù´Â ¸Þ¼Òµå 
+    // ï¿½Ô·Â¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å°(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²Ù´ï¿½ ï¿½Þ¼Òµï¿½ 
     private void CursorIndexChange(int n)
     {
-        // 0ÆäÀÌÁöÀÎ °æ¿ì : ÇÃ·¹ÀÌ ÀÎ¿ø¼ö ¼±ÅÃ
+        // 0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ : ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (page.Equals(0))
         {
             switch (n)
@@ -80,18 +80,18 @@ public class SelectSceneManager : MonoBehaviour
                     break;
             }
         }
-        // 1ÆäÀÌÁö : º¸µå ¼±ÅÃ
+        // 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         else if (page.Equals(1))
         {
             if (n.Equals(1)) cursorIndex += 3; // Left
             else if (n.Equals(3)) cursorIndex += 1; // Right
             cursorIndex %= 4;
         }
-        // 2ÆäÀÌÁö : Ä³¸¯ÅÍ ¼±ÅÃ
+        // 2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         else
         {
-            if (SelectTurn > TotalNum) return; // ÃÖÁ¾ È®ÀÎ »óÅÂ(¸ðµç Ä³¸¯ÅÍ ¼±ÅÃ ¿Ï·á): ¹æÇâÅ° ¹«È¿È­
-            while (true) // »õ·Î °¡¸®Å³ °÷ÀÌ ÀÌ¹Ì ¼±ÅÃµÈ Ä³¸¯ÅÍÀÎ °æ¿ì, ±× ÀÌµ¿À» ¹Ýº¹
+            if (SelectTurn > TotalNum) return; // ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½): ï¿½ï¿½ï¿½ï¿½Å° ï¿½ï¿½È¿È­
+            while (true) // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Ýºï¿½
             {
                 switch (n)
                 {
@@ -112,13 +112,13 @@ public class SelectSceneManager : MonoBehaviour
                         if ((cursorIndex % 8).Equals(0)) cursorIndex -= 8;
                         break;
                 }
-                if (isSelected[cursorIndex].Equals(0)) break; // ¼±ÅÃ ¾È µÈ Ä³¸¯ÅÍ µµ´Þ ½Ã, ¹Ýº¹ Á¾·á
+                if (isSelected[cursorIndex].Equals(0)) break; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½Ýºï¿½ ï¿½ï¿½ï¿½ï¿½
             }
         }
-        CursorChange(); // Ä¿¼­ ÀÌ¹ÌÁö¸¦ ÀÎµ¦½º¿¡ ¸Â°Ô ÀÌµ¿
+        CursorChange(); // Ä¿ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â°ï¿½ ï¿½Ìµï¿½
     }
 
-    // ÀÎµ¦½º¿¡ µû¶ó Ä¿¼­ ÀÌ¹ÌÁö¸¦ ¹Ù²Ù´Â ¸Þ¼Òµå
+    // ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä¿ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²Ù´ï¿½ ï¿½Þ¼Òµï¿½
     private void CursorChange()
     {
         if (page.Equals(0))
@@ -130,7 +130,7 @@ public class SelectSceneManager : MonoBehaviour
                     350 - 400 * (cursorIndex / 4),
                     0
                 );
-            PlayerNumText.text = $"ÇÃ·¹ÀÌ¾î ¼ö: {cursorIndex % 4 + 1}\nCOMÀÇ ¼ö: {3 - (cursorIndex % 4) - (cursorIndex / 4)}";
+            PlayerNumText.text = $"ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½: {cursorIndex % 4 + 1}\nCOMï¿½ï¿½ ï¿½ï¿½: {3 - (cursorIndex % 4) - (cursorIndex / 4)}";
         }
         else if (page.Equals(1))
         {
@@ -155,44 +155,44 @@ public class SelectSceneManager : MonoBehaviour
 
     public void BackButton()
     {
-        // tween µ¿ÀÛ ÁßÀÌ¶ó¸é ½ÇÇàÇÏÁö ¾ÊÀ½
+        // tween ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (DOTween.IsTweening(SelectPanel[page])) return;
 
-        // Ä³¸¯ÅÍ ¼±ÅÃ ÆäÀÌÁö¿¡¼­, ¼±ÅÃÇÑ Ä³¸¯ÅÍ°¡ 1 ÀÌ»ó
+        // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ 1 ï¿½Ì»ï¿½
         if(SelectTurn > 1)
         {
-            if(SelectTurn < TotalNum + 1) // ÃÖÁ¾ °áÁ¤¿©ºÎ ¾Æ´Ï¶ó¸é -> ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ Ä¿¼­ ºñÈ°¼ºÈ­
+            if(SelectTurn < TotalNum + 1) // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ Ä¿ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
                 cursor[SelectTurn].SetActive(false); 
-            SelectTurn--;  // ÀÌÀü ÇÃ·¹ÀÌ¾î·Î µ¹¾Æ°¨
-            cursorIndex = selectChar[SelectTurn]; // Ä¿¼­ÀÇ À§Ä¡´Â ±âÁ¸ ¼±ÅÃÇÑ Ä³¸¯ÅÍ
-            isSelected[selectChar[SelectTurn]] = 0; // ±× ÇÃ·¹ÀÌ¾î°¡ ¼±ÅÃÇÑ Ä³¸¯ÅÍ´Â ¹Ì¼±ÅÃ »óÅÂ·Î
-            selectChar[SelectTurn] = -1; // ±× ÇÃ·¹ÀÌ¾î°¡ ¼±ÅÃÇÑ Ä³¸¯ÅÍ¸¦ ¹ÌÁ¤(-1)
+            SelectTurn--;  // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½
+            cursorIndex = selectChar[SelectTurn]; // Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½
+            isSelected[selectChar[SelectTurn]] = 0; // ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í´ï¿½ ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â·ï¿½
+            selectChar[SelectTurn] = -1; // ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½(-1)
 
-            cursor[SelectTurn].GetComponent<Animator>().SetTrigger("SelectCancel"); // ¾Ö´Ï¸ÅÀÌ¼Ç ´Ù½Ã Àç»ý
-            cursor[SelectTurn].transform.Find("SelectOK").gameObject.SetActive(false); // OK Ç¥½Ã ºñÈ°¼ºÈ­
+            cursor[SelectTurn].GetComponent<Animator>().SetTrigger("SelectCancel"); // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½
+            cursor[SelectTurn].transform.Find("SelectOK").gameObject.SetActive(false); // OK Ç¥ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½È­
             CursorChange();
         }
 
         else
         {
-            // 0ÆäÀÌÁö ¿´À¸¸é, ¸ÞÀÎ ¸Þ´º·Î
+            // 0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ï¿½ï¿½
             if (page.Equals(0))
                 MoveScene(0);
             else
             {
-                // 1ÆäÀÌÁö¿´´Ù¸é, Ä¿¼­¸¦ ¼±ÅÃÇß´ø ÀÎ¿ø ¼ö¿¡ µû¶ó¼­
+                // 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½, Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½ ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 if (page.Equals(1))
                 {
                     cursorIndex = 16 - (TotalNum) * 4 + PlayerNum - 1;
                 }
-                // 2ÆäÀÌÁö¿´´Ù¸é, Ä¿¼­¸¦ ¼±ÅÃÇß´ø º¸µå À§Ä¡·Î
+                // 2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½, Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½
                 else
                 {
                     SelectTurn = 0;
                     cursorIndex = selectBoard;
                 }
 
-                // ÆäÀÌÁö ÀÌµ¿ È¿°ú
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ È¿ï¿½ï¿½
                 page--;
                 cursor[page * 5].SetActive(false);
                 SelectPanel[page].SetActive(true);
@@ -214,27 +214,27 @@ public class SelectSceneManager : MonoBehaviour
 
     public void NextButton()
     {
-        // tween µ¿ÀÛ ÁßÀÌ¶ó¸é ¾È ¸Ôµµ·Ï
+        // tween ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ ï¿½Ôµï¿½ï¿½ï¿½
         if (DOTween.IsTweening(SelectPanel[page])) return;
         if (page < 2)
         {
-            // 0ÆäÀÌÁö: ÀÎ¿ø ¼ö ¼±ÅÃ ¿Ï·á
+            // 0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½Î¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½
             if (page.Equals(0))
             {
                 PlayerNum = cursorIndex % 4 + 1;
                 COMNum = 3 - cursorIndex % 4 - cursorIndex / 4;
             }
-            // 1ÆäÀÌÁö: º¸µå ¼±ÅÃ ¿Ï·á
+            // 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½
             else
             {
                 selectBoard = cursorIndex;
                 SelectTurn++;
                 for (int i = 1; i <= 4; i++) 
                 {
-                    // Ä³¸¯ÅÍ ¼±ÅÃ ½Ã Ä¿¼­¸¦ P0 ¶Ç´Â COMÀ¸·Î
+                    // Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ä¿ï¿½ï¿½ï¿½ï¿½ P0 ï¿½Ç´ï¿½ COMï¿½ï¿½ï¿½ï¿½
                     int isPlayer = (i <= PlayerNum) ? i : 0;
                     cursor[i].transform.Find("PlayerNo").gameObject.GetComponent<Image>().sprite = PNoSp[isPlayer];
-                    // Ä¿¼­ Å×µÎ¸® »ö±òµµ º¯°æ
+                    // Ä¿ï¿½ï¿½ ï¿½×µÎ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                     cursor[i].transform.Find("Center/Edge").gameObject.GetComponent<Image>().color = playerColor[isPlayer];
                 }
             }
@@ -256,10 +256,10 @@ public class SelectSceneManager : MonoBehaviour
              });
 
         }
-        // 2ÆäÀÌÁö: Ä³¸¯ÅÍ ¼±ÅÃ¿¡¼­ Next
+        // 2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ Next
         else
         {
-            // ÃÖÁ¾ °áÁ¤ ¿©ºÎ¿¡¼­ ´ÙÀ½ ´©¸¥ °æ¿ì
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             if (SelectTurn > TotalNum)
             {
                 GameManager.instance.SelectInfo(PlayerNum, COMNum, selectBoard, selectChar);
@@ -267,24 +267,24 @@ public class SelectSceneManager : MonoBehaviour
                 return;
             }
 
-            isSelected[cursorIndex] = SelectTurn + 1; // ±× ÇÃ·¹ÀÌ¾î°¡ ¼±ÅÃÇÑ Ä³¸¯ÅÍ´Â ¼±ÅÃ »óÅÂ·Î
-            selectChar[SelectTurn] = cursorIndex; // ±× ÇÃ·¹ÀÌ¾îÀÇ Ä³¸¯ÅÍ¸¦ ÁöÁ¤
-            cursor[SelectTurn].GetComponent<Animator>().SetTrigger("SelectOK"); // ¾Ö´Ï¸ÞÀÌ¼Ç Á¾·á
-            cursor[SelectTurn].transform.Find("SelectOK").gameObject.SetActive(true); // OK Ç¥½Ã È°¼ºÈ­
-            SelectTurn++;  // ´ÙÀ½ ÇÃ·¹ÀÌ¾î·Î
+            isSelected[cursorIndex] = SelectTurn + 1; // ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â·ï¿½
+            selectChar[SelectTurn] = cursorIndex; // ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+            cursor[SelectTurn].GetComponent<Animator>().SetTrigger("SelectOK"); // ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
+            cursor[SelectTurn].transform.Find("SelectOK").gameObject.SetActive(true); // OK Ç¥ï¿½ï¿½ È°ï¿½ï¿½È­
+            SelectTurn++;  // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½
 
-            // ÃÑ ÀÎ¿ø¼ö ¸¸Å­ Ä³¸¯ÅÍ ¼±ÅÃ ¿Ï·áµÈ °æ¿ì
+            // ï¿½ï¿½ ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½Å­ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ ï¿½ï¿½ï¿½
             if (SelectTurn > TotalNum)
             {
-                charNameText.text = "¼±ÅÃ ¿Ï·á! ÁØºñ µÇ¾ú³ª¿ä?";
+                charNameText.text = "ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½! ï¿½Øºï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½?";
             }
 
-            // ±× ÀÌÇÏ·Î ¼±ÅÃ ¿Ï·áµÈ °æ¿ì(°è¼Ó ¼±ÅÃ)
+            // ï¿½ï¿½ ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
             else
             {
-                cursor[SelectTurn].SetActive(true); // ´ÙÀ½ ÇÃ·¹ÀÌ¾îÀÇ Ä¿¼­ È°¼ºÈ­
+                cursor[SelectTurn].SetActive(true); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ Ä¿ï¿½ï¿½ È°ï¿½ï¿½È­
                 cursorIndex = 0;
-                while (isSelected[cursorIndex] > 0) cursorIndex++; // ±âº» Ä¿¼­ À§Ä¡ ¼³Á¤
+                while (isSelected[cursorIndex] > 0) cursorIndex++; // ï¿½âº» Ä¿ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
                 CursorChange();
             }
         }

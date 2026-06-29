@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -44,7 +44,7 @@ public class MenuManager : MonoBehaviour
             1 => new Vector3(300, 200, 0),
             2 => new Vector3(-300, -200, 0),
             3 => new Vector3(400, -200, 0),
-            _ => CursorPanel.anchoredPosition // ±âº»°ª
+            _ => CursorPanel.anchoredPosition // ï¿½âº»ï¿½ï¿½
         };
         CursorPanel.anchoredPosition = newPosition;
     }
@@ -54,13 +54,13 @@ public class MenuManager : MonoBehaviour
         switch (menuIndex)
         {
             case 1:
-                Debug.Log("³×Æ®¿öÅ©(¹Ì¿Ïµû¸®)");
+                Debug.Log("ï¿½ï¿½Æ®ï¿½ï¿½Å©(ï¿½Ì¿Ïµï¿½ï¿½ï¿½)");
                 break;
             case 2:
-                Debug.Log("¹ÂÁö¾ö(¹Ì¿Ïµû¸®)");
+                Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ì¿Ïµï¿½ï¿½ï¿½)");
                 break;
             case 3:
-                Debug.Log("¼³Á¤(¹Ì¿Ïµû¸®)");
+                Debug.Log("ï¿½ï¿½ï¿½ï¿½(ï¿½Ì¿Ïµï¿½ï¿½ï¿½)");
                 break;
             default:
                 LoadScene(menuIndex);
