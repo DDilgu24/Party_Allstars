@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,24 +6,24 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public int[] selectChar = new int[5] { -1, -1, -1, -1, -1 }; // ÇÃ·¹ÀÌ¾îº° ¼±ÅÃÇÑ Ä³¸¯ÅÍÀÇ ÀÎµ¦½º (-1: ¹Ì¼±ÅÃ)
+    public int[] selectChar = new int[5] { -1, -1, -1, -1, -1 }; // í”Œë ˆì´ì–´ë³„ ì„ íƒí•œ ìºë¦­í„°ì˜ ì¸ë±ìŠ¤ (-1: ë¯¸ì„ íƒ)
     public int PlayerNum { get; private set; }
     public int COMNum { get; private set; }
     public int TotalNum => PlayerNum + COMNum;
 
     public string[] Character_name = new string[16]
     {
-        "¸¶¸®¿À", "·çÀÌÁö", "¿ä½Ã", "ÇÇÄ¡", "¾Æ¹ÌÆ¼", "¶óÇÇ³ª", "½Ã±×", "·½·¹½º",
-        "ÆÒÅÒ", "¸Ş¸£¼¼µ¥½º", "È£¿µ", "¶ó¶ó", "´Ù¿À", "¹èÂî", "µğÁö´Ï", "¸¶¸®µå"
+        "ë§ˆë¦¬ì˜¤", "ë£¨ì´ì§€", "ìš”ì‹œ", "í”¼ì¹˜", "ì•„ë¯¸í‹°", "ë¼í”¼ë‚˜", "ì‹œê·¸", "ë ˜ë ˆìŠ¤",
+        "íŒ¬í…€", "ë©”ë¥´ì„¸ë°ìŠ¤", "í˜¸ì˜", "ë¼ë¼", "ë‹¤ì˜¤", "ë°°ì°Œ", "ë””ì§€ë‹ˆ", "ë§ˆë¦¬ë“œ"
     };
 
-    // °ÔÀÓ ¸Å´ÏÁ®¸¦ ÅëÇØ ¸ğµç ¾À¿¡¼­ ÆäÀÌµå °ü¸®
-    public Image fadeImage; // ÆäÀÌµå ¿ë ÀÌ¹ÌÁö
-    public float fadeDuration = 0.8f; // ÆäÀÌµå ½Ã°£
-    public bool IsFading { get; private set; } = true; // ÆäÀÌµå°¡ ÁøÇàÁßÀÎ°¡?
+    // ê²Œì„ ë§¤ë‹ˆì ¸ë¥¼ í†µí•´ ëª¨ë“  ì”¬ì—ì„œ í˜ì´ë“œ ê´€ë¦¬
+    public Image fadeImage; // í˜ì´ë“œ ìš© ì´ë¯¸ì§€
+    public float fadeDuration = 0.8f; // í˜ì´ë“œ ì‹œê°„
+    public bool IsFading { get; private set; } = true; // í˜ì´ë“œê°€ ì§„í–‰ì¤‘ì¸ê°€?
 
 
-    // °ÔÀÓ ¸Å´ÏÁ® ½Ì±ÛÅæ Àû¿ë
+    // ê²Œì„ ë§¤ë‹ˆì ¸ ì‹±ê¸€í†¤ ì ìš©
     private void Awake()
     {
         if (instance == null)
@@ -43,11 +43,11 @@ public class GameManager : MonoBehaviour
         fadeImage.gameObject.SetActive(true);
         IsFading = true;
 
-        float elapsedTime = 0f; // ÆäÀÌµå°¡ ÁøÇàµÈ ½Ã°£ 
-        Color color = fadeImage.color; // ÆäÀÌµå ÀÌ¹ÌÁöÀÇ »ö»ó Ä³½Ì
-        float endAlpha = isIn? 0 : 1; // ÆäÀÌµå¿ë ÀÌ¹ÌÁöÀÇ ÃÖÁ¾ Åõ¸íµµ °ª(0: Åõ¸í)
+        float elapsedTime = 0f; // í˜ì´ë“œê°€ ì§„í–‰ëœ ì‹œê°„ 
+        Color color = fadeImage.color; // í˜ì´ë“œ ì´ë¯¸ì§€ì˜ ìƒ‰ìƒ ìºì‹±
+        float endAlpha = isIn? 0 : 1; // í˜ì´ë“œìš© ì´ë¯¸ì§€ì˜ ìµœì¢… íˆ¬ëª…ë„ ê°’(0: íˆ¬ëª…)
 
-        while (elapsedTime < fadeDuration) // Åõ¸íµµ Á¶Àı
+        while (elapsedTime < fadeDuration) // íˆ¬ëª…ë„ ì¡°ì ˆ
         {
             elapsedTime += Time.deltaTime;
             color.a = Mathf.Lerp(1 - endAlpha, endAlpha, elapsedTime / fadeDuration);
@@ -56,10 +56,10 @@ public class GameManager : MonoBehaviour
         }
 
         color.a = endAlpha;
-        fadeImage.color = color; // È®½ÇÈ÷ Á¤ÇØÁø ¾ËÆÄ °ª¿¡ µµ´ŞÇÏ°Ô º¸Á¤
+        fadeImage.color = color; // í™•ì‹¤íˆ ì •í•´ì§„ ì•ŒíŒŒ ê°’ì— ë„ë‹¬í•˜ê²Œ ë³´ì •
         IsFading = false;
         fadeImage.gameObject.SetActive(false);
-        onComplete?.Invoke(); // µ¿ÀÛ ¿Ï·á ÈÄ Àü´Ş µÈ Äİ¹é ÇÔ¼ö¸¦ È£Ãâ
+        onComplete?.Invoke(); // ë™ì‘ ì™„ë£Œ í›„ ì „ë‹¬ ëœ ì½œë°± í•¨ìˆ˜ë¥¼ í˜¸ì¶œ
     }
 
     public void SelectInfo(int playerNum, int comNum, int boardNo, int[] character)

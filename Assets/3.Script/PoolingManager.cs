@@ -1,54 +1,54 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PoolingManager : MonoBehaviour
 {
-    // 1´Ü°è: Ç® »ı¼º
-    // 1-1. Ç®¸µÇÒ ¿ÀºêÁ§Æ®ÀÇ ÇÁ¸®ÆÕÀ» ÁöÁ¤
+    // 1ë‹¨ê³„: í’€ ìƒì„±
+    // 1-1. í’€ë§í•  ì˜¤ë¸Œì íŠ¸ì˜ í”„ë¦¬íŒ¹ì„ ì§€ì •
     public GameObject ObjectPrefab;
-    // 1-2. Ç®¸µÀÇ °³¼ö ÁöÁ¤
+    // 1-2. í’€ë§ì˜ ê°œìˆ˜ ì§€ì •
     public int poolSize;
-    // 1-3. Ç®¸µÀ» °ü¸®ÇÒ Å¥¸¦ »ı¼º
+    // 1-3. í’€ë§ì„ ê´€ë¦¬í•  íë¥¼ ìƒì„±
     public Queue<GameObject> ObjectPool = new Queue<GameObject>();
-    // 1-4. Å¥¿¡ ¿ÀºêÁ§Æ®µéÀ» Ã¤¿ì±â
+    // 1-4. íì— ì˜¤ë¸Œì íŠ¸ë“¤ì„ ì±„ìš°ê¸°
     private void Start()
     {
         for (int i = 0; i < poolSize; i++)
         {
-            // 1-4-1. ¿ÀºêÁ§Æ® »ı¼º
+            // 1-4-1. ì˜¤ë¸Œì íŠ¸ ìƒì„±
             GameObject note_obj = Instantiate(ObjectPrefab);
             note_obj.transform.SetParent(this.transform);
-            // 1-4-2. ½ÃÀÛÇÒ ¶© ºñÈ°¼ºÈ­
+            // 1-4-2. ì‹œì‘í•  ë• ë¹„í™œì„±í™”
             note_obj.SetActive(false);
-            // 1-4.3. Å¥¿¡ Ãß°¡
+            // 1-4.3. íì— ì¶”ê°€
             ObjectPool.Enqueue(note_obj);
         }
     }
 
-    // 2´Ü°è: ¿ÀºêÁ§Æ®¸¦ Ç®¿¡¼­ ²¨³¾ ¶§ ¸Ş¼­µå
+    // 2ë‹¨ê³„: ì˜¤ë¸Œì íŠ¸ë¥¼ í’€ì—ì„œ êº¼ë‚¼ ë•Œ ë©”ì„œë“œ
     public GameObject GetObjectFromPool()
     {
-        // ¿¹¿Ü Ã³¸®: Ç®À» ÀüºÎ »ç¿ëÇØ¹ö¸° °æ¿ì
+        // ì˜ˆì™¸ ì²˜ë¦¬: í’€ì„ ì „ë¶€ ì‚¬ìš©í•´ë²„ë¦° ê²½ìš°
         if (ObjectPool.Count.Equals(0))
         {
-            Debug.Log("!!! Ç®¸µ °³¼ö¸¦ ÃÊ°úÇÔ");
+            Debug.Log("!!! í’€ë§ ê°œìˆ˜ë¥¼ ì´ˆê³¼í•¨");
             return null;
         }
-        // 2-1. Å¥¿¡¼­ ¿ÀºêÁ§Æ®¸¦ ²¨³»±â
+        // 2-1. íì—ì„œ ì˜¤ë¸Œì íŠ¸ë¥¼ êº¼ë‚´ê¸°
         GameObject note_obj = ObjectPool.Dequeue();
-        // 2-2. ²¨³¾ ¶© È°¼ºÈ­
+        // 2-2. êº¼ë‚¼ ë• í™œì„±í™”
         note_obj.SetActive(true);
-        // 2-3. ²¨³½ ¿ÀºêÁ§Æ®¸¦ ¹İÈ¯
+        // 2-3. êº¼ë‚¸ ì˜¤ë¸Œì íŠ¸ë¥¼ ë°˜í™˜
         return note_obj;
     }
 
-    // 3´Ü°è: ¿ÀºêÁ§Æ®¸¦ Ç®¿¡ ¹İ³³ÇÏ´Â ¸Ş¼­µå
+    // 3ë‹¨ê³„: ì˜¤ë¸Œì íŠ¸ë¥¼ í’€ì— ë°˜ë‚©í•˜ëŠ” ë©”ì„œë“œ
     public void ReturnObjectToPool(GameObject obj)
     {
-        // 3-1. ³ÖÀ» ¶© ºñÈ°¼ºÈ­
+        // 3-1. ë„£ì„ ë• ë¹„í™œì„±í™”
         obj.SetActive(false);
-        // 3-2. ´Ù½Ã Å¥¿¡ ³Ö±â
+        // 3-2. ë‹¤ì‹œ íì— ë„£ê¸°
         ObjectPool.Enqueue(obj);
     }
 }
