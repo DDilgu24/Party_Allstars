@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
         fadeImage.gameObject.SetActive(true);
         IsFading = true;
 
+
         float elapsedTime = 0f; // 페이드가 진행된 시간 
         Color color = fadeImage.color; // 페이드 이미지의 색상 캐싱
         float endAlpha = isIn? 0 : 1; // 페이드용 이미지의 최종 투명도 값(0: 투명)
@@ -56,11 +57,11 @@ public class GameManager : MonoBehaviour
         }
 
         color.a = endAlpha;
+
         fadeImage.color = color; // 확실히 정해진 알파 값에 도달하게 보정
         IsFading = false;
         fadeImage.gameObject.SetActive(false);
         onComplete?.Invoke(); // 동작 완료 후 전달 된 콜백 함수를 호출
-    }
 
     public void SelectInfo(int playerNum, int comNum, int boardNo, int[] character)
     {

@@ -72,6 +72,7 @@ public class TitleManager : MonoBehaviour
     {
         GameObject charUI = poolingManager.GetObjectFromPool();
         SetCharUIProperties(charUI);
+
         charUI.transform.DOLocalMoveY(1400, Random.Range(4f, 5f)) // 오브젝트를 위로 올리고
             .OnComplete(() => poolingManager.ReturnObjectToPool(charUI)); // 다 올라갔으면 풀링 반환
         yield return new WaitForSeconds(Random.Range(0.8f, 1.0f)); // 0.8~ 1.0초 딜레이

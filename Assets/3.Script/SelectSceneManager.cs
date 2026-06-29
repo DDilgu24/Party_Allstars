@@ -80,6 +80,7 @@ public class SelectSceneManager : MonoBehaviour
                     break;
             }
         }
+
         // 1페이지 : 보드 선택
         else if (page.Equals(1))
         {
@@ -92,6 +93,12 @@ public class SelectSceneManager : MonoBehaviour
         {
             if (SelectTurn > TotalNum) return; // 최종 확인 상태(모든 캐릭터 선택 완료): 방향키 무효화
             while (true) // 새로 가리킬 곳이 이미 선택된 캐릭터인 경우, 그 이동을 반복
+        // 2������ : ĳ���� ����
+        else
+        {
+            if (SelectTurn > TotalNum) return; // ���� Ȯ�� ����(��� ĳ���� ���� �Ϸ�): ����Ű ��ȿȭ
+            while (true) // ���� ����ų ���� �̹� ���õ� ĳ������ ���, �� �̵��� �ݺ�
+>>>>>>> master
             {
                 switch (n)
                 {
@@ -131,6 +138,7 @@ public class SelectSceneManager : MonoBehaviour
                     0
                 );
             PlayerNumText.text = $"플레이어 수: {cursorIndex % 4 + 1}\nCOM의 수: {3 - (cursorIndex % 4) - (cursorIndex / 4)}";
+
         }
         else if (page.Equals(1))
         {

@@ -16,7 +16,7 @@ public class PoolingManager : MonoBehaviour
     {
         for (int i = 0; i < poolSize; i++)
         {
-            // 1-4-1. 오브젝트 생성
+           // 1-4-1. 오브젝트 생성
             GameObject note_obj = Instantiate(ObjectPrefab);
             note_obj.transform.SetParent(this.transform);
             // 1-4-2. 시작할 땐 비활성화
@@ -25,6 +25,7 @@ public class PoolingManager : MonoBehaviour
             ObjectPool.Enqueue(note_obj);
         }
     }
+
 
     // 2단계: 오브젝트를 풀에서 꺼낼 때 메서드
     public GameObject GetObjectFromPool()
