@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
         IsFading = false;
         fadeImage.gameObject.SetActive(false);
         onComplete?.Invoke(); // 동작 완료 후 전달 된 콜백 함수를 호출
+    }
 
     public void SelectInfo(int playerNum, int comNum, int boardNo, int[] character)
     {
