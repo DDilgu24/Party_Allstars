@@ -44,7 +44,7 @@ public class MenuManager : MonoBehaviour
             1 => new Vector3(300, 200, 0),
             2 => new Vector3(-300, -200, 0),
             3 => new Vector3(400, -200, 0),
-            _ => CursorPanel.anchoredPosition // �⺻��
+            _ => CursorPanel.anchoredPosition // 기본값
         };
         CursorPanel.anchoredPosition = newPosition;
     }
@@ -54,13 +54,13 @@ public class MenuManager : MonoBehaviour
         switch (menuIndex)
         {
             case 1:
-                Debug.Log("��Ʈ��ũ(�̿ϵ���)");
+                Debug.Log("네트워크(미완따리)");
                 break;
             case 2:
-                Debug.Log("������(�̿ϵ���)");
+                Debug.Log("뮤지엄(미완따리)");
                 break;
             case 3:
-                Debug.Log("����(�̿ϵ���)");
+                Debug.Log("설정(미완따리)");
                 break;
             default:
                 LoadScene(menuIndex);
