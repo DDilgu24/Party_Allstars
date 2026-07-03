@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,31 +11,31 @@ using Cinemachine;
 public class Board_Manager : MonoBehaviour
 {
     [SerializeField] public CinemachineVirtualCamera virtualCamera;
-    [SerializeField] public Transform[] playerMarks; // ÇÃ·¹ÀÌ¾î ¸» ¿ÀºêÁ§Æ® ¹è¿­
-    [SerializeField] public Transform[] Spaces; // ¹ßÆÇ À§Ä¡ ¹è¿­
+    [SerializeField] public Transform[] playerMarks; // í”Œë ˆì´ì–´ ë§ ì˜¤ë¸Œì íŠ¸ ë°°ì—´
+    [SerializeField] public Transform[] Spaces; // ë°œíŒ ìœ„ì¹˜ ë°°ì—´
 
-    [SerializeField] public GameObject[] CharUI; // Ä³¸¯ÅÍ »óÅÂ UI
-    [SerializeField] public Transform KeyExplain; // ´©¸¦ Å°¸¦ ¾Ë·ÁÁÖ´Â UI ¿ÀºêÁ§Æ®
-    [SerializeField] public Transform ViewModeCamera; // ´©¸¦ Å°¸¦ ¾Ë·ÁÁÖ´Â UI ¿ÀºêÁ§Æ®
+    [SerializeField] public GameObject[] CharUI; // ìºë¦­í„° ìƒíƒœ UI
+    [SerializeField] public Transform KeyExplain; // ëˆ„ë¥¼ í‚¤ë¥¼ ì•Œë ¤ì£¼ëŠ” UI ì˜¤ë¸Œì íŠ¸
+    [SerializeField] public Transform ViewModeCamera; // ëˆ„ë¥¼ í‚¤ë¥¼ ì•Œë ¤ì£¼ëŠ” UI ì˜¤ë¸Œì íŠ¸
     [SerializeField] public GameObject TurnAlert, Intro;
     [SerializeField] public Sprite[] DiceNum;
     [SerializeField] public Sprite[] DiceEdge;
     [SerializeField] public Sprite[] playerNum;
     [SerializeField] public Animator dice_ani;
-    public int[] orderDecideNum = new int[4] { 0, 0, 0, 0 }; // ¼ø¼­¸¦ Á¤ÇÒ ÁÖ»çÀ§ ´«±İ
-    public int[] order = new int[4] { 0, 0, 0, 0 }; // ¼ø¼­. [3, 2, 1, 4] ÀÌ¶ó¸é 3p > 2p > 1p > 4p ¼ø¼­ ÀÓÀ» ÀÇ¹Ì
-    public bool[] isStun = new bool[5] { true, false, false, false, false }; // Ä³¸¯ÅÍÀÇ ½ºÅÏ ¿©ºÎ. ÇÃ·¹ÀÌ¾î ¹øÈ£¸¦ ±âÁØÀ¸·Î ÇÔ(ÀÎµ¦½º 0 ¹Ì»ç¿ë)
+    public int[] orderDecideNum = new int[4] { 0, 0, 0, 0 }; // ìˆœì„œë¥¼ ì •í•  ì£¼ì‚¬ìœ„ ëˆˆê¸ˆ
+    public int[] order = new int[4] { 0, 0, 0, 0 }; // ìˆœì„œ. [3, 2, 1, 4] ì´ë¼ë©´ 3p > 2p > 1p > 4p ìˆœì„œ ì„ì„ ì˜ë¯¸
+    public bool[] isStun = new bool[5] { true, false, false, false, false }; // ìºë¦­í„°ì˜ ìŠ¤í„´ ì—¬ë¶€. í”Œë ˆì´ì–´ ë²ˆí˜¸ë¥¼ ê¸°ì¤€ìœ¼ë¡œ í•¨(ì¸ë±ìŠ¤ 0 ë¯¸ì‚¬ìš©)
 
-    public Color[] playerColor = new Color[5] { Color.gray, Color.blue, Color.red, Color.green, Color.yellow }; // ÇÃ·¹ÀÌ¾î ¹øÈ£ º° ÄÃ·¯
-    private Vector3[] playerOffset = new Vector3[5] { Vector3.zero, new Vector3(1f, 0, 0), new Vector3(-1f, 0, 0), new Vector3(0.5f, 0, 1f), new Vector3(-0.5f, 0, 1f) }; // ÇÃ·¹ÀÌ¾î ¹øÈ£ º° À§Ä¡ ¿ÀÇÁ¼Â
-    string[] dice_Name = new string[7] { "´õºí" , "´À¸´" , "10±îÁö" , "456" , "Â¦¼ö" , "È¦¼ö" , "±×³É" };
+    public Color[] playerColor = new Color[5] { Color.gray, Color.blue, Color.red, Color.green, Color.yellow }; // í”Œë ˆì´ì–´ ë²ˆí˜¸ ë³„ ì»¬ëŸ¬
+    private Vector3[] playerOffset = new Vector3[5] { Vector3.zero, new Vector3(1f, 0, 0), new Vector3(-1f, 0, 0), new Vector3(0.5f, 0, 1f), new Vector3(-0.5f, 0, 1f) }; // í”Œë ˆì´ì–´ ë²ˆí˜¸ ë³„ ìœ„ì¹˜ ì˜¤í”„ì…‹
+    string[] dice_Name = new string[7] { "ë”ë¸”" , "ëŠë¦¿" , "10ê¹Œì§€" , "456" , "ì§ìˆ˜" , "í™€ìˆ˜" , "ê·¸ëƒ¥" };
 
-    private int turns = 0; // ÅÏ ¼ö
-    private int phase; // ÇöÀç Â÷·Ê(0: ÅÏ ÃÊ±â / 1~4: n¹øÂ° ÇÃ·¹ÀÌ¾î / 5: ÅÏ Á¾·á(¹Ì´Ï°ÔÀÓ) / 6: ¹Ì´Ï°ÔÀÓ °á°ú(ÇöÀç »óÈ²))
+    private int turns = 0; // í„´ ìˆ˜
+    private int phase; // í˜„ì¬ ì°¨ë¡€(0: í„´ ì´ˆê¸° / 1~4: në²ˆì§¸ í”Œë ˆì´ì–´ / 5: í„´ ì¢…ë£Œ(ë¯¸ë‹ˆê²Œì„) / 6: ë¯¸ë‹ˆê²Œì„ ê²°ê³¼(í˜„ì¬ ìƒí™©))
     private bool EndGame = false;
     int N;
-    private int applyItemNo = 6; // Àû¿ëµÈ ÁÖ»çÀ§ ÀÎµ¦½º (6 = ±âº»)
-    private int DebugMove = 0; // µğ¹ö±× ¿ë
+    private int applyItemNo = 6; // ì ìš©ëœ ì£¼ì‚¬ìœ„ ì¸ë±ìŠ¤ (6 = ê¸°ë³¸)
+    private int DebugMove = 0; // ë””ë²„ê·¸ ìš©
 
     private IEnumerator Start()
     {
@@ -45,52 +45,52 @@ public class Board_Manager : MonoBehaviour
         RectTransform toad = Intro.transform.Find("Toad").GetComponent<RectTransform>();
         GameObject toadSpace = Intro.transform.Find("Toad/Space").GetComponent<RectTransform>().gameObject;
         Text toadSays = Intro.transform.Find("Toad/Says").GetComponent<Text>();
-        // ÀÎ¿ø ¼ö¸¦ ÃÊ°úÇÏ´Â ¸¸Å­ÀÇ Ä³¸¯ÅÍ ¸¶Å© ºñÈ°¼ºÈ­
+        // ì¸ì› ìˆ˜ë¥¼ ì´ˆê³¼í•˜ëŠ” ë§Œí¼ì˜ ìºë¦­í„° ë§ˆí¬ ë¹„í™œì„±í™”
         for (int i = N; i < 4; i++)
         {
             CharUI[i].SetActive(false);
             playerMarks[i].gameObject.SetActive(false);
         }
-        // 1´Ü°è : ÀÎÆ®·Î
+        // 1ë‹¨ê³„ : ì¸íŠ¸ë¡œ
         BD1SoundManager.instance.PlayBGM("Intro");
         Intro.transform.Find("BoardTitle").GetComponent<RectTransform>().DOSizeDelta(new Vector2(1192, 464), 3.0f).SetEase(Ease.InQuad);
         Intro.transform.Find("Toad").GetComponent<RectTransform>().DOAnchorPos(new Vector2(-900, -500), 2f).SetEase(Ease.Linear);
         yield return new WaitForSeconds(8.5f);
-        // 2´Ü°è : °ÔÀÓ ÁØºñ
-        // 2-1. °ÔÀÓ ½ÃÀÛÀ» ¾Ë¸®´Â ¹®±¸
+        // 2ë‹¨ê³„ : ê²Œì„ ì¤€ë¹„
+        // 2-1. ê²Œì„ ì‹œì‘ì„ ì•Œë¦¬ëŠ” ë¬¸êµ¬
         BD1SoundManager.instance.PlayBGM("BGM1");
         Intro.transform.Find("BoardTitle").transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.Linear);
 
         toadSays.text = "";
-        t = toadSays.DOText("±×·³ ÇÃ·¹ÀÌÇÒ ¼ø¼­¸¦ Á¤ÇÏ°Ú½À´Ï´Ù!", 0.5f);
+        t = toadSays.DOText("ê·¸ëŸ¼ í”Œë ˆì´í•  ìˆœì„œë¥¼ ì •í•˜ê² ìŠµë‹ˆë‹¤!", 0.5f);
         yield return t.WaitForCompletion();
 
         toadSpace.SetActive(true);
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-        // 2-2. ¼ø¼­ Á¤ÇÏ±â
+        // 2-2. ìˆœì„œ ì •í•˜ê¸°
         toad.DOAnchorPos(new Vector2(-900, -1500), 0.5f).SetEase(Ease.Linear);
         for (int i = 0; i < 4; i++)
         {
             if (i >= N)
             {
-                // ÀÎ¿ø ¼ö ÀÌ»óÀÇ ÀÎµ¦½ºÀÇ ¼ø¼­ ÁÖ»çÀ§´Â -1·Î Ã³¸®
+                // ì¸ì› ìˆ˜ ì´ìƒì˜ ì¸ë±ìŠ¤ì˜ ìˆœì„œ ì£¼ì‚¬ìœ„ëŠ” -1ë¡œ ì²˜ë¦¬
                 orderDecideNum[i] = -1;
                 continue;
             }
             yield return new WaitForSeconds(0.2f);
-            playerMarks[i].Find($"{i + 1}P_Dice").gameObject.SetActive(true); // ÁÖ»çÀ§ È°¼ºÈ­ 
+            playerMarks[i].Find($"{i + 1}P_Dice").gameObject.SetActive(true); // ì£¼ì‚¬ìœ„ í™œì„±í™” 
         }
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
         HitDice(1);
-        yield return new WaitUntil(() => !orderDecideNum.Any(value => value.Equals(0))); // ¸ğµç ÀÎ¿ø ÁÖ»çÀ§ °á°ú ³ª¿Ã ¶§±îÁö ´ë±â
-        // 2-3. ¼ø¼­ °áÁ¤ ¹× UI Àç¹èÄ¡
+        yield return new WaitUntil(() => !orderDecideNum.Any(value => value.Equals(0))); // ëª¨ë“  ì¸ì› ì£¼ì‚¬ìœ„ ê²°ê³¼ ë‚˜ì˜¬ ë•Œê¹Œì§€ ëŒ€ê¸°
+        // 2-3. ìˆœì„œ ê²°ì • ë° UI ì¬ë°°ì¹˜
         DecisionOrder();
         yield return new WaitForSeconds(1f);
-        // 2-4. ÁøÂ¥ °ÔÀÓ ½ÃÀÛ Àü
+        // 2-4. ì§„ì§œ ê²Œì„ ì‹œì‘ ì „
         toad.DOAnchorPos(new Vector2(-900, -500), 0.5f).SetEase(Ease.Linear);
         toadSpace.SetActive(false);
         toadSays.text = "";
-        t = toadSays.DOText("¼ø¼­°¡ Á¤ÇØÁ³¾î¿ä!", 0.5f);
+        t = toadSays.DOText("ìˆœì„œê°€ ì •í•´ì¡Œì–´ìš”!", 0.5f);
         yield return t.WaitForCompletion();
 
         toadSpace.SetActive(true);
@@ -99,7 +99,7 @@ public class Board_Manager : MonoBehaviour
 
         toadSpace.SetActive(false);
         toadSays.text = "";
-        t = toadSays.DOText("±×·³ ·¿Ã÷ ÆÄÆ¼!", 0.5f);
+        t = toadSays.DOText("ê·¸ëŸ¼ ë ›ì¸  íŒŒí‹°!", 0.5f);
         yield return t.WaitForCompletion();
 
         toadSpace.SetActive(true);
@@ -107,7 +107,7 @@ public class Board_Manager : MonoBehaviour
         Intro.SetActive(false);
         for (int i = 0; i < N ; i++)
         {
-            // ¸ğµç ÁÖ»çÀ§ ºñÈ°¼ºÈ­
+            // ëª¨ë“  ì£¼ì‚¬ìœ„ ë¹„í™œì„±í™”
             playerMarks[i].Find($"{i + 1}P_Dice").gameObject.SetActive(false);
         }
         virtualCamera.Priority = 11;
@@ -121,11 +121,11 @@ public class Board_Manager : MonoBehaviour
         Tween moveTween;
         int playerNo = order[phase - 1];
         int ifComThat0 = (playerNo > GameManager.instance.PlayerNum)? 0 : 1;
-        // 1. ÇöÀç Â÷·ÊÀÎ Ä³¸¯ÅÍ¸¦ Áß½ÉÀ¸·Î Ä«¸Ş¶ó ÀÌµ¿
-        playerMarks[playerNo - 1].transform.position += 0.1f * Vector3.forward; // ÇöÀç Ä³¸¯ÅÍ¸¦ ¾ÕÀ¸·Î º¸ÀÌ°Ô
+        // 1. í˜„ì¬ ì°¨ë¡€ì¸ ìºë¦­í„°ë¥¼ ì¤‘ì‹¬ìœ¼ë¡œ ì¹´ë©”ë¼ ì´ë™
+        playerMarks[playerNo - 1].transform.position += 0.1f * Vector3.forward; // í˜„ì¬ ìºë¦­í„°ë¥¼ ì•ìœ¼ë¡œ ë³´ì´ê²Œ
         SetCameraTarget(playerNo);
-        // 2. ÇöÀç Â÷·Ê°¡ ´©±ºÁö ¾Ë·ÁÁÖ´Â UI
-        // 2-1. °¡¿îµ¥¿¡ ´©±¸ Â÷·ÊÀÎÁö ¶ç¿ì´Â ¿ÀºêÁ§Æ® ¼¼ÆÃ
+        // 2. í˜„ì¬ ì°¨ë¡€ê°€ ëˆ„êµ°ì§€ ì•Œë ¤ì£¼ëŠ” UI
+        // 2-1. ê°€ìš´ë°ì— ëˆ„êµ¬ ì°¨ë¡€ì¸ì§€ ë„ìš°ëŠ” ì˜¤ë¸Œì íŠ¸ ì„¸íŒ…
         Vector3 v = new Vector3(1375, -25, 0);
         TurnAlert.GetComponent<RectTransform>().anchoredPosition = v;
         TurnAlert.transform.Find("Center/Edge").GetComponent<Image>().color = playerColor[playerNo * ifComThat0];
@@ -134,13 +134,13 @@ public class Board_Manager : MonoBehaviour
         TurnAlert.transform.Find("Center/Mask/Character").GetComponent<Image>().sprite = CharUI[playerNo - 1].transform.Find("Center/Mask/Character").GetComponent<Image>().sprite;
         TurnAlert.transform.Find("Space").gameObject.SetActive(false);
         yield return null;
-        // 2-2. Â÷·Ê ¾Ë¸²°ú Å° ¼³Á¤ È­¸é ¾ÈÀ¸·Î
+        // 2-2. ì°¨ë¡€ ì•Œë¦¼ê³¼ í‚¤ ì„¤ì • í™”ë©´ ì•ˆìœ¼ë¡œ
         v = new Vector3(-125, -25, 0);
         moveTween = TurnAlert.GetComponent<RectTransform>().DOAnchorPos(v, 0.5f).SetEase(Ease.OutQuad);
         yield return moveTween.WaitForCompletion();
-        TurnAlert.transform.Find("Space").gameObject.SetActive(playerNo <= GameManager.instance.PlayerNum); // ÇÃ·¹ÀÌ¾î ÅÏÀÏ¶§¸¸ Space ÀÌ¹ÌÁö È°¼ºÈ­
+        TurnAlert.transform.Find("Space").gameObject.SetActive(playerNo <= GameManager.instance.PlayerNum); // í”Œë ˆì´ì–´ í„´ì¼ë•Œë§Œ Space ì´ë¯¸ì§€ í™œì„±í™”
 
-        // 2-3. ½ºÆäÀÌ½º ¹Ù ÀÔ·Â(Player) ¶Ç´Â 0.5ÃÊ µô·¹ÀÌ ÈÄ(COM) ³Ñ¾î°¨
+        // 2-3. ìŠ¤í˜ì´ìŠ¤ ë°” ì…ë ¥(Player) ë˜ëŠ” 0.5ì´ˆ ë”œë ˆì´ í›„(COM) ë„˜ì–´ê°
         if (playerNo > GameManager.instance.PlayerNum)
             yield return new WaitForSeconds(0.5f);
         else 
@@ -148,76 +148,76 @@ public class Board_Manager : MonoBehaviour
         
         v = new Vector3(-1500, -25, 0);
         TurnAlert.GetComponent<RectTransform>().DOAnchorPos(v, 0.5f).SetEase(Ease.OutQuad);
-        // ½ºÅÏ »óÅÂ°¡ ¾Æ´Ï¾î¾ß 3~5 ÁøÇà
+        // ìŠ¤í„´ ìƒíƒœê°€ ì•„ë‹ˆì–´ì•¼ 3~5 ì§„í–‰
         if (!isStun[playerNo]) 
         {
-            // 3. ¼±ÅÃ ÆäÀÌÁî Àü¹İÀ» ÇÏ³ªÀÇ ÄÚ·çÆ¾¿¡¼­ Ã³¸®
+            // 3. ì„ íƒ í˜ì´ì¦ˆ ì „ë°˜ì„ í•˜ë‚˜ì˜ ì½”ë£¨í‹´ì—ì„œ ì²˜ë¦¬
             applyItemNo = 6;
             yield return StartCoroutine(SelectAction(playerNo));
             int move = HitDice(playerNo);
             if (applyItemNo.Equals(0))
             {
-                move *= 2; // ´õºí ÁÖ»çÀ§´Â °á°ú °ª 2¹è
+                move *= 2; // ë”ë¸” ì£¼ì‚¬ìœ„ëŠ” ê²°ê³¼ ê°’ 2ë°°
                 yield return new WaitForSeconds(0.5f);
-                playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").GetChild(0).GetComponent<SpriteRenderer>().sprite = DiceNum[move]; // ³²Àº ´«±İÀ¸·Î ÀÌ¹ÌÁö º¯°æ
+                playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").GetChild(0).GetComponent<SpriteRenderer>().sprite = DiceNum[move]; // ë‚¨ì€ ëˆˆê¸ˆìœ¼ë¡œ ì´ë¯¸ì§€ ë³€ê²½
             }
-            // 4. Ä³¸¯ÅÍ ÀÌµ¿
-            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").GetChild(1).gameObject.SetActive(false); // ÁÖ»çÀ§ Å×µÎ¸® ºñÈ°¼ºÈ­. ¼ıÀÚ¸¸ º¸ÀÌ°Ô
+            // 4. ìºë¦­í„° ì´ë™
+            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").GetChild(1).gameObject.SetActive(false); // ì£¼ì‚¬ìœ„ í…Œë‘ë¦¬ ë¹„í™œì„±í™”. ìˆ«ìë§Œ ë³´ì´ê²Œ
             yield return new WaitForSeconds(0.5f);
             while (move > 0)
             {
                 yield return new WaitForSeconds(0.25f);
 
-                CharInfoManager.instance.ScoreAdd(playerNo); // Á¡¼ö¸¦ ´õÇÏ±â
-                int newscore = CharInfoManager.instance.charinfo[playerNo - 1].score; // ¹Ù²ï Á¡¼ö¸¦ Ä³½Ì
-                Vector3 newpos = Spaces[newscore].position + Vector3.forward * 0.1f; // ´ÙÀ½ Ä­À» µµÂø ÁÂÇ¥·Î
+                CharInfoManager.instance.ScoreAdd(playerNo); // ì ìˆ˜ë¥¼ ë”í•˜ê¸°
+                int newscore = CharInfoManager.instance.charinfo[playerNo - 1].score; // ë°”ë€ ì ìˆ˜ë¥¼ ìºì‹±
+                Vector3 newpos = Spaces[newscore].position + Vector3.forward * 0.1f; // ë‹¤ìŒ ì¹¸ì„ ë„ì°© ì¢Œí‘œë¡œ
 
                 bool moveIsJump = (newscore >= 23 && newscore != 30) || (4 <= newscore && newscore <= 11);
 
                 if (moveIsJump)
-                    moveTween = playerMarks[playerNo - 1].transform.DOLocalJump(newpos, 2f, 1, 0.3f); // Ä³¸¯ÅÍ ¸» ÀÌµ¿ - Á¡ÇÁ
+                    moveTween = playerMarks[playerNo - 1].transform.DOLocalJump(newpos, 2f, 1, 0.3f); // ìºë¦­í„° ë§ ì´ë™ - ì í”„
                 else 
-                    moveTween = playerMarks[playerNo - 1].transform.DOMove(newpos, 0.3f).SetEase(Ease.Linear); // Ä³¸¯ÅÍ ¸» ÀÌµ¿ - Á÷¼±
-                yield return moveTween.WaitForCompletion(); // ¸» ÀÌµ¿ÀÌ ³¡³¯ ¶§±îÁö ´ë±â
+                    moveTween = playerMarks[playerNo - 1].transform.DOMove(newpos, 0.3f).SetEase(Ease.Linear); // ìºë¦­í„° ë§ ì´ë™ - ì§ì„ 
+                yield return moveTween.WaitForCompletion(); // ë§ ì´ë™ì´ ëë‚  ë•Œê¹Œì§€ ëŒ€ê¸°
 
-                move--; // ³²Àº ´«±İ 1 °¨¼Ò
-                playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").GetChild(0).GetComponent<SpriteRenderer>().sprite = DiceNum[move]; // ³²Àº ´«±İÀ¸·Î ÀÌ¹ÌÁö º¯°æ
-                // °ñ´ë µµÂøÇß´Ù¸é
+                move--; // ë‚¨ì€ ëˆˆê¸ˆ 1 ê°ì†Œ
+                playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").GetChild(0).GetComponent<SpriteRenderer>().sprite = DiceNum[move]; // ë‚¨ì€ ëˆˆê¸ˆìœ¼ë¡œ ì´ë¯¸ì§€ ë³€ê²½
+                // ê³¨ëŒ€ ë„ì°©í–ˆë‹¤ë©´
                 if (CharInfoManager.instance.charinfo[playerNo - 1].score > 33) 
                 {
                     BD1SoundManager.instance.BGMPlayer.pitch = 1f;
-                    playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.SetActive(false); // ÁÖ»çÀ§¸¦ ºñÈ°¼ºÈ­ 
+                    playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.SetActive(false); // ì£¼ì‚¬ìœ„ë¥¼ ë¹„í™œì„±í™” 
                     move = 0;
                     EndGame = true;
                     newpos += Vector3.down * 9.5f;
                     BD1SoundManager.instance.StopBGM();
                     BD1SoundManager.instance.PlaySFX("FlagDown");
-                    CharUI[0].transform.parent.GetComponent<RectTransform>().DOMoveY(1000, 0.5f); // ¼øÀ§Ç¥ UI Ä¡¿ì±â
-                    moveTween = playerMarks[playerNo - 1].transform.DOMove(newpos, 1.5f).SetEase(Ease.Linear); // ±ê´ë ¾Æ·¡·Î ÀÌµ¿
-                    yield return moveTween.WaitForCompletion(); // ¸» ÀÌµ¿ÀÌ ³¡³¯ ¶§±îÁö ´ë±â
+                    CharUI[0].transform.parent.GetComponent<RectTransform>().DOMoveY(1000, 0.5f); // ìˆœìœ„í‘œ UI ì¹˜ìš°ê¸°
+                    moveTween = playerMarks[playerNo - 1].transform.DOMove(newpos, 1.5f).SetEase(Ease.Linear); // ê¹ƒëŒ€ ì•„ë˜ë¡œ ì´ë™
+                    yield return moveTween.WaitForCompletion(); // ë§ ì´ë™ì´ ëë‚  ë•Œê¹Œì§€ ëŒ€ê¸°
                     playerMarks[playerNo - 1].transform.DOMove(Spaces[35].position + Vector3.forward * 2, 0.5f).SetEase(Ease.Linear);
                     BD1SoundManager.instance.PlaySFX("Victory");
                 }
-                else if (CharInfoManager.instance.charinfo[playerNo - 1].score >= 25) // 25Á¡ µµ´ŞÇÏ¸é
+                else if (CharInfoManager.instance.charinfo[playerNo - 1].score >= 25) // 25ì  ë„ë‹¬í•˜ë©´
                     BD1SoundManager.instance.BGMPlayer.pitch = 1.1f;
             }
             yield return new WaitForSeconds(0.1f);
-            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").GetChild(1).gameObject.SetActive(true); // ÁÖ»çÀ§ Å×µÎ¸® ´Ù½Ã È°¼ºÈ­ÇÏ°í
-            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.SetActive(false); // ÁÖ»çÀ§¸¦ ºñÈ°¼ºÈ­ 
-            // 5. ¸ØÃá Ä­¿¡ ¸Â´Â ÀÌº¥Æ® - ÄÚ·çÆ¾À¸·Î Ã³¸®
+            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").GetChild(1).gameObject.SetActive(true); // ì£¼ì‚¬ìœ„ í…Œë‘ë¦¬ ë‹¤ì‹œ í™œì„±í™”í•˜ê³ 
+            playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject.SetActive(false); // ì£¼ì‚¬ìœ„ë¥¼ ë¹„í™œì„±í™” 
+            // 5. ë©ˆì¶˜ ì¹¸ì— ë§ëŠ” ì´ë²¤íŠ¸ - ì½”ë£¨í‹´ìœ¼ë¡œ ì²˜ë¦¬
             yield return StartCoroutine(SpaceEvent_co(playerNo, CharInfoManager.instance.charinfo[playerNo - 1].score));
         }
-        else // ½ºÅÏ »óÅÂ ¿´´Ù¸é
+        else // ìŠ¤í„´ ìƒíƒœ ì˜€ë‹¤ë©´
         {
             yield return new WaitForSeconds(1f);
-            isStun[playerNo] = false; // ½ºÅÏ »óÅÂ ÇØÁ¦
-            playerMarks[playerNo - 1].Find("Stun").gameObject.SetActive(false); // ÆÄÆ¼Å¬µµ ÇØÁ¦
+            isStun[playerNo] = false; // ìŠ¤í„´ ìƒíƒœ í•´ì œ
+            playerMarks[playerNo - 1].Find("Stun").gameObject.SetActive(false); // íŒŒí‹°í´ë„ í•´ì œ
             CharUI[playerNo - 1].transform.Find("Stun").gameObject.SetActive(false);
         }
 
-        // 6. ÅÏ Á¾·á ½Ã
+        // 6. í„´ ì¢…ë£Œ ì‹œ
         yield return new WaitForSeconds(0.5f);
-        // °ÔÀÓ ³¡³µÀ¸¸é ¿£µù È¿°ú
+        // ê²Œì„ ëë‚¬ìœ¼ë©´ ì—”ë”© íš¨ê³¼
         if (EndGame) 
         {
             yield return StartCoroutine(CharInfoManager.instance.ResultUISetting());
@@ -228,30 +228,30 @@ public class Board_Manager : MonoBehaviour
                 GameManager.instance.FadeIn();
             });
         }
-        else // ¾Æ´Ï¸é ´ÙÀ½ Â÷·Ê·Î
+        else // ì•„ë‹ˆë©´ ë‹¤ìŒ ì°¨ë¡€ë¡œ
         {
-            playerMarks[playerNo - 1].transform.position -= 0.1f * Vector3.forward; // Â÷·Ê ³¡³­ Ä³¸¯ÅÍÀÇ zÃà º¸Á¤ ÇØÁ¦
+            playerMarks[playerNo - 1].transform.position -= 0.1f * Vector3.forward; // ì°¨ë¡€ ëë‚œ ìºë¦­í„°ì˜ zì¶• ë³´ì • í•´ì œ
             phase++;
-            if (phase > GameManager.instance.TotalNum) { turns++; phase = 1; } // ¸ğµç Â÷·Ê ³¡³ª¸é ¹Ù·Î 1¹øÂ°·Î. ¹Ì´Ï°ÔÀÓ ÆäÀÌÁî´Â ÀÏ´Ü ¾ø´Â °É·Î
-            StartCoroutine(PlayerTurn_co()); // ´ÙÀ½ ÇÃ·¹ÀÌ¾î·Î
+            if (phase > GameManager.instance.TotalNum) { turns++; phase = 1; } // ëª¨ë“  ì°¨ë¡€ ëë‚˜ë©´ ë°”ë¡œ 1ë²ˆì§¸ë¡œ. ë¯¸ë‹ˆê²Œì„ í˜ì´ì¦ˆëŠ” ì¼ë‹¨ ì—†ëŠ” ê±¸ë¡œ
+            StartCoroutine(PlayerTurn_co()); // ë‹¤ìŒ í”Œë ˆì´ì–´ë¡œ
         }
     }
 
-    // ÁØºñ 2-2(¼ø¼­ Á¤ÇÏ±â) + ÅÏ ÁøÇà 5(ÁÖ»çÀ§ µÎµå¸®±â) °ü·Ã ¸Ş¼Òµå
+    // ì¤€ë¹„ 2-2(ìˆœì„œ ì •í•˜ê¸°) + í„´ ì§„í–‰ 5(ì£¼ì‚¬ìœ„ ë‘ë“œë¦¬ê¸°) ê´€ë ¨ ë©”ì†Œë“œ
     private int HitDice(int p)
     {
-        Transform tf = playerMarks[p - 1].Find($"{p}P_Dice"); // ÁÖ»çÀ§¸¦ Ä³½Ã
-        playerMarks[p - 1].transform.DOLocalMoveY(playerMarks[p - 1].transform.position.y + 1.8f, 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.OutQuad); // Ä³¸¯ÅÍ Á¡ÇÁ È¿°ú
-        tf.transform.DOLocalMoveY(3 - 1.2f, 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.OutQuad); // ÁÖ»çÀ§´Â °¡¸¸È÷ ÀÖµµ·Ï º¸ÀÌ°Ô
-        tf.GetChild(2).GetComponent<ParticleSystem>().Play(); // ÆÄÆ¼Å¬ Àç»ı
+        Transform tf = playerMarks[p - 1].Find($"{p}P_Dice"); // ì£¼ì‚¬ìœ„ë¥¼ ìºì‹œ
+        playerMarks[p - 1].transform.DOLocalMoveY(playerMarks[p - 1].transform.position.y + 1.8f, 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.OutQuad); // ìºë¦­í„° ì í”„ íš¨ê³¼
+        tf.transform.DOLocalMoveY(3 - 1.2f, 0.2f).SetLoops(2, LoopType.Yoyo).SetEase(Ease.OutQuad); // ì£¼ì‚¬ìœ„ëŠ” ê°€ë§Œíˆ ìˆë„ë¡ ë³´ì´ê²Œ
+        tf.GetChild(2).GetComponent<ParticleSystem>().Play(); // íŒŒí‹°í´ ì¬ìƒ
         int r = applyItemNo switch
         {
-            0 => UnityEngine.Random.Range(1, 7),// (ÀÓ½Ã) ´õºí ÁÖ»çÀ§ : ÀÏ´Ü 1~6
-            1 => tf.GetChild(0).GetComponent<SpriteRenderer>().sprite.name.Last() - 48,// ´À¸´ ÁÖ»çÀ§
-            2 => UnityEngine.Random.Range(1, 11),// 10±îÁö ÁÖ»çÀ§
-            3 => UnityEngine.Random.Range(4, 7),// 456 ÁÖ»çÀ§
-            4 => UnityEngine.Random.Range(1, 4) * 2,// Â¦¼ö ÁÖ»çÀ§
-            5 => UnityEngine.Random.Range(1, 4) * 2 - 1,// È¦¼ö ÁÖ»çÀ§
+            0 => UnityEngine.Random.Range(1, 7),// (ì„ì‹œ) ë”ë¸” ì£¼ì‚¬ìœ„ : ì¼ë‹¨ 1~6
+            1 => tf.GetChild(0).GetComponent<SpriteRenderer>().sprite.name.Last() - 48,// ëŠë¦¿ ì£¼ì‚¬ìœ„
+            2 => UnityEngine.Random.Range(1, 11),// 10ê¹Œì§€ ì£¼ì‚¬ìœ„
+            3 => UnityEngine.Random.Range(4, 7),// 456 ì£¼ì‚¬ìœ„
+            4 => UnityEngine.Random.Range(1, 4) * 2,// ì§ìˆ˜ ì£¼ì‚¬ìœ„
+            5 => UnityEngine.Random.Range(1, 4) * 2 - 1,// í™€ìˆ˜ ì£¼ì‚¬ìœ„
             _ => UnityEngine.Random.Range(1, 7),
         };
 
@@ -261,10 +261,10 @@ public class Board_Manager : MonoBehaviour
             DebugMove = 0;
         }
 
-        // ¼ø¼­ Á¤ÇÏ±â ´Ü°èÀÎ °æ¿ì
+        // ìˆœì„œ ì •í•˜ê¸° ë‹¨ê³„ì¸ ê²½ìš°
         if (turns.Equals(0))
         {
-            while (orderDecideNum.Any(value => value.Equals(r))) // ¼ø¼­ Á¤ÇÏ±â ÀÌ¹Ç·Î Áßº¹À» ¹èÁ¦
+            while (orderDecideNum.Any(value => value.Equals(r))) // ìˆœì„œ ì •í•˜ê¸° ì´ë¯€ë¡œ ì¤‘ë³µì„ ë°°ì œ
                 r = UnityEngine.Random.Range(1, 7);
             orderDecideNum[p - 1] = r;
             if (p.Equals(1))
@@ -273,7 +273,7 @@ public class Board_Manager : MonoBehaviour
             }
         }
 
-        tf.GetComponent<Animator>().SetBool("DiceStop",true); // ÁÖ»çÀ§: ¾Ö´Ï¸ŞÀÌ¼ÇÀ» Á¤ÁöÇÏ°í ÀÌ¹ÌÁö¸¦ °á°ú°ªÀ¸·Î º¯°æ 
+        tf.GetComponent<Animator>().SetBool("DiceStop",true); // ì£¼ì‚¬ìœ„: ì• ë‹ˆë©”ì´ì…˜ì„ ì •ì§€í•˜ê³  ì´ë¯¸ì§€ë¥¼ ê²°ê³¼ê°’ìœ¼ë¡œ ë³€ê²½ 
         tf.GetComponent<Animator>().enabled = false;
         tf.GetChild(0).GetComponent<SpriteRenderer>().sprite = DiceNum[r];
         return r;
@@ -308,34 +308,34 @@ public class Board_Manager : MonoBehaviour
         }
     }
 
-    // ÅÏ ÁøÇà 1(ÅÏ¿¡ ¸Â´Â Ä«¸Ş¶ó ÀÌµ¿)
+    // í„´ ì§„í–‰ 1(í„´ì— ë§ëŠ” ì¹´ë©”ë¼ ì´ë™)
     public void SetCameraTarget(int playerIndex)
     {
-        // ÇÃ·¹ÀÌ¾î ¸» ¿ÀºêÁ§Æ®ÀÇ TransformÀ» Ä«¸Ş¶óÀÇ Å¸°ÙÀ¸·Î ¼³Á¤
+        // í”Œë ˆì´ì–´ ë§ ì˜¤ë¸Œì íŠ¸ì˜ Transformì„ ì¹´ë©”ë¼ì˜ íƒ€ê²Ÿìœ¼ë¡œ ì„¤ì •
         Transform target = playerMarks[playerIndex - 1];
         virtualCamera.Follow = target;
         virtualCamera.LookAt = target;
     }
 
-    // ÅÏ ÁøÇà 3(Çàµ¿À» ¼±ÅÃÇÏ´Â ÀÌº¥Æ®)
+    // í„´ ì§„í–‰ 3(í–‰ë™ì„ ì„ íƒí•˜ëŠ” ì´ë²¤íŠ¸)
     private IEnumerator SelectAction(int playerNo)
     {
         bool thisCoAgain = true;
-        // ÄÚ·çÆ¾ ÀüÃ¼¸¦ while·Î °¨½Î ÇØ´ç ÄÚ·çÆ¾ÀÌ Æ¯Á¤ »óÈ²¿¡ ´Ù½Ã µ¹¾Æ°¡µµ·Ï ÇÔ
+        // ì½”ë£¨í‹´ ì „ì²´ë¥¼ whileë¡œ ê°ì‹¸ í•´ë‹¹ ì½”ë£¨í‹´ì´ íŠ¹ì • ìƒí™©ì— ë‹¤ì‹œ ëŒì•„ê°€ë„ë¡ í•¨
         while (thisCoAgain)
         {
             int itemCount = CharInfoManager.instance.charinfo[playerNo - 1].itemCount;
-            // 0. Àû¿ëµÈ ÁÖ»çÀ§¿¡ ¸Â°Ô Å×µÎ¸® º¯°æ
+            // 0. ì ìš©ëœ ì£¼ì‚¬ìœ„ì— ë§ê²Œ í…Œë‘ë¦¬ ë³€ê²½
             playerMarks[playerNo - 1].Find($"{playerNo}P_Dice/SMP_DiceEdge").GetComponent<SpriteRenderer>().sprite = DiceEdge[applyItemNo % 6];
-            // 1. ÀÏ´Ü ÁÖ»çÀ§°¡ µ¹¾Æ°¡°Ô
+            // 1. ì¼ë‹¨ ì£¼ì‚¬ìœ„ê°€ ëŒì•„ê°€ê²Œ
             yield return new WaitForSeconds(0.25f);
             GameObject player_Dice = playerMarks[playerNo - 1].Find($"{playerNo}P_Dice").gameObject;
-            player_Dice.SetActive(true); // ÁÖ»çÀ§ È°¼ºÈ­ 
-            player_Dice.GetComponent<Animator>().enabled = true; // ÁÖ»çÀ§ ¾Ö´Ïµµ È°¼ºÈ­
-            player_Dice.GetComponent<Animator>().SetBool("DiceStop", false); // ÁÖ»çÀ§¸¦ ´Ù½Ã µ¹¾Æ°¡°Ô
+            player_Dice.SetActive(true); // ì£¼ì‚¬ìœ„ í™œì„±í™” 
+            player_Dice.GetComponent<Animator>().enabled = true; // ì£¼ì‚¬ìœ„ ì• ë‹ˆë„ í™œì„±í™”
+            player_Dice.GetComponent<Animator>().SetBool("DiceStop", false); // ì£¼ì‚¬ìœ„ë¥¼ ë‹¤ì‹œ ëŒì•„ê°€ê²Œ
             int keyInput = -1;
-            // 2. À¯È¿ÇÑ Å°(Ctrl, Shift, Spacebar)°¡ ÀÔ·ÂµÇ¸é ´ÙÀ½ ÀÛ¾÷
-            // COMÀº ¾ÆÀÌÅÛÀÌ ÀÖÀ¸¸é ÀÚµ¿À¸·Î 1¹øÂ° °Í »ç¿ë ¹× ÀÚµ¿À¸·Î Spacebar ÀÔ·ÂÇÑ °É·Î Ã³¸® 
+            // 2. ìœ íš¨í•œ í‚¤(Ctrl, Shift, Spacebar)ê°€ ì…ë ¥ë˜ë©´ ë‹¤ìŒ ì‘ì—…
+            // COMì€ ì•„ì´í…œì´ ìˆìœ¼ë©´ ìë™ìœ¼ë¡œ 1ë²ˆì§¸ ê²ƒ ì‚¬ìš© ë° ìë™ìœ¼ë¡œ Spacebar ì…ë ¥í•œ ê±¸ë¡œ ì²˜ë¦¬ 
             if (playerNo > GameManager.instance.PlayerNum)
             {
                 yield return new WaitForSeconds(0.5f);
@@ -348,7 +348,7 @@ public class Board_Manager : MonoBehaviour
                 yield return new WaitForSeconds(0.5f);
                 keyInput = 13;
             }
-            // ÇÃ·¹ÀÌ¾î´Â ¼±ÅÃÁö°¡ ¶ß°Ô ÇÏ¸é¼­, À¯È¿ÇÑ Å°¸¦ ÀÔ·Â¹Ş±â
+            // í”Œë ˆì´ì–´ëŠ” ì„ íƒì§€ê°€ ëœ¨ê²Œ í•˜ë©´ì„œ, ìœ íš¨í•œ í‚¤ë¥¼ ì…ë ¥ë°›ê¸°
             else
             {
                 KeyExplain.Find("SelectMode").gameObject.SetActive(true);
@@ -356,28 +356,28 @@ public class Board_Manager : MonoBehaviour
                 keyInput = VaildKeyinput();
             }
             KeyExplain.Find("SelectMode").gameObject.SetActive(false);
-            // 3. ÀÔ·ÂÇÑ Å°¿¡ µû¶ó ÀÛ¾÷ °³½Ã
-            // 3-1. µÑ·¯º¸±â ¸ğµå
+            // 3. ì…ë ¥í•œ í‚¤ì— ë”°ë¼ ì‘ì—… ê°œì‹œ
+            // 3-1. ë‘˜ëŸ¬ë³´ê¸° ëª¨ë“œ
             if (keyInput.Equals(11))
             {
                 KeyExplain.Find("ViewMode").gameObject.SetActive(true);
                 ViewModeCamera.position = new Vector3(
                     virtualCamera.Follow.position.x,
                     2,
-                    virtualCamera.Follow.position.z + 1.9f); // ºä ¸ğµå¿ë transformÀ» Áö±İ Ä«¸Ş¶ó À§Ä¡·Î
-                virtualCamera.Follow = ViewModeCamera; // °¡»ó Ä«¸Ş¶ó¸¦ ºä ¸ğµå¿ë transform º¸°Ô
+                    virtualCamera.Follow.position.z + 1.9f); // ë·° ëª¨ë“œìš© transformì„ ì§€ê¸ˆ ì¹´ë©”ë¼ ìœ„ì¹˜ë¡œ
+                virtualCamera.Follow = ViewModeCamera; // ê°€ìƒ ì¹´ë©”ë¼ë¥¼ ë·° ëª¨ë“œìš© transform ë³´ê²Œ
                 virtualCamera.LookAt = ViewModeCamera;
 
                 while (true)
                 {
-                    // Esc : 3-1ÀÇ ·çÇÁ Á¾·á, °á°úÀûÀ¸·Î SelectActionÀÌ ´Ù½Ã µ¹¾Æ°¨
+                    // Esc : 3-1ì˜ ë£¨í”„ ì¢…ë£Œ, ê²°ê³¼ì ìœ¼ë¡œ SelectActionì´ ë‹¤ì‹œ ëŒì•„ê°
                     if (Input.GetKeyDown(KeyCode.Escape))
                     {
-                        virtualCamera.Follow = playerMarks[playerNo - 1]; // °¡»ó Ä«¸Ş¶ó¸¦ ´Ù½Ã Ä³¸¯ÅÍ º¸°Ô
+                        virtualCamera.Follow = playerMarks[playerNo - 1]; // ê°€ìƒ ì¹´ë©”ë¼ë¥¼ ë‹¤ì‹œ ìºë¦­í„° ë³´ê²Œ
                         virtualCamera.LookAt = playerMarks[playerNo - 1];
                         break;
                     }
-                    // LeftArrow : ´©¸£´Â µ¿¾È Áö¼ÓÀûÀ¸·Î Ä«¸Ş¶ó°¡ ¿ŞÂÊÀ¸·Î(¹æÇâÅ°¿Í ÁÂÇ¥ ÀÌµ¿Àº ¹İ´ë)
+                    // LeftArrow : ëˆ„ë¥´ëŠ” ë™ì•ˆ ì§€ì†ì ìœ¼ë¡œ ì¹´ë©”ë¼ê°€ ì™¼ìª½ìœ¼ë¡œ(ë°©í–¥í‚¤ì™€ ì¢Œí‘œ ì´ë™ì€ ë°˜ëŒ€)
                     else if (Input.GetKey(KeyCode.LeftArrow))
                     {
                         ViewModeCamera.position += 50f * Time.deltaTime * Vector3.right;
@@ -391,28 +391,28 @@ public class Board_Manager : MonoBehaviour
                         if (ViewModeCamera.position.x < -146.5f)
                             ViewModeCamera.position = new Vector3(-146.5f, 2f, 6f);
                     }
-                    yield return null; // ÀÌ ÁÙ¿¡¼­ ´ë±â ÈÄ ´ÙÀ½ ÇÁ·¹ÀÓÀ¸·Î ³Ñ¾î°¨
+                    yield return null; // ì´ ì¤„ì—ì„œ ëŒ€ê¸° í›„ ë‹¤ìŒ í”„ë ˆì„ìœ¼ë¡œ ë„˜ì–´ê°
                 }
 
                 KeyExplain.Find("ViewMode").gameObject.SetActive(false);
             }
-            // 3-2. ¾ÆÀÌÅÛ ¼±ÅÃ ¸ğµå
+            // 3-2. ì•„ì´í…œ ì„ íƒ ëª¨ë“œ
             else if (keyInput.Equals(12))
             {
                 KeyExplain.Find("ItemMode").gameObject.SetActive(true);
-                // ¾ÆÀÌÅÛ °³¼ö ºÒ·¯¿À±â
+                // ì•„ì´í…œ ê°œìˆ˜ ë¶ˆëŸ¬ì˜¤ê¸°
                 int cursor = 0;
-                // Ä¿¼­ ÃÊ±âÈ­
+                // ì»¤ì„œ ì´ˆê¸°í™”
                 KeyExplain.Find($"ItemMode/Items/Arrow").GetComponent<RectTransform>().anchoredPosition = new Vector3(-288, 560, 0);
                 for (int i = 0; i <= itemCount; i++)
                 {
                     float alpha = (i.Equals(cursor)) ? 1 : 0.4f;
                     KeyExplain.Find($"ItemMode/Items/Item_{i}").GetComponent<Image>().color = new Color(1, 1, 1, alpha);
                 }
-                // ÅØ½ºÆ® º¯°æ
-                KeyExplain.Find($"ItemMode/Items/Text").GetComponent<Text>().text = "±×³É ÁÖ»çÀ§";
+                // í…ìŠ¤íŠ¸ ë³€ê²½
+                KeyExplain.Find($"ItemMode/Items/Text").GetComponent<Text>().text = "ê·¸ëƒ¥ ì£¼ì‚¬ìœ„";
 
-                // ¾ÆÀÌÅÛ ÀÌ¹ÌÁö ºÒ·¯¿À±â
+                // ì•„ì´í…œ ì´ë¯¸ì§€ ë¶ˆëŸ¬ì˜¤ê¸°
                 for (int i=0; i<3; i++)
                 {
                     KeyExplain.Find($"ItemMode/Items/Item_{i+1}").GetComponent<Image>().sprite 
@@ -428,21 +428,21 @@ public class Board_Manager : MonoBehaviour
                     else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
                     {
                         bool isRightKey = Input.GetKeyDown(KeyCode.RightArrow);
-                        // Ä¿¼­ ÀÎµ¦½º º¯°æ
+                        // ì»¤ì„œ ì¸ë±ìŠ¤ ë³€ê²½
                         cursor += ((isRightKey)? 1 : itemCount);
                         cursor %= (itemCount + 1);
-                        // È­»ìÇ¥ ÀÌµ¿
+                        // í™”ì‚´í‘œ ì´ë™
                         KeyExplain.Find($"ItemMode/Items/Arrow").GetComponent<RectTransform>().anchoredPosition = new Vector3(192 * cursor - 288, 560, 0);
-                        // Åõ¸íµµ Á¶Àı
+                        // íˆ¬ëª…ë„ ì¡°ì ˆ
                         for (int i = 0; i <= itemCount; i++)
                         {
                             float alpha = (i.Equals(cursor)) ? 1 : 0.4f;
                             KeyExplain.Find($"ItemMode/Items/Item_{i}").GetComponent<Image>().color = new Color(1, 1, 1, alpha);
                         }
-                        // ÅØ½ºÆ® º¯°æ
-                        string s = "±×³É ÁÖ»çÀ§";
+                        // í…ìŠ¤íŠ¸ ë³€ê²½
+                        string s = "ê·¸ëƒ¥ ì£¼ì‚¬ìœ„";
                         if(cursor > 0) 
-                            s = dice_Name[CharInfoManager.instance.charinfo[playerNo - 1].items[cursor - 1]] + " ÁÖ»çÀ§";
+                            s = dice_Name[CharInfoManager.instance.charinfo[playerNo - 1].items[cursor - 1]] + " ì£¼ì‚¬ìœ„";
                         KeyExplain.Find($"ItemMode/Items/Text").GetComponent<Text>().text = s;
                     }
 
@@ -459,11 +459,11 @@ public class Board_Manager : MonoBehaviour
                         break;
                     }
 
-                    yield return null; // ÀÌ ÁÙ¿¡¼­ ´ë±â ÈÄ ´ÙÀ½ ÇÁ·¹ÀÓÀ¸·Î ³Ñ¾î°¨
+                    yield return null; // ì´ ì¤„ì—ì„œ ëŒ€ê¸° í›„ ë‹¤ìŒ í”„ë ˆì„ìœ¼ë¡œ ë„˜ì–´ê°
                 }
                 KeyExplain.Find("ItemMode").gameObject.SetActive(false);
             }
-            // 3-3. ¼±ÅÃ ÄÚ·çÆ¾ Á¾·á(ÁÖ»çÀ§ Ä¡±â)
+            // 3-3. ì„ íƒ ì½”ë£¨í‹´ ì¢…ë£Œ(ì£¼ì‚¬ìœ„ ì¹˜ê¸°)
             else
             {
                 if (keyInput < 11) DebugMove = keyInput;
@@ -473,10 +473,10 @@ public class Board_Manager : MonoBehaviour
     }
     private void Used_item(int playerNo, int cursor)
     {
-        // Ä³¸¯ÅÍ Á¤º¸¿¡¼­ ¾ÆÀÌÅÛ Á¦°Å
+        // ìºë¦­í„° ì •ë³´ì—ì„œ ì•„ì´í…œ ì œê±°
         applyItemNo = CharInfoManager.instance.charinfo[playerNo - 1].UseItem(cursor - 1);
         int itemCount = CharInfoManager.instance.charinfo[playerNo - 1].itemCount;
-        // ÁÖ»çÀ§ ¾Ö´Ï¸ŞÀÌ¼Ç ¹Ù²Ù±â
+        // ì£¼ì‚¬ìœ„ ì• ë‹ˆë©”ì´ì…˜ ë°”ê¾¸ê¸°
         dice_ani = playerMarks[playerNo - 1].GetChild(0).GetComponent<Animator>();
         string s = applyItemNo switch
         {
@@ -488,7 +488,7 @@ public class Board_Manager : MonoBehaviour
             _ => "Dice6_roulette"
         };
         dice_ani.Play(s);
-        // UI °»½Å
+        // UI ê°±ì‹ 
         Transform itemSlotTf = CharUI[playerNo - 1].transform.Find("Lower_Left");
         for (int i = 0; i < 3; i++)
         {
@@ -500,7 +500,7 @@ public class Board_Manager : MonoBehaviour
     }
 
 
-    // ÅÏ ÁøÇà 7(µµÂøÇÑ Ä­¿¡ ´ëÇÑ ÀÌº¥Æ®)
+    // í„´ ì§„í–‰ 7(ë„ì°©í•œ ì¹¸ì— ëŒ€í•œ ì´ë²¤íŠ¸)
     private IEnumerator SpaceEvent_co(int playerNo, int n)
     {
         Tween t;
@@ -513,34 +513,34 @@ public class Board_Manager : MonoBehaviour
             case 17:
             case 22:
             case 30:
-                // ±À¹Ù È¿°ú
-                // 1. ±À¹Ù°¡ Ä³¸¯ÅÍ¿¡°Ô ¸öÅë ¹ÚÄ¡±â
+                // êµ¼ë°” íš¨ê³¼
+                // 1. êµ¼ë°”ê°€ ìºë¦­í„°ì—ê²Œ ëª¸í†µ ë°•ì¹˜ê¸°
                 t = Spaces[n].GetChild(0).transform.DOLocalMoveZ(-1f, 0.3f).SetEase(Ease.OutQuad);
                 yield return t.WaitForCompletion();
-                // 2. Ä³¸¯ÅÍ À§¿¡ ½ºÅÏ ÆÄÆ¼Å¬ 
+                // 2. ìºë¦­í„° ìœ„ì— ìŠ¤í„´ íŒŒí‹°í´ 
                 playerMarks[playerNo - 1].Find("Stun").gameObject.SetActive(true);
                 CharUI[playerNo - 1].transform.Find("Stun").gameObject.SetActive(true);
-                // 3. ±À¹Ù ¿øÀ§Ä¡
+                // 3. êµ¼ë°” ì›ìœ„ì¹˜
                 t = Spaces[n].GetChild(0).transform.DOLocalMoveZ(-3, 0.75f);
                 yield return t.WaitForCompletion();
-                // 4. Ä³¸¯ÅÍ¿¡°Ô ½ºÅÏ È¿°ú ¹İ¿µ
+                // 4. ìºë¦­í„°ì—ê²Œ ìŠ¤í„´ íš¨ê³¼ ë°˜ì˜
                 isStun[playerNo] = true;
                 break;
             case 2:
             case 11:
             case 18:
             case 19:
-                // ¾ÆÀÌÅÛ È¿°ú
-                // 0. 3°³ ²Ë Ã¡À¸¸é ¹ŞÀ» ¼ö ¾ø°Ô
+                // ì•„ì´í…œ íš¨ê³¼
+                // 0. 3ê°œ ê½‰ ì°¼ìœ¼ë©´ ë°›ì„ ìˆ˜ ì—†ê²Œ
                 if(CharInfoManager.instance.charinfo[playerNo - 1].itemCount.Equals(3))
                 {
                     break;
                 }
-                // 1. ·£´ıÀ¸·Î ÁÖ»çÀ§ ¼±Á¤
+                // 1. ëœë¤ìœ¼ë¡œ ì£¼ì‚¬ìœ„ ì„ ì •
                 int r = UnityEngine.Random.Range(0, 100);
                 int itemNo = 5;
-                int h = Mathf.Min(CharInfoManager.instance.Score1st() - n, 15); // °¡ÁßÄ¡
-                int[] itemRange = new int[4] {h + 5, 2*h + 10, 3*h + 20, 4*h + 30}; // ¾ÆÀÌÅÛ È®·üÇ¥
+                int h = Mathf.Min(CharInfoManager.instance.Score1st() - n, 15); // ê°€ì¤‘ì¹˜
+                int[] itemRange = new int[4] {h + 5, 2*h + 10, 3*h + 20, 4*h + 30}; // ì•„ì´í…œ í™•ë¥ í‘œ
                 for (int i = 0; i < 4; i++)
                 {
                     if(r < itemRange[i])
@@ -549,87 +549,87 @@ public class Board_Manager : MonoBehaviour
                         break;
                     }
                 }
-                if (itemNo.Equals(5)) itemNo -= (r % 2); // ²Î¿¡ ÇØ´çÇÏ´Â °æ¿ì 4,5 ¹øÁß ÇÏ³ª
-                Spaces[n].GetChild(0).GetComponent<SpriteRenderer>().sprite = CharInfoManager.instance.ItemSp[itemNo]; // ³ª¿Ã ¾ÆÀÌÅÛ sprite¸¦ ¹Ì¸® º¯°æ
-                // 2. Á¡ÇÁÇÏ´Â ¾Ö´Ï¸ŞÀÌ¼Ç
+                if (itemNo.Equals(5)) itemNo -= (r % 2); // ê½ì— í•´ë‹¹í•˜ëŠ” ê²½ìš° 4,5 ë²ˆì¤‘ í•˜ë‚˜
+                Spaces[n].GetChild(0).GetComponent<SpriteRenderer>().sprite = CharInfoManager.instance.ItemSp[itemNo]; // ë‚˜ì˜¬ ì•„ì´í…œ spriteë¥¼ ë¯¸ë¦¬ ë³€ê²½
+                // 2. ì í”„í•˜ëŠ” ì• ë‹ˆë©”ì´ì…˜
                 playerMarks[playerNo - 1].transform
                     .DOLocalMoveY(playerMarks[playerNo - 1].transform.position.y + 1.8f, 0.2f)
                     .SetLoops(2, LoopType.Yoyo).SetEase(Ease.OutQuad);
                 yield return new WaitForSeconds(0.2f);
-                // 3. ¾ÆÀÌÅÛÀÌ ³ª¿À´Â È¿°ú
+                // 3. ì•„ì´í…œì´ ë‚˜ì˜¤ëŠ” íš¨ê³¼
                 seq = DOTween.Sequence()
-                 .Append(Spaces[n].GetChild(0).transform.DOLocalMoveY(4.7f, 0.75f)) // À§·Î ¿Ã¶ó¿À¸é¼­
-                 .Join(Spaces[n].GetChild(0).transform.DOScale(new Vector3(-3f, 3f, 3f), 0.75f)); // µ¿½Ã¿¡ Å©±âµµ Á¶±İ Ä¿Áö°Ô
+                 .Append(Spaces[n].GetChild(0).transform.DOLocalMoveY(4.7f, 0.75f)) // ìœ„ë¡œ ì˜¬ë¼ì˜¤ë©´ì„œ
+                 .Join(Spaces[n].GetChild(0).transform.DOScale(new Vector3(-3f, 3f, 3f), 0.75f)); // ë™ì‹œì— í¬ê¸°ë„ ì¡°ê¸ˆ ì»¤ì§€ê²Œ
                 yield return seq.WaitForCompletion();
-                // 4. ³ª¿Â ¾ÆÀÌÅÛÀÌ »ç¶óÁö¸é¼­, UI¿¡ µîÀåÇÏ´Â È¿°ú
-                // 4-1. »ó´Ü UIÀÇ ¾ÆÀÌÅÛ µé¾î°¥ °÷À» Ä³½Ì, scaleÀ» 0À¸·Î
+                // 4. ë‚˜ì˜¨ ì•„ì´í…œì´ ì‚¬ë¼ì§€ë©´ì„œ, UIì— ë“±ì¥í•˜ëŠ” íš¨ê³¼
+                // 4-1. ìƒë‹¨ UIì˜ ì•„ì´í…œ ë“¤ì–´ê°ˆ ê³³ì„ ìºì‹±, scaleì„ 0ìœ¼ë¡œ
                 Transform itemUItf = CharUI[playerNo - 1].transform.Find($"Lower_Left/Item ({ CharInfoManager.instance.charinfo[playerNo - 1].itemCount + 1 })");
                 itemUItf.localScale = Vector3.zero;
-                // 4-2. ¾ÆÀÌÅÛ µé¾î°¥ °÷¿¡ ¾òÀº ¾ÆÀÌÅÛ ÀÌ¹ÌÁö¸¦ ÀúÀå
+                // 4-2. ì•„ì´í…œ ë“¤ì–´ê°ˆ ê³³ì— ì–»ì€ ì•„ì´í…œ ì´ë¯¸ì§€ë¥¼ ì €ì¥
                 itemUItf.GetComponent<Image>().sprite = CharInfoManager.instance.ItemSp[itemNo];
-                // 4-3. ³ª¿Â ¾ÆÀÌÅÛÀº ÀÛ¾ÆÁö¸é¼­, µ¿½Ã¿¡ UI ¾ÆÀÌÅÛÀÇ Å©±â´Â Ä¿Áö°Ô
+                // 4-3. ë‚˜ì˜¨ ì•„ì´í…œì€ ì‘ì•„ì§€ë©´ì„œ, ë™ì‹œì— UI ì•„ì´í…œì˜ í¬ê¸°ëŠ” ì»¤ì§€ê²Œ
                 seq = DOTween.Sequence()
                  .Append(Spaces[n].GetChild(0).transform.DOScale(0, 0.5f))
                  .Join(itemUItf.DOScale(3.5f, 0.5f))
                  .Append(itemUItf.DOScale(2.5f, 0.25f));
-                // 4-4. ½ÃÄö½º ³¡³¯¶§±îÁö ´ë±â
+                // 4-4. ì‹œí€€ìŠ¤ ëë‚ ë•Œê¹Œì§€ ëŒ€ê¸°
                 yield return seq.WaitForCompletion();
-                // 5. ¾ÆÀÌÅÛÀ» Ä³¸¯ÅÍ Á¤º¸¿¡ Á÷Á¢ ¹İ¿µ
+                // 5. ì•„ì´í…œì„ ìºë¦­í„° ì •ë³´ì— ì§ì ‘ ë°˜ì˜
                 CharInfoManager.instance.charinfo[playerNo - 1].GetItem(itemNo);
-                // 6. È­¸é »ó ¾ÆÀÌÅÛÀ» ´Ù½Ã ¼û±â±â
+                // 6. í™”ë©´ ìƒ ì•„ì´í…œì„ ë‹¤ì‹œ ìˆ¨ê¸°ê¸°
                 Spaces[n].GetChild(0).transform.localPosition = Vector3.up * 3.5f;
                 Spaces[n].GetChild(0).transform.localScale = Vector3.zero;
                 break;
             case 12:
             case 15:
-                // Ãß¶ô È¿°ú
-                // 1. ½Ã³×¸Ó½ÅÀÇ ÃßÀû È¿°ú¸¦ ÀÓ½Ã·Î ²û
+                // ì¶”ë½ íš¨ê³¼
+                // 1. ì‹œë„¤ë¨¸ì‹ ì˜ ì¶”ì  íš¨ê³¼ë¥¼ ì„ì‹œë¡œ ë”
                 virtualCamera.Follow = null;
                 virtualCamera.LookAt = null;
-                // 2. Ä³¸¯ÅÍ°¡ ¾Æ·¡·Î ¶³¾îÁü
+                // 2. ìºë¦­í„°ê°€ ì•„ë˜ë¡œ ë–¨ì–´ì§
                 t = playerMarks[playerNo - 1].transform.DOMoveY(-5, 0.5f);
                 yield return t.WaitForCompletion();
                 yield return new WaitForSeconds(0.5f);
-                // 3. Ä³¸¯ÅÍ¸¦ 11¹ø Ä­À¸·Î ÀÌµ¿
-                CharInfoManager.instance.ScoreAdd(playerNo, 11 - CharInfoManager.instance.charinfo[playerNo - 1].score); // Á¡¼ö¸¦ 11·Î °¨¼Ò
-                playerMarks[playerNo - 1].transform.position = Spaces[11].position + Vector3.up * 5f + Vector3.forward * 0.1f; // Ä³¸¯ÅÍ ¸¶Å©¸¦ 11¹ø Ä­ À§·Î ÀÌµ¿
-                SetCameraTarget(playerNo); // ½Ã³×¸Ó½Å ÃßÀû ´Ù½Ã È°¼ºÈ­
-                t = playerMarks[playerNo - 1].transform.DOMoveY(2, 0.5f).SetEase(Ease.InQuad); // y °ªÀ» 11¹ø Ä­°ú µ¿ÀÏÇÏ°Ô
+                // 3. ìºë¦­í„°ë¥¼ 11ë²ˆ ì¹¸ìœ¼ë¡œ ì´ë™
+                CharInfoManager.instance.ScoreAdd(playerNo, 11 - CharInfoManager.instance.charinfo[playerNo - 1].score); // ì ìˆ˜ë¥¼ 11ë¡œ ê°ì†Œ
+                playerMarks[playerNo - 1].transform.position = Spaces[11].position + Vector3.up * 5f + Vector3.forward * 0.1f; // ìºë¦­í„° ë§ˆí¬ë¥¼ 11ë²ˆ ì¹¸ ìœ„ë¡œ ì´ë™
+                SetCameraTarget(playerNo); // ì‹œë„¤ë¨¸ì‹  ì¶”ì  ë‹¤ì‹œ í™œì„±í™”
+                t = playerMarks[playerNo - 1].transform.DOMoveY(2, 0.5f).SetEase(Ease.InQuad); // y ê°’ì„ 11ë²ˆ ì¹¸ê³¼ ë™ì¼í•˜ê²Œ
                 yield return t.WaitForCompletion();
                 yield return new WaitForSeconds(0.5f);
                 break;
             case 31:
-                // »µ²û È¿°ú
-                // 1. »µ²ûÇÃ¶ó¿ö°¡ À§·Î ¿Ã¶ó¿È
+                // ë»ë” íš¨ê³¼
+                // 1. ë»ë”í”Œë¼ì›Œê°€ ìœ„ë¡œ ì˜¬ë¼ì˜´
                 t = Spaces[31].GetChild(0).transform.DOLocalMoveY(0.5f, 0.5f);
                 yield return t.WaitForCompletion();
                 yield return new WaitForSeconds(0.5f);
-                // 2. Ä³¸¯ÅÍ¿Í ÇÔ²² ¾Æ·¡·Î ³»·Á°¨
+                // 2. ìºë¦­í„°ì™€ í•¨ê»˜ ì•„ë˜ë¡œ ë‚´ë ¤ê°
                 seq = DOTween.Sequence()
                 .Append(Spaces[31].GetChild(0).transform.DOLocalMoveY(-5f, 0.5f))
                 .Join(playerMarks[playerNo - 1].transform.DOMoveY(0, 0.5f))
                 .SetDelay(0.25f);
                 yield return seq.WaitForCompletion();
-                // 3. »µ²û°ú Ä³¸¯ÅÍ¸¦ 28¹ø Ä­ ¾Æ·¡·Î ÀÌµ¿
-                CharInfoManager.instance.ScoreAdd(playerNo, 28 - CharInfoManager.instance.charinfo[playerNo - 1].score); // Á¡¼ö¸¦ 28·Î °¨¼Ò
-                Spaces[31].GetChild(0).transform.position = Spaces[28].position + Vector3.up * -3.5f + Vector3.forward * 0.15f; // »µ²ûÀ» 28¹ø Ä­ÀÇ 3.5 ¾Æ·¡·Î ÀÌµ¿ + ¾Õ¿¡ º¸ÀÌ°Ô z Á¶Àı
-                playerMarks[playerNo - 1].transform.position = Spaces[28].position + Vector3.up * -3.5f + Vector3.forward * 0.05f; // Ä³¸¯ÅÍ ¸¶Å©¸¦ 28¹ø Ä­ÀÇ 3.5 ¾Æ·¡·Î ÀÌµ¿
-                // 4. 28¹ø Ä­ ÆÄÀÌÇÁ À§·Î ¿Ã¶ó¿À´Â È¿°ú
+                // 3. ë»ë”ê³¼ ìºë¦­í„°ë¥¼ 28ë²ˆ ì¹¸ ì•„ë˜ë¡œ ì´ë™
+                CharInfoManager.instance.ScoreAdd(playerNo, 28 - CharInfoManager.instance.charinfo[playerNo - 1].score); // ì ìˆ˜ë¥¼ 28ë¡œ ê°ì†Œ
+                Spaces[31].GetChild(0).transform.position = Spaces[28].position + Vector3.up * -3.5f + Vector3.forward * 0.15f; // ë»ë”ì„ 28ë²ˆ ì¹¸ì˜ 3.5 ì•„ë˜ë¡œ ì´ë™ + ì•ì— ë³´ì´ê²Œ z ì¡°ì ˆ
+                playerMarks[playerNo - 1].transform.position = Spaces[28].position + Vector3.up * -3.5f + Vector3.forward * 0.05f; // ìºë¦­í„° ë§ˆí¬ë¥¼ 28ë²ˆ ì¹¸ì˜ 3.5 ì•„ë˜ë¡œ ì´ë™
+                // 4. 28ë²ˆ ì¹¸ íŒŒì´í”„ ìœ„ë¡œ ì˜¬ë¼ì˜¤ëŠ” íš¨ê³¼
                 seq = DOTween.Sequence()
                 .Append(Spaces[31].GetChild(0).transform.DOMoveY(4f, 0.5f))
                 .Join(playerMarks[playerNo - 1].transform.DOMoveY(4f, 0.5f))
                 .SetDelay(0.25f);
                 yield return seq.WaitForCompletion();
-                // 5. Ä³¸¯ÅÍ¿¡ ½ºÅÏ È¿°ú ºÎ¿©
+                // 5. ìºë¦­í„°ì— ìŠ¤í„´ íš¨ê³¼ ë¶€ì—¬
                 playerMarks[playerNo - 1].Find("Stun").gameObject.SetActive(true);
                 CharUI[playerNo - 1].transform.Find("Stun").gameObject.SetActive(true);
                 isStun[playerNo] = true;
                 yield return new WaitForSeconds(0.5f);
-                // 6. »µ²ûÇÃ¶ó¿ö´Â ´Ù½Ã ¾Æ·¡·Î + ¿øÀ§Ä¡(31¹ø ¾Æ·¡)
+                // 6. ë»ë”í”Œë¼ì›ŒëŠ” ë‹¤ì‹œ ì•„ë˜ë¡œ + ì›ìœ„ì¹˜(31ë²ˆ ì•„ë˜)
                 t = Spaces[31].GetChild(0).transform.DOMoveY(0.5f, 0.5f);
                 yield return t.WaitForCompletion();
                 yield return new WaitForSeconds(0.5f);
-                Spaces[31].GetChild(0).transform.position = Spaces[31].position + Vector3.up * -3.5f + Vector3.forward * 0.15f; // »µ²ûÀ» 31¹ø Ä­ ¾Æ·¡·Î ÀÌµ¿
+                Spaces[31].GetChild(0).transform.position = Spaces[31].position + Vector3.up * -3.5f + Vector3.forward * 0.15f; // ë»ë”ì„ 31ë²ˆ ì¹¸ ì•„ë˜ë¡œ ì´ë™
                 break;
         }
     }
@@ -641,7 +641,7 @@ public class Board_Manager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) return 11;
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) return 12;
         if (Input.GetKeyDown(KeyCode.Space)) return 13;
-        // ¿©±â¼­ºÎÅÍ µğ¹ö±×¿ë
+        // ì—¬ê¸°ì„œë¶€í„° ë””ë²„ê·¸ìš©
         if (Input.GetKeyDown(KeyCode.Alpha1)) return 1;
         if (Input.GetKeyDown(KeyCode.Alpha2)) return 2;
         if (Input.GetKeyDown(KeyCode.Alpha3)) return 3;
@@ -652,7 +652,7 @@ public class Board_Manager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha8)) return 8;
         if (Input.GetKeyDown(KeyCode.Alpha9)) return 9;
         if (Input.GetKeyDown(KeyCode.Alpha0)) return 10;
-        // ¿©±â±îÁö µğ¹ö±×¿ë
+        // ì—¬ê¸°ê¹Œì§€ ë””ë²„ê·¸ìš©
         return 0;
     }
 }
